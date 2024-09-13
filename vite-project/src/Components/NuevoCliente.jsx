@@ -204,7 +204,7 @@ function NuevoCliente() {
                 />
             </div>
             <div className="col-12">
-                <label htmlFor="CLI_direccion" className="form-label">Dirección</label>
+                <label htmlFor="CLI_didreccion" className="form-label">Dirección</label>
                 <input
                     type="text"
                     className="form-control"
