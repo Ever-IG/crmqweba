@@ -1,0 +1,16 @@
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/bin/Debug/net8.0/appCRM.Business.deps.json
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/bin/Debug/net8.0/appCRM.Business.dll
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/bin/Debug/net8.0/appCRM.Business.pdb
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/bin/Debug/net8.0/appCRM.Data.dll
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/bin/Debug/net8.0/appCRM.Data.pdb
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.csproj.AssemblyReference.cache
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.GeneratedMSBuildEditorConfig.editorconfig
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.AssemblyInfoInputs.cache
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.AssemblyInfo.cs
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.csproj.CoreCompileInputs.cache
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.sourcelink.json
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.csproj.CopyComplete
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.dll
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/refint/appCRM.Business.dll
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/appCRM.Business.pdb
+/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/Debug/net8.0/ref/appCRM.Business.dll
