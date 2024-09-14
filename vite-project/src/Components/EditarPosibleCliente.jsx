@@ -185,6 +185,8 @@ function EditarPosibleCliente({ show, handleClose, posiblecliente, handleUpdate 
                             name="poC_telefono"
                             value={formData.poC_telefono}
                             onChange={handleChange}
+                            pattern="[0-9]{8}"
+                            title="Número de teléfono de 8 dígitos"
                         />
                     </Form.Group>
 
@@ -225,6 +227,8 @@ function EditarPosibleCliente({ show, handleClose, posiblecliente, handleUpdate 
                             name="poC_telefono_secundario"
                             value={formData.poC_telefono_secundario}
                             onChange={handleChange}
+                            pattern="[0-9]{8}"
+                            title="Número de teléfono de 8 dígitos"
                         />
                     </Form.Group>
 

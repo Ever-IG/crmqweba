@@ -180,6 +180,8 @@ function EditarCliente({ show, handleClose, cliente, handleUpdate }) {
                             name="clI_telefono"
                             value={formData.clI_telefono}
                             onChange={handleChange}
+                            pattern="[0-9]{8}"
+                            title="Número de teléfono de 8 dígitos"
                         />
                     </Form.Group>
 
@@ -200,6 +202,8 @@ function EditarCliente({ show, handleClose, cliente, handleUpdate }) {
                             name="clI_telefono_secundario"
                             value={formData.clI_telefono_secundario}
                             onChange={handleChange}
+                            pattern="[0-9]{8}"
+                            title="Número de teléfono de 8 dígitos"
                         />
                     </Form.Group>
 

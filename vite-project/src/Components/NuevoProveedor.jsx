@@ -146,6 +146,8 @@ function NuevoProveedor() {
                         placeholder="Teléfono"
                         value={newProveedor.PRO_telefono}
                         onChange={handleChange}
+                        pattern="[0-9]{8}"
+                        title="Número de teléfono de 8 dígitos"
                     />
                 </div>
                 <div className="form-group mb-3">

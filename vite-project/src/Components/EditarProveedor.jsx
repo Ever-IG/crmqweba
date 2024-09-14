@@ -133,6 +133,8 @@ function EditarProveedor({ show, handleClose, proveedor, handleUpdate }) {
               name="prO_telefono" 
               value={formData.prO_telefono} 
               onChange={handleChange}
+              pattern="[0-9]{8}"
+              title="Número de teléfono de 8 dígitos"
             />
           </Form.Group>
           <Form.Group controlId="prO_correo_electronico" className="mt-3">

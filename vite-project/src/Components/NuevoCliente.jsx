@@ -177,7 +177,7 @@ function NuevoCliente() {
                     name="CLI_telefono"
                     value={newCliente.CLI_telefono}
                     onChange={handleChange}
-                    pattern='/^[0-9]{8}$/'
+                    pattern="[0-9]{8}"
                     title="Número de teléfono de 8 dígitos"
                 />
             </div>
@@ -199,7 +199,7 @@ function NuevoCliente() {
                     name="CLI_telefono_secundario"
                     value={newCliente.CLI_telefono_secundario}
                     onChange={handleChange}
-                    pattern='/^[0-9]{8}$/'
+                    pattern="[0-9]{8}"
                     title="Número de teléfono de 8 dígitos"
                 />
             </div>

@@ -178,6 +178,8 @@ function NuevoPosibleCliente() {
                         placeholder="Teléfono"
                         value={newPosibleCliente.POC_telefono}
                         onChange={handleChange}
+                        pattern="[0-9]{8}"
+                        title="Número de teléfono de 8 dígitos"
                     />
                 </div>
                 <div className="form-group mb-3">
@@ -226,6 +228,8 @@ function NuevoPosibleCliente() {
                         placeholder="Teléfono Secundario"
                         value={newPosibleCliente.POC_telefono_secundario}
                         onChange={handleChange}
+                        pattern="[0-9]{8}"
+                        title="Número de teléfono de 8 dígitos"
                     />
                 </div>
                 <div className="form-group mb-3">
