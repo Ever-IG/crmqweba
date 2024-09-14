@@ -69,6 +69,7 @@
 .form-container {
   /*background-color: #ffffff;*/
   background-color: #1D2835;
+  color: #fff;
   padding: 20px;
   margin: 40px auto;
   max-width: 800px;
@@ -100,13 +101,14 @@ a {
 .Servicios{
 background-color: #fff;
 padding: 30px;
-
 }
+
 .Clientes{
   background-color: #fff;
   padding: 30px;
 }
-.NuevoCliente{
+
+.NuevoCliente, .NuevoPosibleCliente{
   /*background-color: #fff;*/
   background-color: #192331;
 
