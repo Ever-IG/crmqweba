@@ -66,7 +66,7 @@
   Se agregó el color de fonodo para los inputs y el select.
   Se modificó color de texto en labels.
 */
-.form-container {
+.form-container, .FormContainer {
   /*background-color: #ffffff;*/
   background-color: #1D2835;
   padding: 20px;
@@ -97,13 +97,21 @@ a {
   text-decoration: none;
 }
 
-.Servicios{
-background-color: #fff;
+.container{
+background-color: #192331;
 padding: 30px;
 
 }
+
+/* formulario de agregar servicio */
+.FormContainer{
+  background-color: #192331;
+  padding: 30px;
+}
+
+
 .Clientes{
-  background-color: #fff;
+  background-color: #192331;
   padding: 30px;
 }
 .NuevoCliente{
@@ -114,12 +122,12 @@ padding: 30px;
 }
 
 .PosibleCliente{
-  background-color: #fff;
+  background-color: #192331;
   padding: 30px;
 }
 
 .Proveedores{
-  background-color: #fff;
+  background-color: #192331;
   padding: 30px;
 }
 
@@ -182,3 +190,7 @@ td.opciones button {
   padding: 4px 4px;
 }
 
+.container input, .container select {
+  background-color: #455e7e;
+  color: #fff;
+}

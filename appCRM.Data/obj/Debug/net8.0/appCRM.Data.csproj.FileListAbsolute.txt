@@ -11,3 +11,16 @@
 /home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/obj/Debug/net8.0/refint/appCRM.Data.dll
 /home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/obj/Debug/net8.0/appCRM.Data.pdb
 /home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/obj/Debug/net8.0/ref/appCRM.Data.dll
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\bin\Debug\net8.0\appCRM.Data.deps.json
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\bin\Debug\net8.0\appCRM.Data.dll
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\bin\Debug\net8.0\appCRM.Data.pdb
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\appCRM.Data.csproj.AssemblyReference.cache
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\appCRM.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\appCRM.Data.AssemblyInfoInputs.cache
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\appCRM.Data.AssemblyInfo.cs
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\appCRM.Data.csproj.CoreCompileInputs.cache
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\appCRM.Data.sourcelink.json
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\appCRM.Data.dll
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\refint\appCRM.Data.dll
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\appCRM.Data.pdb
+C:\Users\river\Documents\GitHub\crmqweba\appCRM.Data\obj\Debug\net8.0\ref\appCRM.Data.dll

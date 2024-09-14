@@ -1595,7 +1595,10 @@
           "appCRM.Data": "1.0.0"
         },
         "runtime": {
-          "appCRM.Business.dll": {}
+          "appCRM.Business.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "appCRM.Data/1.0.0": {
@@ -1604,7 +1607,10 @@
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2"
         },
         "runtime": {
-          "appCRM.Data.dll": {}
+          "appCRM.Data.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       }
     }

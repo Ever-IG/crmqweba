@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/appCRM.Data.csproj": {}
+    "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {}
   },
   "projects": {
-    "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/appCRM.Data.csproj": {
+    "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/appCRM.Data.csproj",
+        "projectUniqueName": "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj",
         "projectName": "appCRM.Data",
-        "projectPath": "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/appCRM.Data.csproj",
-        "packagesPath": "/home/wjblanco/.nuget/packages/",
-        "outputPath": "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/obj/",
+        "projectPath": "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj",
+        "packagesPath": "C:\\Users\\river\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/wjblanco/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\river\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -32,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -63,7 +68,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/8.0.108/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
