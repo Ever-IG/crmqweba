@@ -62,14 +62,31 @@
   color: #fff;
 }
 
+/*WJBLANCO: SE cambió el color de fondo del formulario.
+  Se agregó el color de fonodo para los inputs y el select.
+  Se modificó color de texto en labels.
+*/
 .form-container {
-  background-color: #ffffff;
+  /*background-color: #ffffff;*/
+  background-color: #1D2835;
   padding: 20px;
   margin: 40px auto;
   max-width: 800px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.form-container input, .form-container select {
+  background-color: #455e7e;
+  color: #fff;
+}
+
+.form-container label {
+  color: #fff;
+}
+
+/*FIN WJBLANCO*/
+
 
 .form-container2 {
   background-color: #ffffff;
@@ -90,7 +107,9 @@ padding: 30px;
   padding: 30px;
 }
 .NuevoCliente{
-  background-color: #fff;
+  /*background-color: #fff;*/
+  background-color: #192331;
+
   padding: 30px;
 }
 
