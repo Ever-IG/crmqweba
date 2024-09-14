@@ -91,11 +91,14 @@ function NuevoPosibleCliente() {
     };
 
     return (
-        <div className="container mt-4">
+        
+        <div className="NuevoPosibleCliente">
+        <div className="form-container">        
             <ToastContainer />
             <h2 className="mb-4">Agregar Posible Cliente</h2>
-            <form onSubmit={handleSubmit} className="mb-4">
+            <form onSubmit={handleSubmit} className="row g-3">
                 {/* Input fields for all the columns */}
+                <div className="col-md-6">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_nombre">Nombre</label>
                     <input
@@ -108,6 +111,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-6">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_apellido">Apellido</label>
                     <input
@@ -120,6 +125,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-8">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_empresa">Empresa</label>
                     <input
@@ -132,6 +139,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_nit">NIT</label>
                     <input
@@ -144,6 +153,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_dpi">DPI</label>
                     <input
@@ -156,6 +167,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-8">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_correo_electronico">Correo Electrónico</label>
                     <input
@@ -168,6 +181,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_telefono">Teléfono</label>
                     <input
@@ -182,6 +197,8 @@ function NuevoPosibleCliente() {
                         title="Número de teléfono de 8 dígitos"
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_fuente_de_posible_cliente">Fuente de Posible Cliente</label>
                     <input
@@ -194,6 +211,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_estado_de_posible_cliente">Estado de Posible Cliente</label>
                     <input
@@ -206,6 +225,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-8">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_correo_electronico_secundario">Correo Electrónico Secundario</label>
                     <input
@@ -218,6 +239,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_telefono_secundario">Teléfono Secundario</label>
                     <input
@@ -232,6 +255,8 @@ function NuevoPosibleCliente() {
                         title="Número de teléfono de 8 dígitos"
                     />
                 </div>
+                </div>
+                <div className="col-md-8">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_direccion">Dirección</label>
                     <input
@@ -244,6 +269,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_departamento">Departamento</label>
                     <input
@@ -256,6 +283,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_municipio">Municipio</label>
                     <input
@@ -268,6 +297,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_codigo_postal">Código Postal</label>
                     <input
@@ -280,6 +311,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_pais">País</label>
                     <input
@@ -292,6 +325,8 @@ function NuevoPosibleCliente() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col-md-12">
                 <div className="form-group mb-3">
                     <label htmlFor="POC_imagenurl">Imagen URL</label>
                     <input
@@ -303,9 +338,12 @@ function NuevoPosibleCliente() {
                         value={newPosibleCliente.POC_imagenurl}
                         onChange={handleChange}
                     />
+                </div></div>
+                <div className="col-md-4">
+                    <button type="submit" className="btn btn-primary">Agregar Posible Cliente</button>
                 </div>
-                <button type="submit" className="btn btn-primary">Agregar Posible Cliente</button>
             </form>
+        </div>
         </div>
     );
 }

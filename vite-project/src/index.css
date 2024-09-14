@@ -69,6 +69,7 @@
 .form-container, .FormContainer {
   /*background-color: #ffffff;*/
   background-color: #1D2835;
+  color: #fff;
   padding: 20px;
   margin: 40px auto;
   max-width: 800px;
@@ -100,7 +101,6 @@ a {
 .container{
 background-color: #192331;
 padding: 30px;
-
 }
 
 /* formulario de agregar servicio */
@@ -109,12 +109,12 @@ padding: 30px;
   padding: 30px;
 }
 
-
 .Clientes{
   background-color: #192331;
   padding: 30px;
 }
-.NuevoCliente{
+
+.NuevoCliente, .NuevoPosibleCliente{
   /*background-color: #fff;*/
   background-color: #192331;
 
