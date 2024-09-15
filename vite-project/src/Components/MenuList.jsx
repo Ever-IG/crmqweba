@@ -19,6 +19,9 @@ const MenuList = ({ darkTheme }) => {
         <Menu.Item key="6">
           <Link to="/PosibleCliente">Listado de Posibles Clientes</Link>
         </Menu.Item>
+        <Menu.Item key="12">
+          <Link to="/MenuOpciones">Opciones</Link>
+        </Menu.Item>
       </SubMenu>
       <SubMenu key="Clientes" icon={<UserOutlined />} title="Clientes">
         <Menu.Item key="7">

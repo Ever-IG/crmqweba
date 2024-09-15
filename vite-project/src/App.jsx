@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button, Layout, theme } from 'antd';
+import { Button, Layout, theme, Input } from 'antd';
 import Logo from './Components/Logo';
 import MenuList from './Components/MenuList';
 import ToggleThemeButton from './Components/ToggleThemeButton';
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import NuevoCliente from './Components/NuevoCliente';
 import NuevoProveedor from './Components/NuevoProveedor';
 import NuevoPosibleCliente from './Components/NuevoPosibleCliente';
@@ -15,15 +14,21 @@ import PosibleCliente from './Components/PosibleCliente';
 import VerCliente from './Components/VerCliente';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor';
+import MenuOpciones from './Components/MenuOpciones';
 
 const { Header, Sider } = Layout;
 
 function App() {
   const [darkTheme, setDarkTheme] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const toggleTheme = () => {
     setDarkTheme(!darkTheme);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
   };
 
   const {
@@ -33,7 +38,6 @@ function App() {
   return (
     <Router>
       <Layout>
-        {}
         <Sider
           collapsed={collapsed}
           collapsible
@@ -43,34 +47,34 @@ function App() {
           style={{
             position: 'fixed',
             height: '100vh',
-            left: 0, 
-            top: 0, 
-            zIndex: 1000,     
+            left: 0,
+            top: 0,
+            zIndex: 1000,
           }}
         >
           <Logo />
           <MenuList darkTheme={darkTheme} />
-          <ToggleThemeButton darkTheme={darkTheme} toggleTheme={toggleTheme} style={{
-            backgroundColor: 'black'  }} />
+          <ToggleThemeButton darkTheme={darkTheme} toggleTheme={toggleTheme} />
         </Sider>
 
-        {}
         <Layout
           style={{
             marginLeft: collapsed ? '80px' : '200px',
-            paddingTop: '64px', 
+            paddingTop: '40px',
           }}
         >
-          {}
           <Header
             style={{
               padding: 0,
-              background: '#273746',
+              background: '#8E0D3C',
               position: 'fixed',
-              width: `calc(100% - ${collapsed ? '80px' : '100px'})`,
+              width: `calc(100% - ${collapsed ? '80px' : '200px'})`,
               zIndex: 1001,
               top: 0,
-              height: '70px',
+              height: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
             <Button
@@ -80,16 +84,26 @@ function App() {
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             />
 
-            
+            {/* Search input */}
+            <Input
+              placeholder="Search..."
+              prefix={<SearchOutlined />}
+              value={searchQuery}
+              onChange={handleSearchChange}
+              style={{
+                maxWidth: '300px',
+                marginRight: '20px',
+              }}
+            />
           </Header>
 
-          {}
           <Routes>
             <Route path="/NuevoCliente" element={<NuevoCliente />} />
             <Route path="/NuevoProveedor" element={<NuevoProveedor />} />
             <Route path="/VerProveedor" element={<VerProveedor />} />
             <Route path="/NuevoPosibleCliente" element={<NuevoPosibleCliente />} />
             <Route path="/PosibleCliente" element={<PosibleCliente />} />
+            <Route path="/MenuOpciones" element={<MenuOpciones />} />
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />

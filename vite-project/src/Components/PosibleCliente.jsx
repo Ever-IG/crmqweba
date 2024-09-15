@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import EditarPosibleCliente from './EditarPosibleCliente'; // Ajusta la ruta si es necesario
+import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Button from '@material-ui/core/Button';
+import { Button, Table } from 'antd';
+import EditarPosibleCliente from './EditarPosibleCliente';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+
+const ITEM_HEIGHT = 48;
 
 function PosibleCliente() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedCliente, setSelectedCliente] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,13 +43,16 @@ function PosibleCliente() {
     fetchData();
   }, []);
 
+  const handleNavigate = () => {
+    navigate('/NuevoPosibleCliente');
+  };
+
   const handleEdit = (posibleclienteId) => {
     const posiblecliente = data.find(item => item.poC_id === posibleclienteId);
     setSelectedCliente(posiblecliente);
     setShowModal(true); // Mostrar el modal
   };
 
-  // Función para actualizar los datos del cliente en la lista
   const handleUpdate = (posibleclienteId, updatedPosibleCliente) => {
     const updatedData = data.map(posiblecliente =>
       posiblecliente.poC_id === posibleclienteId ? updatedPosibleCliente : posiblecliente
@@ -46,9 +61,8 @@ function PosibleCliente() {
     setShowModal(false);  // Cerrar el modal
   };
 
-  // Función para manejar la eliminación
   const handleDelete = (id) => {
-    const swalWithBootstrapButtons = Swal.mixin({
+    Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success',
         cancelButton: 'btn btn-danger me-4'
@@ -66,7 +80,7 @@ function PosibleCliente() {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://localhost:7228/api/PosibleCliente/${id}`, {
+        fetch('https://localhost:7228/api/PosibleCliente/${id}', {
           method: 'DELETE'
         })
           .then(response => {
@@ -98,77 +112,125 @@ function PosibleCliente() {
     });
   };
 
+  const handleMenuClick = (event, record) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedOption(record);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      textAlign: 'center'
+    }}>Error al obtener los datos, vuelve a intentarlo</div>;
   }
+
+  const columns = [
+    {
+      title: 'Nombre',
+      dataIndex: 'poC_nombre',
+      key: 'poC_nombre',
+    },
+    {
+      title: 'Apellido',
+      dataIndex: 'poC_apellido',
+      key: 'poC_apellido',
+    },
+    {
+      title: 'Empresa',
+      dataIndex: 'poC_empresa',
+      key: 'poC_empresa',
+    },
+    {
+      title: 'NIT',
+      dataIndex: 'poC_nit',
+      key: 'poC_nit',
+    },
+    {
+      title: 'NIT',
+      dataIndex: 'poC_nit',
+      key: 'poC_nit',
+    },
+    {
+      title: 'Correo electrónico',
+      dataIndex: 'poC_correo_electronico',
+      key: 'poC_correo_electronico',
+    },
+    {
+      title: 'Teléfono',
+      dataIndex: 'poC_telefono',
+      key: 'poC_telefono',
+    },
+    {
+      title: 'Opciones',
+      key: 'acciones',
+      render: (text, record) => (
+        <div>
+          <IconButton
+            aria-label="more"
+            aria-controls="long-menu"
+            aria-haspopup="true"
+            onClick={(event) => handleMenuClick(event, record)}
+          >
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={open && selectedOption === record}
+            onClose={handleCloseMenu}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: '20ch',
+              },
+            }}
+          >
+            <MenuItem onClick={() => {
+              handleEdit(record.poC_id);
+              handleCloseMenu();
+            }}>Editar</MenuItem>
+            <MenuItem onClick={() => {
+              handleDelete(record.poC_id);
+              handleCloseMenu();
+            }}>Eliminar</MenuItem>
+          </Menu>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="PosibleCliente">
       <header className="header-vista">
         <h3 className="header-title"> Todos los posibles clientes</h3>
-        <Button className="nuevo-btn" variant="contained" color="primary">
-          Nuevo
-        </Button>
+        <div className="botones-contenedor">
+          <Button className="nuevo-btn" type="primary" onClick={handleNavigate}
+           style={{ backgroundColor: '#8E0D3C', color: '#ffffff' }}>
+            Nuevo
+          </Button>
+        </div>
       </header>
 
-      <table className="table table-vista">
-        <thead className='thead-vista'>
-          <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Empresa</th>
-            <th>NIT</th>
-            <th>DPI</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Opciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.length === 0 ? (
-            <tr>
-              <td colSpan="8">No data available</td>
-            </tr>
-          ) : (
-            data.map((item) => (
-              <tr key={item.poC_id}>
-                <td>{item.poC_nombre}</td>
-                <td>{item.poC_apellido}</td>
-                <td>{item.poC_empresa}</td>
-                <td>{item.poC_nit}</td>
-                <td>{item.poC_dpi}</td>
-                <td>{item.poC_correo_electronico}</td>
-                <td>{item.poC_telefono}</td>
-                <td className='opciones'>
-                  <button
-                    className="btn btn-sm me-2"
-                    style={{ 
-                      backgroundColor: '#43933d', 
-                      border: '', 
-                      color: 'white', 
-                      outline: 'none', 
-                      boxShadow: 'none' 
-                    }}
-                    onClick={() => handleEdit(item.poC_id)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(item.poC_id)}
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+      <Table className='table'
+        columns={columns}
+        dataSource={data}
+        rowKey="poC_id" 
+        pagination={{ pageSize: 10 }}  
+        scroll={{ y: 500 }}
+        style={{ width: '100%' }}
+      />
 
       {/* Modal para editar el posible cliente */}
       {selectedCliente && (

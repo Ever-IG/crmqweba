@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {}
+    "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Data\\appCRM.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {
+    "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Data\\appCRM.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj",
+        "projectUniqueName": "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Data\\appCRM.Data.csproj",
         "projectName": "appCRM.Data",
-        "projectPath": "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj",
-        "packagesPath": "C:\\Users\\river\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\river\\Documents\\GitHub\\crmqweba\\appCRM.Data\\obj\\",
+        "projectPath": "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Data\\appCRM.Data.csproj",
+        "packagesPath": "C:\\Users\\eesan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Data\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\river\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\eesan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
