@@ -1526,6 +1526,12 @@
       "System.Text.Json/8.0.4": {
         "dependencies": {
           "System.Text.Encodings.Web": "8.0.0"
+        },
+        "runtime": {
+          "lib/net8.0/System.Text.Json.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.724.31311"
+          }
         }
       },
       "System.Text.RegularExpressions/4.3.0": {
@@ -1595,10 +1601,7 @@
           "appCRM.Data": "1.0.0"
         },
         "runtime": {
-          "appCRM.Business.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "appCRM.Business.dll": {}
         }
       },
       "appCRM.Data/1.0.0": {
@@ -1607,10 +1610,7 @@
           "Pomelo.EntityFrameworkCore.MySql": "8.0.2"
         },
         "runtime": {
-          "appCRM.Data.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "appCRM.Data.dll": {}
         }
       }
     }
