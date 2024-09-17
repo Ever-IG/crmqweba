@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Button, Table } from 'antd';
 import EditarPosibleCliente from './EditarPosibleCliente';
@@ -140,6 +140,9 @@ function PosibleCliente() {
       title: 'Nombre',
       dataIndex: 'poC_nombre',
       key: 'poC_nombre',
+      render: (text, record) => (
+        <Link to={{}}>{text}</Link>
+      ),
     },
     {
       title: 'Apellido',
@@ -157,11 +160,6 @@ function PosibleCliente() {
       key: 'poC_nit',
     },
     {
-      title: 'NIT',
-      dataIndex: 'poC_nit',
-      key: 'poC_nit',
-    },
-    {
       title: 'Correo electrónico',
       dataIndex: 'poC_correo_electronico',
       key: 'poC_correo_electronico',
@@ -170,6 +168,13 @@ function PosibleCliente() {
       title: 'Teléfono',
       dataIndex: 'poC_telefono',
       key: 'poC_telefono',
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <Link to={{}}>Convertir a cliente</Link>
+      ),
     },
     {
       title: 'Opciones',

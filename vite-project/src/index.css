@@ -126,17 +126,18 @@ padding: 30px;
 
 .header-vista {
   padding: 10px;
-  height: 80px;
+  height: 75px;
   position: fixed;
-  width: 100%;
   background-color: #fff;
   border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  z-index: 1001;
   padding-right: 15%;
-  
+  width: 100%;
 }
+
 
 .botones-contenedor {
   display: flex;
