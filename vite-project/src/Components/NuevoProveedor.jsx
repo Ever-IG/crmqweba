@@ -84,10 +84,12 @@ function NuevoProveedor() {
     };
 
     return (
-        <div className="container mt-4">
+        <div className="NuevoCliente">
+            <div className="form-container">
+            <form className="row g-3" onSubmit= {handleSubmit}>
             <ToastContainer />
-            <h2 className="mb-4">Agregar Proveedor</h2>
-            <form onSubmit={handleSubmit} className="mb-4">
+            <center><label> <h3> AGREGAR NUEVO PROVEEDOR </h3> </label> </center>
+            <div className="col-md-6">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_nombre">Nombre</label>
                     <input
@@ -100,6 +102,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-6">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_apellido">Apellido</label>
                     <input
@@ -112,6 +117,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-8">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_nombre_empresa">Nombre de la Empresa</label>
                     <input
@@ -124,6 +132,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_nit">NIT</label>
                     <input
@@ -136,6 +147,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_telefono">Teléfono</label>
                     <input
@@ -150,6 +164,9 @@ function NuevoProveedor() {
                         title="Número de teléfono de 8 dígitos"
                     />
                 </div>
+                </div>
+
+                <div className="col-md-8">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_correo_electronico">Correo Electrónico</label>
                     <input
@@ -162,6 +179,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-8">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_direccion">Dirección</label>
                     <input
@@ -174,6 +194,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_departamento">Departamento</label>
                     <input
@@ -186,6 +209,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_municipio">Municipio</label>
                     <input
@@ -198,6 +224,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_codigo_postal">Código Postal</label>
                     <input
@@ -210,6 +239,9 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+
+                <div className="col-md-4">
                 <div className="form-group mb-3">
                     <label htmlFor="PRO_pais">País</label>
                     <input
@@ -222,9 +254,13 @@ function NuevoProveedor() {
                         onChange={handleChange}
                     />
                 </div>
+                </div>
+                <div className="col md-10">
                 <button type="submit" className="btn btn-primary">Agregar Proveedor</button>
+                </div>
                 <ToastContainer />
             </form>
+        </div>
         </div>
     );
 }

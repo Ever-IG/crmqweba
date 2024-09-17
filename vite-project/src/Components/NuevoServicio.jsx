@@ -77,7 +77,7 @@ function NuevoServicio() {
             <div className="NuevoCliente">
             <div className="form-container">
             <form className="row g-3" onSubmit= {handleSubmit}>
-
+                <center><label> <h3> AGREGAR NUEVO SERVICIO </h3> </label> </center>
                 <div className="col-md-8">
                 <div className="form-group mb-3">
                     <label htmlFor="SER_nombre">Nombre del Servicio</label>
@@ -123,8 +123,9 @@ function NuevoServicio() {
                     />
                 </div>
                 </div>
+                <div className="col md-10">
                 <button type="submit" className="btn btn-primary">Agregar Servicio</button>
-            <ToastContainer />
+                </div>
             </form>
         </div>
         </div>
