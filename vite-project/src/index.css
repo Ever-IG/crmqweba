@@ -185,3 +185,10 @@ td.opciones button {
   background-color: #455e7e;
   color: #fff;
 }
+
+h2{
+  color: #fff;
+  font-style: unset;
+  font-size: large;
+  text-align: center;
+}

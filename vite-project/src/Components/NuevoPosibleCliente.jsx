@@ -95,7 +95,7 @@ function NuevoPosibleCliente() {
         <div className="NuevoPosibleCliente">
         <div className="form-container">        
             <ToastContainer />
-            <h2 className="mb-4">Agregar Posible Cliente</h2>
+            <center><label> <h3> AGREGAR NUEVO POSIBLE CLIENTE </h3> </label> </center>
             <form onSubmit={handleSubmit} className="row g-3">
                 {/* Input fields for all the columns */}
                 <div className="col-md-6">
