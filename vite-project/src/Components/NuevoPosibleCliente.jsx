@@ -297,6 +297,75 @@ export default function NuevoPosibleCliente() {
                 </div>
               </div>
             </CustomTabPanel>
+            <CustomTabPanel value={value} index={2}>
+              <div className="row g-3">
+                <div className="col-md-8">
+                  <div className="form-group mb-3">
+                    <label htmlFor="POC_direccion">Dirección</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="POC_direccion"
+                      name="POC_direccion"
+                      value={newPosibleCliente.POC_direccion}
+                      onChange={handleChangeInput}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group mb-3">
+                    <label htmlFor="POC_departamento">Departamento</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="POC_departamento"
+                      name="POC_departamento"
+                      value={newPosibleCliente.POC_departamento}
+                      onChange={handleChangeInput}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group mb-3">
+                    <label htmlFor="POC_municipio">Municipio</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="POC_municipio"
+                      name="POC_municipio"
+                      value={newPosibleCliente.POC_municipio}
+                      onChange={handleChangeInput}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group mb-3">
+                    <label htmlFor="POC_codigo_postal">Código Postal</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="POC_codigo_postal"
+                      name="POC_codigo_postal"
+                      value={newPosibleCliente.POC_codigo_postal}
+                      onChange={handleChangeInput}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group mb-3">
+                    <label htmlFor="POC_pais">País</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="POC_pais"
+                      name="POC_pais"
+                      value={newPosibleCliente.POC_pais}
+                      onChange={handleChangeInput}
+                    />
+                  </div>
+                </div>
+              </div>
+            </CustomTabPanel>
           </Box>
 
           {/* Div para los botones fijos */}
