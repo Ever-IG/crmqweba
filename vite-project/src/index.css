@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
 
 
 *{
@@ -8,8 +8,9 @@
   outline: none;
   list-style: none;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif ;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 }
+
 
 .sidebar {
   color: #fff;
@@ -65,27 +66,29 @@
   Se agregó el color de fonodo para los inputs y el select.
   Se modificó color de texto en labels.
 */
+
+
 .form-container, .FormContainer {
-  /*background-color: #ffffff;*/
-  background-color: #1D2835;
-  color: #fff;
+  background-color: rgba(250, 249, 249, 0.87);
   padding: 20px;
-  margin: 40px auto;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+
+  margin: 5px auto;
   max-width: 800px;
   border-radius: 10px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.form-container input, .form-container select {
-  background-color: #455e7e;
-  color: #fff;
-}
-
-.form-container label {
-  color: #fff;
-}
-
 /*FIN WJBLANCO*/
+
+.fixed-bottom-button {
+  position: fixed;
+  bottom: 40px;
+  width: 100%;  
+  z-index: 1000;
+}
+
+
 
 
 .form-container2 {
@@ -114,8 +117,7 @@ padding: 30px;
 }
 
 .NuevoCliente, .NuevoPosibleCliente{
-  /*background-color: #fff;*/
-  background-color: #192331;
+background-color: #fff;
   padding: 30px;
 }
 
