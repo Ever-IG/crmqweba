@@ -74,11 +74,10 @@ function NuevoServicio() {
     };
 
     return (
-            <div className="NuevoCliente">
-            <div className="form-container">
-            <form className="row g-3" onSubmit= {handleSubmit}>
-
-                <div className="col-md-8">
+        <div className="container mt-4">
+            <ToastContainer />
+            <h2 className="mb-4">Agregar Servicio</h2>
+            <form onSubmit={handleSubmit} className="mb-4">
                 <div className="form-group mb-3">
                     <label htmlFor="SER_nombre">Nombre del Servicio</label>
                     <input
@@ -89,11 +88,24 @@ function NuevoServicio() {
                         placeholder="Nombre del Servicio"
                         value={newServicio.SER_nombre}
                         onChange={handleChange}
+                        pattern="^[A-Za-z\s]+$"  
+                        title="El nombre solo debe contener letras mayúsculas, minúsculas y espacios"
                     />
-               </div>
-               </div>
-        
-                <div className="col-md-4">
+                </div>
+                <div className="form-group mb-3">
+                    <label htmlFor="SER_descripcion">Descripción</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        id="SER_descripcion"
+                        name="SER_descripcion"
+                        placeholder="Descripción"
+                        value={newServicio.SER_descripcion}
+                        onChange={handleChange}
+                         pattern="^[A-Za-z\s]+$"  
+                        title="El nombre solo debe contener letras mayúsculas, minúsculas y espacios"
+                    />
+                </div>
                 <div className="form-group mb-3">
                     <label htmlFor="SER_precio">Precio</label>
                     <input
@@ -105,28 +117,14 @@ function NuevoServicio() {
                         value={newServicio.SER_precio}
                         onChange={handleChange}
                         step="0.000001" // Limitar a 6 decimales
+                        min="0"  // No permitir números negativos
+                        max="10000"
+                        title="El precio debe ser un número positivo con hasta 6 decimales"
+                        required
                     />
-                </div>
-                </div>
-
-                <div className="col-md-12">
-                <div className="form-group mb-3">
-                    <label htmlFor="SER_descripcion">Descripción</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="SER_descripcion"
-                        name="SER_descripcion"
-                        placeholder="Descripción"
-                        value={newServicio.SER_descripcion}
-                        onChange={handleChange}
-                    />
-                </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Agregar Servicio</button>
-            <ToastContainer />
             </form>
-        </div>
         </div>
     );
 }
