@@ -118,7 +118,7 @@ export default function NuevoPosibleCliente() {
     <div className="NuevoPosibleCliente">
       <div className="form-container">
         <ToastContainer />
-        <h2 className="mb-4">Agregar Posible Cliente</h2>
+        <h2 className="mb-4">Agregar Posible Cliente </h2>
         <form onSubmit={handleSubmit}>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
