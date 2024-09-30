@@ -36,23 +36,23 @@ namespace appCRM.Business.Services
             _context.Quejas.Add(queja);
             _context.SaveChanges();
         }
+public void UpdateQueja(Queja queja)
+{
+    var existingQueja = _context.Quejas.Find(queja.QUE_id);
+    if (existingQueja != null)
+    {
+        existingQueja.CLI_id = queja.CLI_id; // Actualiza el campo CLI_id
+        existingQueja.USU_id = queja.USU_id; // Actualiza el campo USU_id
+        existingQueja.QUE_prioridad = queja.QUE_prioridad; // Actualiza el campo QUE_prioridad
+        existingQueja.QUE_fecha_queja = queja.QUE_fecha_queja; // Actualiza el campo QUE_fecha_queja
+        existingQueja.QUE_motivo = queja.QUE_motivo; // Actualiza el campo QUE_motivo
+        existingQueja.QUE_estado = queja.QUE_estado; // Actualiza el campo QUE_estado
+        existingQueja.QUE_descripcion = queja.QUE_descripcion; // Actualiza el campo QUE_descripcion
 
-        public void UpdateQueja(Queja queja)
-        {
-            var existingQueja = _context.Quejas.Find(queja.QUE_id);
-            if (existingQueja != null)
-            {
-                existingQueja.QUE_persona_id = queja.QUE_persona_id;
-                existingQueja.QUE_tipo_persona = queja.QUE_tipo_persona;
-                existingQueja.USU_id = queja.USU_id;
-                existingQueja.QUE_fecha_queja = queja.QUE_fecha_queja;
-                existingQueja.QUE_motivo = queja.QUE_motivo;
-                existingQueja.QUE_estado = queja.QUE_estado;
-                existingQueja.QUE_comentario = queja.QUE_comentario;
+        _context.SaveChanges();
+    }
+}
 
-                _context.SaveChanges();
-            }
-        }
 
         public void DeleteQueja(int QUE_id)
         {

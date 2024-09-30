@@ -52,24 +52,33 @@ namespace appCRM.API.Controllers
             return CreatedAtAction(nameof(GetQueja), new { QUE_id = queja.QUE_id }, queja);
         }
 
-        // PUT: api/Queja/5
-        [HttpPut("{QUE_id}")]
-        public IActionResult UpdateQueja(int QUE_id, [FromBody] Queja queja)
-        {
-            if (queja == null )
-            {
-                return BadRequest();
-            }
+   // PUT: api/Queja/5
+[HttpPut("{QUE_id}")]
+public IActionResult UpdateQueja(int QUE_id, [FromBody] Queja queja)
+{
+    if (queja == null)
+    {
+        return BadRequest();
+    }
 
-            var existingQueja = _quejaService.GetQuejaById(QUE_id);
-            if (existingQueja == null)
-            {
-                return NotFound();
-            }
+    var existingQueja = _quejaService.GetQuejaById(QUE_id);
+    if (existingQueja == null)
+    {
+        return NotFound();
+    }
 
-            _quejaService.UpdateQueja(queja);
-            return NoContent();
-        }
+    existingQueja.CLI_id = queja.CLI_id;
+    existingQueja.USU_id = queja.USU_id;
+    existingQueja.QUE_prioridad = queja.QUE_prioridad;
+    existingQueja.QUE_fecha_queja = queja.QUE_fecha_queja;
+    existingQueja.QUE_motivo = queja.QUE_motivo;
+    existingQueja.QUE_estado = queja.QUE_estado;
+    existingQueja.QUE_descripcion = queja.QUE_descripcion;
+
+    _quejaService.UpdateQueja(existingQueja);
+    return NoContent();
+}
+
 
         // DELETE: api/Queja/5
         [HttpDelete("{QUE_id}")]
