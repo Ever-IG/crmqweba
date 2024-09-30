@@ -737,19 +737,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\eesan\\.nuget\\packages\\": {}
+    "/home/wjblanco/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Business\\appCRM.Business.csproj",
+      "projectUniqueName": "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/appCRM.Business.csproj",
       "projectName": "appCRM.Business",
-      "projectPath": "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Business\\appCRM.Business.csproj",
-      "packagesPath": "C:\\Users\\eesan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Business\\obj\\",
+      "projectPath": "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/appCRM.Business.csproj",
+      "packagesPath": "/home/wjblanco/.nuget/packages/",
+      "outputPath": "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Business/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\eesan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/wjblanco/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -761,8 +761,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Data\\appCRM.Data.csproj": {
-              "projectPath": "C:\\Users\\eesan\\Downloads\\CRUD_CRM\\appCRM.Data\\appCRM.Data.csproj"
+            "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/appCRM.Data.csproj": {
+              "projectPath": "/home/wjblanco/Documents/GitHub/crmqweba/appCRM.Data/appCRM.Data.csproj"
             }
           }
         }
@@ -771,11 +771,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -797,7 +792,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/8.0.108/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
