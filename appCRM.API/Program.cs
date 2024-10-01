@@ -27,6 +27,15 @@ builder.Services.AddScoped<PosibleClienteService>();
 builder.Services.AddScoped<ProveedorService>(); // Agregar el servicio para Proveedor
 builder.Services.AddScoped<QuejaService>(); // Agregar el servicio para Queja
 builder.Services.AddScoped<ServicioService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<CierreTratoService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<CotizacionService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<PermisoService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<RolService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<RolPermisoService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<UsuarioService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<SeguimientoService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<DetalleCierreTratoService>(); //Agregar el servicio para Servicio
+builder.Services.AddScoped<DetalleCotizacionService>(); //Agregar el servicio para Servicio
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
