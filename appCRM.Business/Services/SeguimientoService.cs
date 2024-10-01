@@ -25,26 +25,25 @@ namespace appCRM.Business.Services
 
         public void AddSeguimiento(Seguimiento seguimiento)
         {
-            if (seguimiento == null)
+            if (seguimiento == null || !seguimiento.EsValido())
             {
-                throw new ArgumentNullException(nameof(seguimiento));
+                throw new ArgumentException("Debe proporcionar un Cliente o un Posible Cliente, pero no ambos.");
             }
+
             _context.Seguimientos.Add(seguimiento);
             _context.SaveChanges();
         }
 
         public void UpdateSeguimiento(Seguimiento seguimiento)
         {
-            if (seguimiento == null)
+            if (seguimiento == null || !seguimiento.EsValido())
             {
-                throw new ArgumentNullException(nameof(seguimiento));
+                throw new ArgumentException("Debe proporcionar un Cliente o un Posible Cliente, pero no ambos.");
             }
 
-            // Eliminar la entidad de seguimiento que se está actualizando de la pista de cambios.
             var existingSeguimiento = _context.Seguimientos.Find(seguimiento.SEG_id);
             if (existingSeguimiento != null)
             {
-                // Actualizar propiedades.
                 existingSeguimiento.USU_id = seguimiento.USU_id;
                 existingSeguimiento.CLI_id = seguimiento.CLI_id;
                 existingSeguimiento.POC_id = seguimiento.POC_id;
@@ -55,7 +54,6 @@ namespace appCRM.Business.Services
                 existingSeguimiento.SEG_resultado = seguimiento.SEG_resultado;
                 existingSeguimiento.SEG_comentario = seguimiento.SEG_comentario;
 
-                // Indicar que la entidad ha sido modificada.
                 _context.Entry(existingSeguimiento).State = EntityState.Modified;
                 _context.SaveChanges();
             }

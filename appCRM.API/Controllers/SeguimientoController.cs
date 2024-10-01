@@ -40,22 +40,21 @@ namespace appCRM.API.Controllers
         [HttpPost]
         public IActionResult AddSeguimiento([FromBody] Seguimiento seguimiento)
         {
-            if (seguimiento == null)
+            if (seguimiento == null || !seguimiento.EsValido())
             {
-                return BadRequest();
+                return BadRequest("Debe proporcionar un Cliente o un Posible Cliente, pero no ambos.");
             }
 
             _seguimientoService.AddSeguimiento(seguimiento);
             return CreatedAtAction(nameof(GetSeguimiento), new { SEG_id = seguimiento.SEG_id }, seguimiento);
         }
 
-        // PUT: api/Seguimiento/5
         [HttpPut("{SEG_id}")]
         public IActionResult UpdateSeguimiento(int SEG_id, [FromBody] Seguimiento seguimiento)
         {
-            if (seguimiento == null)
+            if (seguimiento == null || !seguimiento.EsValido())
             {
-                return BadRequest("El seguimiento no puede ser nulo.");
+                return BadRequest("Debe proporcionar un Cliente o un Posible Cliente, pero no ambos.");
             }
 
             var existingSeguimiento = _seguimientoService.GetSeguimientoById(SEG_id);
@@ -64,7 +63,7 @@ namespace appCRM.API.Controllers
                 return NotFound();
             }
 
-            // Actualizar los campos sin usar el SEG_id del cuerpo
+            // Actualizar los campos
             existingSeguimiento.USU_id = seguimiento.USU_id;
             existingSeguimiento.CLI_id = seguimiento.CLI_id;
             existingSeguimiento.POC_id = seguimiento.POC_id;
@@ -76,7 +75,6 @@ namespace appCRM.API.Controllers
             existingSeguimiento.SEG_comentario = seguimiento.SEG_comentario;
 
             _seguimientoService.UpdateSeguimiento(existingSeguimiento);
-            
 
             return NoContent();
         }
