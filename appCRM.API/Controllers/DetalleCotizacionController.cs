@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using appCRM.Business.Services;
 using appCRM.Data.Entities;
+using appCRM.API.DTOs;
 
 namespace appCRM.API.Controllers
 {
@@ -35,52 +36,81 @@ namespace appCRM.API.Controllers
             return Ok(detalle);
         }
 
-        // POST: api/DetalleCotizacion
         [HttpPost]
-        public IActionResult AddDetalleCotizacion([FromBody] DetalleCotizacion detalleCotizacion)
+        public IActionResult AddCotizacionWithDetalles([FromBody] DetalleCotizacionRequest cotizacionRequest)
         {
-            if (detalleCotizacion == null)
+            if (cotizacionRequest == null || cotizacionRequest.DetalleCotizacion == null || cotizacionRequest.DetalleCotizacion.Count == 0)
             {
-                return BadRequest();
+                return BadRequest("La solicitud no puede ser nula o vacía.");
             }
 
-            _detalleCotizacionService.AddDetalleCotizacion(detalleCotizacion);
-            return CreatedAtAction(nameof(GetDetalleCotizacion), new { detId = detalleCotizacion.DET_id }, detalleCotizacion);
+            // Convierte los detalles a la entidad DetalleCotizacion y asigna el COT_id
+            var detallesCotizacion = cotizacionRequest.DetalleCotizacion.Select(d => new DetalleCotizacion
+            {
+                COT_id = cotizacionRequest.COT_id,
+                SER_id = d.SER_id,
+                DET_cantidad = d.DET_cantidad,
+                DET_precio = d.DET_precio,
+                DET_descuento = d.DET_descuento,
+                DET_tipo_descuento = d.DET_tipo_descuento,
+                DET_subtotal = d.DET_subtotal
+            }).ToList();
+
+            // Llama al servicio para agregar los detalles
+            _detalleCotizacionService.AddDetallesCotizacion(detallesCotizacion);
+
+            return Ok(detallesCotizacion);
         }
 
-        // PUT: api/DetalleCotizacion/5
-        [HttpPut("{detId}")]
-        public IActionResult UpdateDetalleCotizacion(int detId, [FromBody] DetalleCotizacion detalleCotizacion)
+
+        [HttpPut("{cotizacionId}")]
+        public IActionResult UpdateDetallesCotizacion(int cotizacionId, [FromBody] List<DetalleCotizacion> detallesCotizacion)
         {
-            if (detalleCotizacion == null)
+            if (detallesCotizacion == null || !detallesCotizacion.Any())
             {
-                return BadRequest("El detalle de cotización no puede ser nulo.");
+                return BadRequest("La lista de detalles no puede ser nula o vacía.");
             }
 
-            var existingDetalle = _detalleCotizacionService.GetDetalleCotizacionById(detId);
-            if (existingDetalle == null)
+            try
             {
-                return NotFound();
+                // Aseguramos que todos los detalles tengan el mismo cotizacionId
+                foreach (var detalle in detallesCotizacion)
+                {
+                    detalle.COT_id = cotizacionId;
+                }
+
+                _detalleCotizacionService.UpdateDetallesCotizacion(detallesCotizacion);
+
+                return NoContent();
             }
-
-            detalleCotizacion.DET_id = detId; // Asegurar que el ID coincide
-            _detalleCotizacionService.UpdateDetalleCotizacion(detalleCotizacion);
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocurrió un error al actualizar los detalles de cotización: {ex.Message}");
+            }
         }
+
 
         // DELETE: api/DetalleCotizacion/5
-        [HttpDelete("{detId}")]
-        public IActionResult DeleteDetalleCotizacion(int detId)
+        // DELETE: api/DetalleCotizacion
+        [HttpDelete]
+        public IActionResult DeleteDetallesCotizacion([FromBody] List<int> detalleIds)
         {
-            var detalle = _detalleCotizacionService.GetDetalleCotizacionById(detId);
-            if (detalle == null)
+            if (detalleIds == null || !detalleIds.Any())
             {
-                return NotFound();
+                return BadRequest("La lista de IDs de detalles no puede ser nula o vacía.");
             }
 
-            _detalleCotizacionService.DeleteDetalleCotizacion(detId);
-            return NoContent();
+            try
+            {
+                // Llamamos al servicio para eliminar todos los detalles que coincidan con los IDs proporcionados
+                _detalleCotizacionService.DeleteDetallesCotizacion(detalleIds);
+                return NoContent(); // 204 No Content si la operación fue exitosa
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ocurrió un error al eliminar los detalles de cotización: {ex.Message}");
+            }
         }
+
     }
 }
