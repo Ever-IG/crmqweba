@@ -10,11 +10,12 @@ import NuevoCliente from './Components/NuevoCliente';
 import NuevoProveedor from './Components/NuevoProveedor';
 import NuevoPosibleCliente from './Components/NuevoPosibleCliente';
 import VerServicio from './Components/VerServicio';
-import PosibleCliente from './Components/PosibleCliente';
+import VerPosibleCliente from './Components/VerPosibleCliente';
 import VerCliente from './Components/VerCliente';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor';
 import MenuOpciones from './Components/MenuOpciones';
+import PruebaVerservicio from './Components/pruebaVerservicio';
 
 const { Header, Sider } = Layout;
 
@@ -102,11 +103,12 @@ function App() {
             <Route path="/NuevoProveedor" element={<NuevoProveedor />} />
             <Route path="/VerProveedor" element={<VerProveedor />} />
             <Route path="/NuevoPosibleCliente" element={<NuevoPosibleCliente />} />
-            <Route path="/PosibleCliente" element={<PosibleCliente />} />
+            <Route path="/PosibleCliente" element={<VerPosibleCliente />} />
             <Route path="/MenuOpciones" element={<MenuOpciones />} />
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />
+            <Route path="/PruebaVerservicio" element={<PruebaVerservicio />} />
           </Routes>
         </Layout>
       </Layout>

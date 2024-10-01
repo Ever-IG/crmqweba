@@ -1,43 +1,36 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.API\\appCRM.API.csproj": {}
+    "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.API\\appCRM.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.API\\appCRM.API.csproj": {
+    "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.API\\appCRM.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.API\\appCRM.API.csproj",
+        "projectUniqueName": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.API\\appCRM.API.csproj",
         "projectName": "appCRM.API",
-        "projectPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.API\\appCRM.API.csproj",
-        "packagesPath": "C:\\Users\\Marisol\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.API\\obj\\",
+        "projectPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.API\\appCRM.API.csproj",
+        "packagesPath": "C:\\Users\\river\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Marisol\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\river\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Business\\appCRM.Business.csproj": {
-                "projectPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Business\\appCRM.Business.csproj"
+              "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Business\\appCRM.Business.csproj": {
+                "projectPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Business\\appCRM.Business.csproj"
               },
-              "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {
-                "projectPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj"
+              "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {
+                "projectPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Data\\appCRM.Data.csproj"
               }
             }
           }
@@ -103,41 +96,34 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Business\\appCRM.Business.csproj": {
+    "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Business\\appCRM.Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Business\\appCRM.Business.csproj",
+        "projectUniqueName": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Business\\appCRM.Business.csproj",
         "projectName": "appCRM.Business",
-        "projectPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Business\\appCRM.Business.csproj",
-        "packagesPath": "C:\\Users\\Marisol\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Business\\obj\\",
+        "projectPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Business\\appCRM.Business.csproj",
+        "packagesPath": "C:\\Users\\river\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Business\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Marisol\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\river\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {
-                "projectPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj"
+              "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {
+                "projectPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Data\\appCRM.Data.csproj"
               }
             }
           }
@@ -172,33 +158,26 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {
+    "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Data\\appCRM.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj",
+        "projectUniqueName": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Data\\appCRM.Data.csproj",
         "projectName": "appCRM.Data",
-        "projectPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Data\\appCRM.Data.csproj",
-        "packagesPath": "C:\\Users\\Marisol\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Marisol\\Documents\\GitHub\\crmqweba\\appCRM.Data\\obj\\",
+        "projectPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Data\\appCRM.Data.csproj",
+        "packagesPath": "C:\\Users\\river\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\river\\Downloads\\CRM+GIT\\crmqweba\\appCRM.Data\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Marisol\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\river\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -247,7 +226,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.401/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
