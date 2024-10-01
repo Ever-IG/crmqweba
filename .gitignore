@@ -23,7 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-node_modules
-bin
-build
-obj
+bin/
+obj/
+node_modules/
