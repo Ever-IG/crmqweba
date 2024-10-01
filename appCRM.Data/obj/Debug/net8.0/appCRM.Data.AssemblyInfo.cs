@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("appCRM.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+26b2b6e1f8d9f36aa0f92f497990128eaa12b9d1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bc31f89e0f98d8ba1a382c101797a67c01763fdb")]
 [assembly: System.Reflection.AssemblyProductAttribute("appCRM.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("appCRM.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
