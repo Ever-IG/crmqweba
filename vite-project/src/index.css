@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+
+*{
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+  list-style: none;
+  box-sizing: border-box;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+}
+
+
+.sidebar {
+  color: #fff;
+  position: fixed;
+
+}
+.logo {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background-color: #8E0D3C;
+
+}
+
+.logo-icon{
+  width: 50px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+
+}
+
+.menu-bar{
+  height: 88vh;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 1rem;
+  position: relative;
+  text-decoration: none;
+}
+
+.toggle-theme-btn{
+  position: absolute;
+  bottom: 30px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.toggle{
+  margin-left: 30px;
+  color: #fff;
+ justify-content: space-between;
+}
+
+/*WJBLANCO: SE cambió el color de fondo del formulario.
+  Se agregó el color de fonodo para los inputs y el select.
+  Se modificó color de texto en labels.
+*/
+
+
+.form-container, .FormContainer {
+  background-color: rgba(250, 249, 249, 0.87);
+  padding: 20px;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+
+  margin: 5px auto;
+  max-width: 800px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/*FIN WJBLANCO*/
+
+.fixed-bottom-button {
+  position: fixed;
+  bottom: 40px;
+  width: 100%;  
+  z-index: 1000;
+}
+
+
+
+
+.form-container2 {
+  background-color: #ffffff;
+  margin: 50px;
+  border-radius: 10px;
+}
+a {
+  text-decoration: none;
+}
+
+.container{
+background-color: #192331;
+padding: 30px;
+}
+
+/* formulario de agregar servicio */
+.FormContainer{
+  background-color: #192331;
+  padding: 30px;
+}
+
+.Clientes{
+  background-color: #192331;
+  padding: 30px;
+}
+
+.NuevoCliente, .NuevoPosibleCliente{
+background-color: #fff;
+  padding: 30px;
+}
+
+.Proveedores{
+  background-color: #192331;
+  padding: 30px;
+}
+
+.header-vista {
+  padding: 10px;
+  height: 75px;
+  position: fixed;
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 1001;
+  padding-right: 15%;
+  width: 100%;
+}
+
+
+.botones-contenedor {
+  display: flex;
+  gap: 15px;
+}
+
+.header-title{
+  flex-grow: 1; 
+  font-size: 1.3rem;
+  font-weight: 550;
+  margin: 0;
+}
+
+.thead-vista {
+  position: sticky;
+  top: 110px; 
+  z-index: 980;
+
+}
+.thead-vista th {
+  background-color: #EBEBEB;
+}
+
+.table {
+  table-layout: fixed;
+  width: 100%;
+  margin-top:70px;
+}
+
+th {
+  width: auto;
+}
+td.opciones {
+  display: flex;
+  justify-content: flex-start; 
+  gap: 7px; 
+}
+
+td.opciones button {
+  display: inline-block;
+  padding: 4px 4px;
+}
+
+.container input, .container select {
+  background-color: #455e7e;
+  color: #fff;
+}

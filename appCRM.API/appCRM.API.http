@@ -1,0 +1,6 @@
+@appCRM.API_HostAddress = http://localhost:5023
+
+GET {{appCRM.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
