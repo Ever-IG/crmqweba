@@ -31,6 +31,9 @@ const MenuList = ({ darkTheme }) => {
         <NavLink to="/VerCliente" activeClassName="active">Ver Cliente</NavLink>
         </Menu.Item>
       </SubMenu>
+      <Menu.Item key="Seguimiento" icon={<HomeOutlined />}> {}
+        <Link to="/Seguimiento">Seguimiento</Link>
+      </Menu.Item>
       <SubMenu key="Proveedores" icon={<ContactsOutlined />} title="Proveedores">
         <Menu.Item key="8">
           <Link to="/NuevoProveedor">Agregar Proveedor</Link>
