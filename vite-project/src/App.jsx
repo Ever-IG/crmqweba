@@ -11,9 +11,9 @@ import NuevoProveedor from './Components/NuevoProveedor';
 import NuevoPosibleCliente from './Components/NuevoPosibleCliente';
 import VerServicio from './Components/VerServicio';
 import VerPosibleCliente from './Components/VerPosibleCliente';
-import VerCliente from './Components/VerCliente';
+import VerCliente1 from './Components/VerCliente1';
 import NuevoServicio from './Components/NuevoServicio';
-import VerProveedor from './Components/VerProveedor';
+import VerProveedor from './Components/VerProveedor1';
 import MenuOpciones from './Components/MenuOpciones';
 import PruebaVerservicio from './Components/pruebaVerservicio';
 
@@ -107,7 +107,7 @@ function App() {
             <Route path="/MenuOpciones" element={<MenuOpciones />} />
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
-            <Route path="/VerCliente" element={<VerCliente />} />
+            <Route path="/VerCliente" element={<VerCliente1 />} />
             <Route path="/PruebaVerservicio" element={<PruebaVerservicio />} />
           </Routes>
         </Layout>
