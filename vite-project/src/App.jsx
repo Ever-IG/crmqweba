@@ -15,8 +15,7 @@ import VerCliente1 from './Components/VerCliente1';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor1';
 import MenuOpciones from './Components/MenuOpciones';
-import PruebaVerservicio from './Components/pruebaVerservicio';
-
+import Seguimiento from './Components/NuevoSeguimiento';
 const { Header, Sider } = Layout;
 
 function App() {
@@ -107,10 +106,11 @@ function App() {
             <Route path="/MenuOpciones" element={<MenuOpciones />} />
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
-            <Route path="/VerCliente" element={<VerCliente1 />} />
-            <Route path="/PruebaVerservicio" element={<PruebaVerservicio />} />
+            <Route path="/VerCliente" element={<VerCliente />} />
+            <Route path='/Seguimiento' element ={<Seguimiento />}/>
           </Routes>
         </Layout>
+            
       </Layout>
     </Router>
   );
