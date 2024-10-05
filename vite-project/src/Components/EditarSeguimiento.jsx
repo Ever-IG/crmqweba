@@ -185,13 +185,34 @@ const EditarSeguimiento = ({ seguimiento, handleCloseModal }) => {
             </div>
 
             <div className="col-md-12">
-                <label className="form-label">Propósito de la Llamada</label>
-                <input type="text" className="form-control" value={proposito} onChange={(e) => setProposito(e.target.value)} />
+                <label className="form-label">Propósito del Seguimiento</label>
+                <select className="form-select" value={proposito} onChange={(e) => setProposito(e.target.value)}>
+                    <option value="">Seleccione un propósito</option>
+                    <option value="Atención al cliente">Atención al cliente</option>
+                    <option value="Fidelización">Fidelización</option>
+                    <option value="Venta adicional (Up-selling)">Venta adicional (Up-selling)</option>
+                    <option value="Venta cruzada (Cross-selling)">Venta cruzada (Cross-selling)</option>
+                    <option value="Seguimiento post-venta">Seguimiento post-venta</option>
+                    <option value="Renovación de contratos o servicios">Renovación de contratos o servicios</option>
+                    <option value="Reactivación de clientes inactivos">Reactivación de clientes inactivos</option>
+                    <option value="Recoger feedback">Recoger feedback</option>
+                    <option value="Confirmación de eventos, citas o reprogramación">Confirmación de eventos, citas o reprogramación</option>
+                </select>
             </div>
+
 
             <div className="col-md-12">
                 <label className="form-label">Resultado</label>
-                <input type="text" className="form-control" value={resultado} onChange={(e) => setResultado(e.target.value)} />
+                <select className="form-select" value={resultado} onChange={(e) => setResultado(e.target.value)}>
+                    <option value="">Seleccione un resultado</option>
+                    <option value="No respondió">No respondió</option>
+                    <option value="Respondió">Respondió</option>
+                    <option value="Reprogramación">Reprogramación</option>
+                    <option value="Negociación de condiciones">Negociación de condiciones</option>
+                    <option value="Solicitud de más información">Solicitud de más información</option>
+                    <option value="Otro">Otro</option>
+
+                </select>
             </div>
 
             <div className="col-12">

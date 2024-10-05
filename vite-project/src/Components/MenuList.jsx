@@ -1,6 +1,5 @@
 import { Menu } from 'antd';
-import { HomeOutlined, UserOutlined, ContactsOutlined, ShoppingCartOutlined, CommentOutlined } from '@ant-design/icons';
-import { HomeOutlined, UserOutlined, ContactsOutlined, ShoppingCartOutlined, WarningOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, ContactsOutlined, ShoppingCartOutlined, CommentOutlined, WarningOutlined } from '@ant-design/icons';
 import { Link, NavLink } from 'react-router-dom'; // Importamos Link para la navegación
 
 
@@ -10,17 +9,12 @@ const MenuList = ({ darkTheme }) => {
     <Menu theme={darkTheme ? 'dark' : 'light'} mode='inline' className='menu-bar'>
       
       <Menu.Item key="Inicio" icon={<HomeOutlined />}> {}
-        <Link to="/">Inicio</Link>
+        <Link to="/MenuOpciones">Inicio</Link>
       </Menu.Item>
 
-      <SubMenu key="PosiblesClientes" icon={<UserOutlined />} title="Posibles Clientes">
-        <Menu.Item key="6">
-          <Link to="/PosibleCliente">Listado de Posibles Clientes</Link>
+        <Menu.Item key="PosiblesClientes" icon={<UserOutlined />} title="Posibles Clientes">
+          <Link to="/PosibleCliente">Posibles Clientes</Link>
         </Menu.Item>
-        <Menu.Item key="12">
-          <Link to="/MenuOpciones">Opciones</Link>
-        </Menu.Item>
-      </SubMenu>
       <SubMenu key="Clientes" icon={<UserOutlined />} title="Clientes">
         <Menu.Item key="7">
           <Link to="/NuevoCliente">Crear Clientes</Link>
@@ -50,7 +44,7 @@ const MenuList = ({ darkTheme }) => {
         </Menu.Item>
         </SubMenu>
 
-        <SubMenu key="QUEJA " icon={<WarningOutlined />} title="QUEJA">
+        <SubMenu key="QUEJA " icon={<WarningOutlined />} title="Queja">
         <Menu.Item key="12">
         <NavLink to="/NuevaQueja" activeClassName="active">Agregar Queja</NavLink>
         </Menu.Item>

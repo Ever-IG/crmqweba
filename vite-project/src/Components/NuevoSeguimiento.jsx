@@ -43,15 +43,15 @@ const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSe
 
     const obtenerClientes = () => {
         fetch('https://localhost:7228/api/Cliente')
-                .then(response => response.json())
-                .then(data => {
-                    const clientesConNombreCompleto = data.map(cliente => ({
-                        ...cliente,
-                        nombreCompleto: `${cliente.clI_nombre} ${cliente.clI_apellido}` // Concatenar nombre y apellido
-                    }));
-                    setLista(clientesConNombreCompleto);
-                })
-                .catch(error => console.error('Error fetching clients:', error));
+            .then(response => response.json())
+            .then(data => {
+                const clientesConNombreCompleto = data.map(cliente => ({
+                    ...cliente,
+                    nombreCompleto: `${cliente.clI_nombre} ${cliente.clI_apellido}` // Concatenar nombre y apellido
+                }));
+                setLista(clientesConNombreCompleto);
+            })
+            .catch(error => console.error('Error fetching clients:', error));
     };
 
     const obtenerPosiblesClientes = () => {
@@ -157,7 +157,7 @@ const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSe
         try {
             const response = await fetch('https://localhost:7228/api/Seguimiento');
             const data = await response.json();
-    
+
             // Asegurarse de que hay datos y obtener el último número correctamente
             if (data && data.length > 0) {
                 const ultimoSeguimiento = data
@@ -166,7 +166,7 @@ const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSe
                         const numB = parseInt(b.seG_numero_seguimiento.replace('SEG#', ''), 10);
                         return numB - numA;
                     })[0]; // Obtenemos el último seguimiento (el más alto)
-    
+
                 return ultimoSeguimiento ? ultimoSeguimiento.seG_numero_seguimiento : null;
             }
             return null; // Si no hay datos, retorna null
@@ -175,28 +175,28 @@ const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSe
             return null;
         }
     };
-    
+
     const generarNumeroSeguimiento = async () => {
         const ultimoNumero = await obtenerUltimoNumeroSeguimiento();
-    
+
         if (!ultimoNumero) {
             // Si no existe ningún seguimiento, empezamos con SEG#0001
             return 'SEG#0001';
         }
-    
+
         // Extraer el número y aumentarlo en 1
         const numero = parseInt(ultimoNumero.replace('SEG#', ''), 10) + 1;
-    
+
         // Verifica que la conversión fue exitosa (que no obtuviste NaN)
         if (isNaN(numero)) {
             console.error('Error: No se pudo convertir el último número de seguimiento a un número válido.');
             return 'SEG#0001'; // Retorna el primer número en caso de error
         }
-    
+
         // Retornar el nuevo número en formato SEG#XXXX
         return `SEG#${numero.toString().padStart(4, '0')}`;
     };
-    
+
 
     return (
         <form className="row g-3" onSubmit={onFinish}>
@@ -270,14 +270,36 @@ const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSe
             </div>
 
             <div className="col-md-12">
-                <label className="form-label">Propósito de la Llamada</label>
-                <input type="text" className="form-control" value={proposito} onChange={(e) => setProposito(e.target.value)} />
+                <label className="form-label">Propósito del Seguimiento</label>
+                <select className="form-select" value={proposito} onChange={(e) => setProposito(e.target.value)}>
+                    <option value="">Seleccione un propósito</option>
+                    <option value="Atención al cliente">Atención al cliente</option>
+                    <option value="Fidelización">Fidelización</option>
+                    <option value="Venta adicional (Up-selling)">Venta adicional (Up-selling)</option>
+                    <option value="Venta cruzada (Cross-selling)">Venta cruzada (Cross-selling)</option>
+                    <option value="Seguimiento post-venta">Seguimiento post-venta</option>
+                    <option value="Renovación de contratos o servicios">Renovación de contratos o servicios</option>
+                    <option value="Reactivación de clientes inactivos">Reactivación de clientes inactivos</option>
+                    <option value="Recoger feedback">Recoger feedback</option>
+                    <option value="Confirmación de eventos, citas o reprogramación">Confirmación de eventos, citas o reprogramación</option>
+                </select>
             </div>
+
 
             <div className="col-md-12">
                 <label className="form-label">Resultado</label>
-                <input type="text" className="form-control" value={resultado} onChange={(e) => setResultado(e.target.value)} />
+                <select className="form-select" value={resultado} onChange={(e) => setResultado(e.target.value)}>
+                    <option value="">Seleccione un resultado</option>
+                    <option value="No respondió">No respondió</option>
+                    <option value="Respondió">Respondió</option>
+                    <option value="Reprogramación">Reprogramación</option>
+                    <option value="Negociación de condiciones">Negociación de condiciones</option>
+                    <option value="Solicitud de más información">Solicitud de más información</option>
+                    <option value="Otro">Otro</option>
+
+                </select>
             </div>
+
 
             <div className="col-12">
                 <label className="form-label">Comentario</label>
