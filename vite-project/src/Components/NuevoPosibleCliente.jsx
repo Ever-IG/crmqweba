@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
+  const { children, value, index } = props;
 
   return (
     <div
@@ -17,7 +17,6 @@ function CustomTabPanel(props) {
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
     >
       {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
@@ -108,8 +107,12 @@ export default function NuevoPosibleCliente() {
         });
         toast.success('Posible Cliente agregado correctamente');
       })
-      .catch(error => console.error('Error:', error));
+      .catch(error => {
+        console.error('Error:', error);
+        toast.error('Error al agregar el posible cliente');
+      });
   };
+
   const handleCancel = () => {
     navigate('/posiblecliente'); 
   };
@@ -118,7 +121,7 @@ export default function NuevoPosibleCliente() {
     <div className="NuevoPosibleCliente">
       <div className="form-container">
         <ToastContainer />
-        <h2 className="mb-4">Agregar Posible Cliente </h2>
+        <h2 className="mb-4">Agregar Posible Cliente</h2>
         <form onSubmit={handleSubmit}>
           <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -133,7 +136,7 @@ export default function NuevoPosibleCliente() {
               <div className="row g-3">
                 <div className="col-md-5">
                   <div className="form-group mb-3">
-                    <label htmlFor="POC_nombre">Nombre<span style={{ color: 'red', fontFamily: 'Roboto, Helvetica, Arial, sans-serif' }}>*</span></label>
+                    <label htmlFor="POC_nombre">Nombre<span style={{ color: 'red' }}>*</span></label>
                     <input
                       type="text"
                       className="form-control"
@@ -141,6 +144,7 @@ export default function NuevoPosibleCliente() {
                       name="POC_nombre"
                       value={newPosibleCliente.POC_nombre}
                       onChange={handleChangeInput}
+                      required
                     />
                   </div>
                 </div>
@@ -206,6 +210,7 @@ export default function NuevoPosibleCliente() {
                       name="POC_correo_electronico"
                       value={newPosibleCliente.POC_correo_electronico}
                       onChange={handleChangeInput}
+                      required
                     />
                   </div>
                 </div>
@@ -227,7 +232,6 @@ export default function NuevoPosibleCliente() {
               </div>
             </CustomTabPanel>
 
-            {/* Pestaña Dirección */}
             <CustomTabPanel value={value} index={1}>
               <div className="row g-3">
                 <div className="col-md-8">
@@ -297,6 +301,7 @@ export default function NuevoPosibleCliente() {
                 </div>
               </div>
             </CustomTabPanel>
+<<<<<<< HEAD
             
             <CustomTabPanel value={value} index={2}>
               <div className="row g-3">
@@ -368,21 +373,25 @@ export default function NuevoPosibleCliente() {
                   </div>
                 </div>
               </div>
+=======
+
+            <CustomTabPanel value={value} index={2}>
+              {/* Aquí debes agregar los campos correspondientes para "Contactos Adicionales" */}
+>>>>>>> origin/Bechy
             </CustomTabPanel>
           </Box>
 
-          {/* Div para los botones fijos */}
           <div className="fixed-bottom-button">
-          <button type="button" className="btn btn-secondary me-2" onClick={handleCancel}>
+            <button type="button" className="btn btn-secondary me-2" onClick={handleCancel}>
               Cancelar
             </button>
             <button type="submit" className="btn btn-primary"
             style={{ backgroundColor: '#8E0D3C', color: '#ffffff' }}>
-                Agregar
+              Agregar
             </button>
           </div>
         </form>
       </div>
     </div>
   );
-}
+};

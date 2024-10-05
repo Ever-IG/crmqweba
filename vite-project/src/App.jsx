@@ -10,11 +10,14 @@ import NuevoCliente from './Components/NuevoCliente';
 import NuevoProveedor from './Components/NuevoProveedor';
 import NuevoPosibleCliente from './Components/NuevoPosibleCliente';
 import VerServicio from './Components/VerServicio';
-import PosibleCliente from './Components/PosibleCliente';
-import VerCliente from './Components/VerCliente';
+import VerPosibleCliente from './Components/VerPosibleCliente';
+import VerCliente from './Components/VerCliente1';
 import NuevoServicio from './Components/NuevoServicio';
-import VerProveedor from './Components/VerProveedor';
+import VerProveedor from './Components/VerProveedor1';
 import MenuOpciones from './Components/MenuOpciones';
+import Seguimiento from './Components/NuevoSeguimiento';
+import NuevaQueja from './Components/NuevaQueja';
+import VerQueja from './Components/VerQueja';
 import ConvertirPaC from './Components/ConvertirPaC';
 import VerSeguimiento from './Components/VerSeguimiento';
 const { Header, Sider } = Layout;
@@ -103,13 +106,16 @@ function App() {
             <Route path="/NuevoProveedor" element={<NuevoProveedor />} />
             <Route path="/VerProveedor" element={<VerProveedor />} />
             <Route path="/NuevoPosibleCliente" element={<NuevoPosibleCliente />} />
-            <Route path="/PosibleCliente" element={<PosibleCliente />} />
+            <Route path="/PosibleCliente" element={<VerPosibleCliente />} />
             <Route path="/MenuOpciones" element={<MenuOpciones />} />
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />
             <Route path='/VerSeguimiento' element ={<VerSeguimiento />}/>
             <Route path='/ConvertirPaC' element ={<ConvertirPaC />}/>
+            <Route path='/Seguimiento' element ={<Seguimiento />}/>
+            <Route path='/NuevaQueja' element ={<NuevaQueja />}/>
+            <Route path='/VerQueja' element ={<VerQueja />}/>
           </Routes>
         </Layout>
             

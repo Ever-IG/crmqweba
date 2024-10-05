@@ -113,6 +113,173 @@ function PosibleCliente() {
     setPosiblesClientes(prevClientes => prevClientes.filter(cliente => cliente.poC_id !== id));
   };
 
+<<<<<<< HEAD:vite-project/src/Components/PosibleCliente.jsx
+=======
+  const handleUpdate = (posibleclienteId, updatedPosibleCliente) => {
+    const updatedData = data.map(posiblecliente =>
+      posiblecliente.poC_id === posibleclienteId ? updatedPosibleCliente : posiblecliente
+    );
+    setData(updatedData);
+    setShowModal(false);  // Cerrar el modal
+  };
+
+  const handleDelete = (id) => {
+    Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger me-4'
+      },
+      buttonsStyling: false
+    });
+
+    swalWithBootstrapButtons.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminarlo!",
+      cancelButtonText: "No, cancelar!",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch('https://localhost:7228/api/PosibleCliente/${id}', {
+          method: 'DELETE'
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Error al eliminar el posible cliente');
+            }
+            setData(data.filter(posiblecliente => posiblecliente.poC_id !== id));
+            swalWithBootstrapButtons.fire(
+              '¡Eliminado!',
+              'El posible cliente ha sido eliminado.',
+              'success'
+            );
+          })
+          .catch(error => {
+            console.error('Error deleting client:', error);
+            swalWithBootstrapButtons.fire(
+              'Error',
+              'Hubo un problema al eliminar el cliente.',
+              'error'
+            );
+          });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        swalWithBootstrapButtons.fire(
+          'Cancelado',
+          'El posible cliente está a salvo :)',
+          'error'
+        );
+      }
+    });
+  };
+
+  //here
+  const handleMenuClick = (event, record) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedOption(record);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      textAlign: 'center'
+    }}>Error al obtener los datos, vuelve a intentarlo</div>;
+  }
+
+  const columns = [
+    {
+      title: 'Nombre',
+      dataIndex: 'poC_nombre',
+      key: 'poC_nombre',
+      render: (text, record) => (
+        <Link to={{}}>{text}</Link>
+      ),
+    },
+    {
+      title: 'Apellido',
+      dataIndex: 'poC_apellido',
+      key: 'poC_apellido',
+    },
+    {
+      title: 'Empresa',
+      dataIndex: 'poC_empresa',
+      key: 'poC_empresa',
+    },
+    {
+      title: 'NIT',
+      dataIndex: 'poC_nit',
+      key: 'poC_nit',
+    },
+    {
+      title: 'Correo electrónico',
+      dataIndex: 'poC_correo_electronico',
+      key: 'poC_correo_electronico',
+    },
+    {
+      title: 'Teléfono',
+      dataIndex: 'poC_telefono',
+      key: 'poC_telefono',
+    },
+    {
+      title: 'Acciones',
+      key: 'actions',
+      render: (text, record) => (
+        <Link to={{}}>Convertir a cliente</Link>
+      ),
+    },
+    {
+      title: 'Opciones',
+      key: 'acciones',
+      render: (text, record) => (
+        <div>
+          <IconButton
+            aria-label="more"
+            aria-controls="long-menu"
+            aria-haspopup="true"
+            onClick={(event) => handleMenuClick(event, record)}
+          >
+            <MoreVertIcon />
+          </IconButton>
+          <Menu
+            id="long-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={open && selectedOption === record}
+            onClose={handleCloseMenu}
+            PaperProps={{
+              style: {
+                maxHeight: ITEM_HEIGHT * 4.5,
+                width: '20ch',
+              },
+            }}
+          >
+            <MenuItem onClick={() => {
+              handleEdit(record.poC_id);
+              handleCloseMenu();
+            }}>Editar</MenuItem>
+            <MenuItem onClick={() => {
+              handleDelete(record.poC_id);
+              handleCloseMenu();
+            }}>Eliminar</MenuItem>
+          </Menu>
+        </div>
+      ),
+    },
+  ];
+
+>>>>>>> origin/Bechy:vite-project/src/Components/VerPosibleCliente.jsx
   return (
     <Box sx={{ width: '100%' }}>
       <header className="header-vista">

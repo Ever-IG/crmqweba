@@ -108,8 +108,10 @@ function NuevoCliente() {
         <div className="NuevoCliente">
         <div className="form-container">
         <form className="row g-3" onSubmit={handleSubmit}>
+        <center><label> <h3> AGREGAR NUEVO CLIENTE </h3> </label> </center>
             {/* Formulario con campos */}
-            <div className="col-md-4">
+            <div className="col-md-6">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_nombre" className="form-label">Nombre</label>
                 <input
                     type="text"
@@ -119,7 +121,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="col-md-4">
+            </div>
+
+            <div className="col-md-6">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_apellido" className="form-label">Apellido</label>
                 <input
                     type="text"
@@ -129,7 +134,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="col-md-8">
+            </div>
+
+            <div className="col-md-5">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_empresa" className="form-label">Empresa</label>
                 <input
                     type="text"
@@ -139,7 +147,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="col-md-4">
+            </div>
+
+            <div className="col-md-3">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_nit" className="form-label">NIT</label>
                 <input
                     type="text"
@@ -149,7 +160,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
+            </div>
+
             <div className="col-md-4">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_dpi" className="form-label">DPI</label>
                 <input
                     type="text"
@@ -159,7 +173,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
+            </div>
+
             <div className="col-md-8">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_correo_electronico" className="form-label">Correo Electrónico</label>
                 <input
                     type="email"
@@ -169,7 +186,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="col-md-8">
+            </div>
+
+            <div className="col-md-4">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_telefono" className="form-label">Teléfono</label>
                 <input
                     type="text"
@@ -181,7 +201,10 @@ function NuevoCliente() {
                     title="Número de teléfono de 8 dígitos"
                 />
             </div>
+            </div>
+
             <div className="col-md-8">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_correo_electronico_secundario" className="form-label">Correo Electrónico Secundario</label>
                 <input
                     type="email"
@@ -191,7 +214,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="col-md-8">
+            </div>
+
+            <div className="col-md-4">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_telefono_secundario" className="form-label">Teléfono Secundario</label>
                 <input
                     type="text"
@@ -203,7 +229,10 @@ function NuevoCliente() {
                     title="Número de teléfono de 8 dígitos"
                 />
             </div>
-            <div className="col-12">
+            </div>
+
+            <div className="col-md-8">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_didreccion" className="form-label">Dirección</label>
                 <input
                     type="text"
@@ -214,7 +243,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="col-12">
+            </div>
+
+            <div className="col-md-4">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_departamento" className="form-label">Departamento</label>
                 <input
                     type="text"
@@ -224,7 +256,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="col-md-6">
+            </div>
+
+            <div className="col-md-4">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_municipio" className="form-label">Municipio</label>
                 <input
                     type="text"
@@ -234,7 +269,10 @@ function NuevoCliente() {
                     onChange={handleChange}
                 />
             </div>
-            <div className="col-md-2">
+            </div>
+
+            <div className="col-md-3">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_codigo_postal" className="form-label">Código Postal</label>
                 <input
                     type="number"
@@ -246,7 +284,10 @@ function NuevoCliente() {
                     max="99999"
                 />
             </div>
+            </div>
+
             <div className="col-md-4">
+            <div className="form-group mb-3">
                 <label htmlFor="CLI_pais" className="form-label">País</label>
                 <select
                     name="CLI_pais"
@@ -259,8 +300,12 @@ function NuevoCliente() {
                     <option value="MX">México</option>
                 </select>
             </div>
-            <div className="col-12">
+            </div>
+
+            <div className="col sm-12">
+            <div className="form-group mb-3">
                 <button type="submit" className="btn btn-primary">Agregar Cliente</button>
+            </div>
             </div>
             <ToastContainer />
         </form>
