@@ -15,6 +15,7 @@ import VerCliente from './Components/VerCliente';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor';
 import MenuOpciones from './Components/MenuOpciones';
+import Cotizacion from './Components/Cotizacion';
 
 const { Header, Sider } = Layout;
 
@@ -107,6 +108,7 @@ function App() {
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />
+            <Route path="/Cotizacion" element={<Cotizacion />} />
           </Routes>
         </Layout>
       </Layout>
