@@ -11,11 +11,13 @@ import NuevoProveedor from './Components/NuevoProveedor';
 import NuevoPosibleCliente from './Components/NuevoPosibleCliente';
 import VerServicio from './Components/VerServicio';
 import VerPosibleCliente from './Components/VerPosibleCliente';
-import VerCliente1 from './Components/VerCliente1';
+import VerCliente from './Components/VerCliente1';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor1';
 import MenuOpciones from './Components/MenuOpciones';
 import Seguimiento from './Components/NuevoSeguimiento';
+import NuevaQueja from './Components/NuevaQueja';
+import VerQueja from './Components/VerQueja';
 const { Header, Sider } = Layout;
 
 function App() {
@@ -108,6 +110,8 @@ function App() {
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />
             <Route path='/Seguimiento' element ={<Seguimiento />}/>
+            <Route path='/NuevaQueja' element ={<NuevaQueja />}/>
+            <Route path='/VerQueja' element ={<VerQueja />}/>
           </Routes>
         </Layout>
             
