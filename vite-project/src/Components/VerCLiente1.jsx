@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import NuevaQueja from './NuevaQueja'; 
 
 const ITEM_HEIGHT = 48;
 
@@ -174,7 +175,7 @@ function Cliente() {
       title: 'Acciones',
       key: 'actions',
       render: (text, record) => (
-        <Link to={{}}>Convertir a cliente</Link>
+        <Link to="/NuevaQueja">Crear Queja</Link>
       ),
     },
     {
