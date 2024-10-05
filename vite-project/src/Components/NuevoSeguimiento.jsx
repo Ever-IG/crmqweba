@@ -43,15 +43,15 @@ const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSe
 
     const obtenerClientes = () => {
         fetch('https://localhost:7228/api/Cliente')
-            .then(response => response.json())
-            .then(data => {
-                const clientesConNombreCompleto = data.map(cliente => ({
-                    ...cliente,
-                    nombreCompleto: `${cliente.clI_nombre} ${cliente.clI_apellido}` // Concatenar nombre y apellido
-                }));
-                setLista(clientesConNombreCompleto);
-            })
-            .catch(error => console.error('Error fetching clients:', error));
+                .then(response => response.json())
+                .then(data => {
+                    const clientesConNombreCompleto = data.map(cliente => ({
+                        ...cliente,
+                        nombreCompleto: `${cliente.clI_nombre} ${cliente.clI_apellido}` // Concatenar nombre y apellido
+                    }));
+                    setLista(clientesConNombreCompleto);
+                })
+                .catch(error => console.error('Error fetching clients:', error));
     };
 
     const obtenerPosiblesClientes = () => {

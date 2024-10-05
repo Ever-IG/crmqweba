@@ -34,7 +34,7 @@ function ConvertirPaC({ posibleCliente, onClienteConvertido }) {
       cli_imagenurl: posibleCliente.poC_imagenurl,
       cve_id: posibleCliente.cve_id || 1
     };
-
+  
     const response = await fetch('https://localhost:7228/api/Cliente', {
       method: 'POST',
       headers: {
@@ -42,20 +42,15 @@ function ConvertirPaC({ posibleCliente, onClienteConvertido }) {
       },
       body: JSON.stringify(nuevoCliente),
     });
-
-    if (!response.ok) {
-      if (response.status === 400) {
-        throw new Error('Datos inválidos, por favor revisa la información.');
-      } else if (response.status === 500) {
-        throw new Error('Error interno del servidor.');
-      } else {
-        throw new Error('Error desconocido al agregar el cliente.');
-      }
+  
+    if (response.status === 201) { // Cliente creado exitosamente
+      const contentType = response.headers.get('Content-Type');
+      return contentType && contentType.includes('application/json') ? await response.json() : {}; // Devolver el cliente creado
+    } else if (!response.ok) {
+      throw new Error('Error al agregar el cliente.');
     }
-
-    const contentType = response.headers.get('Content-Type');
-    return contentType && contentType.includes('application/json') ? await response.json() : {};
   };
+  
 
   const actualizarEstadoPosibleCliente = async (posibleCliente) => {
     const clienteActualizado = {
@@ -75,11 +70,11 @@ function ConvertirPaC({ posibleCliente, onClienteConvertido }) {
       poC_fuente_de_posible_cliente: posibleCliente.poC_fuente_de_posible_cliente,
       poC_imagenurl: posibleCliente.poC_imagenurl,
       poC_municipio: posibleCliente.poC_municipio,
-      poC_codigo_postal: posibleCliente.poC_codigo_postal,  
-      cvE_id: posibleCliente.cve_id || 1,    
+      poC_codigo_postal: posibleCliente.poC_codigo_postal,
+      cvE_id: posibleCliente.cve_id || 1,
       poC_estado_de_posible_cliente: 'Cliente', // Cambiar el estado a 'Cliente'
     };
-
+  
     const response = await fetch(`https://localhost:7228/api/PosibleCliente/${posibleCliente.poC_id}`, {
       method: 'PUT',
       headers: {
@@ -87,48 +82,54 @@ function ConvertirPaC({ posibleCliente, onClienteConvertido }) {
       },
       body: JSON.stringify(clienteActualizado),
     });
-
-    if (!response.ok) {
-      if (response.status === 400) {
-        throw new Error('Error en los datos enviados.');
-      } else if (response.status === 404) {
-        throw new Error('Posible cliente no encontrado.');
-      } else if (response.status === 500) {
-        throw new Error('Error interno del servidor.');
-      } else {
-        throw new Error('Error al actualizar el estado del posible cliente.');
-      }
+  
+    if (response.status === 204) { // Actualización exitosa sin contenido
+      return {}; // No hay respuesta que procesar
+    } else if (!response.ok) {
+      throw new Error('Error al actualizar el estado del posible cliente.');
     }
-
-    const contentType = response.headers.get('Content-Type');
-    return contentType && contentType.includes('application/json') ? await response.json() : {};
   };
-
+  
   // Función para convertir a cliente
   const convertirACliente = async () => {
-    try {
-      // Validar los datos del posible cliente antes de la conversión
-      if (!validarPosibleCliente(posibleCliente)) {
-        return; // Si la validación falla, se interrumpe la conversión
+    const confirmacion = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "El posible cliente será convertido a cliente.",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, convertirlo',
+      cancelButtonText: 'Cancelar'
+    });
+  
+    if (confirmacion.isConfirmed) {
+      try {
+        if (!validarPosibleCliente(posibleCliente)) {
+          return;
+        }
+  
+        // Crear cliente
+        await agregarCliente(posibleCliente);
+  
+        // Actualizar el estado de posible cliente a "Cliente"
+        await actualizarEstadoPosibleCliente(posibleCliente);
+  
+        // Mensaje de éxito
+        Swal.fire('Éxito', 'El posible cliente ha sido convertido exitosamente', 'success');
+  
+        // Actualizar la lista de posibles clientes en el componente padre
+        onClienteConvertido(posibleCliente.poC_id);
+  
+      } catch (error) {
+        console.error('Error al convertir a cliente:', error);
+        Swal.fire('Error', error.message || 'Hubo un problema al convertir el posible cliente', 'error');
       }
-
-      // Llamar a la función para agregar el cliente
-      await agregarCliente(posibleCliente);
-
-      // Actualizar el estado del posible cliente
-      await actualizarEstadoPosibleCliente(posibleCliente);
-
-      // Mostrar un único mensaje de éxito al finalizar todo el proceso
-      Swal.fire('Éxito', 'El posible cliente ha sido convertido exitosamente', 'success');
-
-      // Llamar al callback para actualizar la lista de posibles clientes en el componente padre
-      onClienteConvertido(posibleCliente.poC_id);
-
-    } catch (error) {
-      console.error('Error al convertir a cliente:', error);
-      Swal.fire('Error', error.message || 'Hubo un problema al convertir el posible cliente', 'error');
+    } else {
+      Swal.fire('Cancelado', 'La conversión fue cancelada.', 'info');
     }
   };
+  
 
   return (
     <Button 

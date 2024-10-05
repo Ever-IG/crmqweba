@@ -15,8 +15,8 @@ import VerCliente from './Components/VerCliente';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor';
 import MenuOpciones from './Components/MenuOpciones';
-import Seguimiento from './Components/NuevoSeguimiento';
 import ConvertirPaC from './Components/ConvertirPaC';
+import VerSeguimiento from './Components/VerSeguimiento';
 const { Header, Sider } = Layout;
  
 function App() {
@@ -108,7 +108,7 @@ function App() {
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />
-            <Route path='/Seguimiento' element ={<Seguimiento />}/>
+            <Route path='/VerSeguimiento' element ={<VerSeguimiento />}/>
             <Route path='/ConvertirPaC' element ={<ConvertirPaC />}/>
           </Routes>
         </Layout>
