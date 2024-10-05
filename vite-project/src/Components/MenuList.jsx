@@ -1,5 +1,5 @@
 import { Menu } from 'antd';
-import { HomeOutlined, UserOutlined, ContactsOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, ContactsOutlined, ShoppingCartOutlined, CommentOutlined } from '@ant-design/icons';
 import { Link, NavLink } from 'react-router-dom'; // Importamos Link para la navegación
 
 
@@ -13,9 +13,6 @@ const MenuList = ({ darkTheme }) => {
       </Menu.Item>
 
       <SubMenu key="PosiblesClientes" icon={<UserOutlined />} title="Posibles Clientes">
-        <Menu.Item key="5">
-          <Link to="/NuevoPosibleCliente">Nuevo Posible Cliente</Link>
-        </Menu.Item>
         <Menu.Item key="6">
           <Link to="/PosibleCliente">Listado de Posibles Clientes</Link>
         </Menu.Item>
@@ -31,8 +28,8 @@ const MenuList = ({ darkTheme }) => {
         <NavLink to="/VerCliente" activeClassName="active">Ver Cliente</NavLink>
         </Menu.Item>
       </SubMenu>
-      <Menu.Item key="Seguimiento" icon={<HomeOutlined />}> {}
-        <Link to="/Seguimiento">Seguimiento</Link>
+      <Menu.Item key="VerSeguimiento" icon={<CommentOutlined />}> {}
+        <Link to="/VerSeguimiento">Seguimientos</Link>
       </Menu.Item>
       <SubMenu key="Proveedores" icon={<ContactsOutlined />} title="Proveedores">
         <Menu.Item key="8">

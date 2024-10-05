@@ -1,90 +1,122 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Input, Select, DatePicker, message } from 'antd';
 import dayjs from 'dayjs';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Swal from 'sweetalert2';
 
-const dateFormat = 'DD-MM-YYYY'; // Formato de fecha dd-MM-yyyy
+const dateFormat = 'DD-MM-YYYY';
 
-const App = () => {
-    const [form] = Form.useForm();
-    const [opcionSeleccionada, setOpcionSeleccionada] = useState(''); // para almacenar la opción seleccionada
-    const [lista, setLista] = useState([]); // para almacenar la lista de clientes o posibles clientes
-    const [clienteSeleccionado, setClienteSeleccionado] = useState(null); // para almacenar el valor seleccionado
+const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSeguimientos }) => {
+    const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
+    const [lista, setLista] = useState([]);
+    const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
 
-    // Función para obtener clientes desde el API
+    // Nuevos estados para controlar los campos del formulario
+    const [tipoSeguimiento, setTipoSeguimiento] = useState('');
+    const [fechaSeguimiento, setFechaSeguimiento] = useState(dayjs().format('YYYY-MM-DD'));
+    const [asunto, setAsunto] = useState('');
+    const [proposito, setProposito] = useState('');
+    const [resultado, setResultado] = useState('');
+    const [comentario, setComentario] = useState('');
+    const [numeroSeguimiento, setNumeroSeguimiento] = useState('');
+
+    const today = dayjs().format('YYYY-MM-DD');
+
+    // Efecto para cargar los datos en modo edición o generar un nuevo número de seguimiento en modo creación
+    useEffect(() => {
+        if (isEditMode && seguimiento) {
+            setOpcionSeleccionada(seguimiento.clI_id ? 'clientes' : 'posiblesClientes');
+            setClienteSeleccionado(seguimiento.clI_id || seguimiento.poC_id);
+            setTipoSeguimiento(seguimiento.seG_tipo_seguimiento);
+            setFechaSeguimiento(dayjs(seguimiento.seG_fecha_seguimiento).format('YYYY-MM-DD'));
+            setAsunto(seguimiento.seG_asunto);
+            setProposito(seguimiento.seG_proposito_llamada);
+            setResultado(seguimiento.seG_resultado);
+            setComentario(seguimiento.seG_comentario);
+            setNumeroSeguimiento(seguimiento.seG_numero_seguimiento);
+        } else {
+            // Si no es modo edición, generar el número de seguimiento
+            generarNumeroSeguimiento().then((numero) => {
+                setNumeroSeguimiento(numero);
+            });
+        }
+    }, [isEditMode, seguimiento]);
+
     const obtenerClientes = () => {
         fetch('https://localhost:7228/api/Cliente')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al obtener los clientes');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                if (Array.isArray(data)) {
-                    setLista(data);
-                } else {
-                    console.error('Error: Los datos obtenidos no son válidos');
-                }
+                const clientesConNombreCompleto = data.map(cliente => ({
+                    ...cliente,
+                    nombreCompleto: `${cliente.clI_nombre} ${cliente.clI_apellido}` // Concatenar nombre y apellido
+                }));
+                setLista(clientesConNombreCompleto);
             })
             .catch(error => console.error('Error fetching clients:', error));
     };
 
-    // Función para obtener posibles clientes desde el API
     const obtenerPosiblesClientes = () => {
         fetch('https://localhost:7228/api/PosibleCliente')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al obtener los Posibles Clientes');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                if (Array.isArray(data)) {
-                    setLista(data);
-                } else {
-                    console.error('Error: Los datos obtenidos no son válidos');
-                }
+                const posiblesClientesConNombreCompleto = data.map(posibleCliente => ({
+                    ...posibleCliente,
+                    nombreCompleto: `${posibleCliente.poC_nombre} ${posibleCliente.poC_apellido}` // Concatenar nombre y apellido
+                }));
+                setLista(posiblesClientesConNombreCompleto);
             })
             .catch(error => console.error('Error fetching prospects:', error));
     };
 
     useEffect(() => {
-        // Cargar la lista correcta según la opción seleccionada
         if (opcionSeleccionada === 'clientes') {
             obtenerClientes();
         } else if (opcionSeleccionada === 'posiblesClientes') {
             obtenerPosiblesClientes();
         }
-
-        // Resetear el valor seleccionado cuando se cambie entre clientes y posibles clientes
         setClienteSeleccionado(null);
-        form.resetFields(['seleccionaCliente']); // Resetea el campo del select
-    }, [opcionSeleccionada, form]);
+    }, [opcionSeleccionada]);
 
     const handleReset = () => {
-        form.resetFields(); // Resetear todos los campos del formulario
-        setOpcionSeleccionada(''); // Limpiar la opción seleccionada
-        setClienteSeleccionado(null); // Limpiar el cliente seleccionado
-        setLista([]); // Limpiar la lista de clientes/posibles clientes
+        const today = dayjs().format('YYYY-MM-DD');
+        setOpcionSeleccionada('');
+        setClienteSeleccionado(null);
+        setLista([]);
+        setTipoSeguimiento('');
+        setFechaSeguimiento(today);
+        setAsunto('');
+        setProposito('');
+        setResultado('');
+        setComentario('');
+        setNumeroSeguimiento('');
     };
 
-    // Función para manejar el envío del formulario
-    const onFinish = (values) => {
+    const onFinish = async (event) => {
+        event.preventDefault();
+
+        const nuevoNumeroSeguimiento = isEditMode ? numeroSeguimiento : await generarNumeroSeguimiento();
+
         const data = {
-            usU_id: 1, // ID del usuario, se espera que esté definido en los valores del formulario
-            clI_id: opcionSeleccionada === 'clientes' ? values.seleccionaCliente : null,
-            poC_id: opcionSeleccionada === 'posiblesClientes' ? values.seleccionaCliente :null,
-            seG_tipo_seguimiento: values.seG_tipo_seguimiento,
-            seG_fecha_seguimiento: dayjs(values.seG_fecha_seguimiento).toISOString(), 
-            seG_asunto: values.seG_asunto,
-            seG_proposito_llamada: values.seG_proposito_llamada,
-            seG_resultado: values.seG_resultado,
-            seG_comentario: values.seG_comentario
+            usU_id: 1,
+            clI_id: opcionSeleccionada === 'clientes' ? clienteSeleccionado : null,
+            poC_id: opcionSeleccionada === 'posiblesClientes' ? clienteSeleccionado : null,
+            seG_tipo_seguimiento: tipoSeguimiento,
+            seG_fecha_seguimiento: dayjs(fechaSeguimiento).toISOString(),
+            seG_asunto: asunto,
+            seG_proposito_llamada: proposito,
+            seG_resultado: resultado,
+            seG_comentario: comentario,
+            seG_numero_seguimiento: nuevoNumeroSeguimiento,
         };
 
-        fetch('https://localhost:7228/api/Seguimiento', {
-            method: 'POST',
+        // Lógica para actualizar o crear seguimiento
+        const url = isEditMode
+            ? `https://localhost:7228/api/Seguimiento/${seguimiento.seG_id}`
+            : 'https://localhost:7228/api/Seguimiento';
+
+        const method = isEditMode ? 'PUT' : 'POST';
+
+        fetch(url, {
+            method: method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         })
@@ -95,132 +127,169 @@ const App = () => {
                 return response.json();
             })
             .then(() => {
-                message.success('Seguimiento enviado exitosamente');
-                handleReset(); // Limpiar el formulario después de enviar
+                Swal.fire({
+                    title: "Éxito!",
+                    text: isEditMode ? "Seguimiento Actualizado Correctamente!" : "Seguimiento Registrado Correctamente!",
+                    icon: "success",
+                    willOpen: () => {
+                        document.querySelector('.swal2-container').style.zIndex = '3000';
+                    }
+                }).then(() => {
+                    handleCloseModal();
+                    refreshSeguimientos();
+                });
+                handleReset();
             })
             .catch((error) => {
                 console.error('Error al enviar el seguimiento:', error);
-                message.error('Error al enviar el seguimiento');
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Verifica los datos e intenta de nuevo!",
+                    willOpen: () => {
+                        document.querySelector('.swal2-container').style.zIndex = '3000';
+                    }
+                });
             });
     };
 
+    const obtenerUltimoNumeroSeguimiento = async () => {
+        try {
+            const response = await fetch('https://localhost:7228/api/Seguimiento');
+            const data = await response.json();
+    
+            // Asegurarse de que hay datos y obtener el último número correctamente
+            if (data && data.length > 0) {
+                const ultimoSeguimiento = data
+                    .sort((a, b) => {
+                        const numA = parseInt(a.seG_numero_seguimiento.replace('SEG#', ''), 10);
+                        const numB = parseInt(b.seG_numero_seguimiento.replace('SEG#', ''), 10);
+                        return numB - numA;
+                    })[0]; // Obtenemos el último seguimiento (el más alto)
+    
+                return ultimoSeguimiento ? ultimoSeguimiento.seG_numero_seguimiento : null;
+            }
+            return null; // Si no hay datos, retorna null
+        } catch (error) {
+            console.error('Error al obtener el último número de seguimiento:', error);
+            return null;
+        }
+    };
+    
+    const generarNumeroSeguimiento = async () => {
+        const ultimoNumero = await obtenerUltimoNumeroSeguimiento();
+    
+        if (!ultimoNumero) {
+            // Si no existe ningún seguimiento, empezamos con SEG#0001
+            return 'SEG#0001';
+        }
+    
+        // Extraer el número y aumentarlo en 1
+        const numero = parseInt(ultimoNumero.replace('SEG#', ''), 10) + 1;
+    
+        // Verifica que la conversión fue exitosa (que no obtuviste NaN)
+        if (isNaN(numero)) {
+            console.error('Error: No se pudo convertir el último número de seguimiento a un número válido.');
+            return 'SEG#0001'; // Retorna el primer número en caso de error
+        }
+    
+        // Retornar el nuevo número en formato SEG#XXXX
+        return `SEG#${numero.toString().padStart(4, '0')}`;
+    };
+    
+
     return (
-        <Form
-            form={form}
-            scrollToFirstError
-            style={{
-                paddingBlock: 20,
-            }}
-            labelCol={{
-                span: 6,
-            }}
-            wrapperCol={{
-                span: 14,
-            }}
-            onFinish={onFinish} // Se llama cuando se envía el formulario
-        >
-            <Form.Item
-                wrapperCol={{
-                    offset: 6,
-                }}
-            >
-            </Form.Item>
-
-            <Form.Item label="Tipo de Cliente" name="tipo">
-                <Select
+        <form className="row g-3" onSubmit={onFinish}>
+            <div className="col-md-6">
+                <label className="form-label">Número de Seguimiento</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    value={numeroSeguimiento}
+                    readOnly
+                />
+            </div>
+            <div className="col-md-6"></div>
+            <div className="col-md-4">
+                <label className="form-label">Tipo de Cliente</label>
+                <select
+                    className="form-select"
                     value={opcionSeleccionada}
-                    onChange={(value) => setOpcionSeleccionada(value)}
-                    options={[
-                        { label: 'Clientes', value: 'clientes' },
-                        { label: 'Posibles Clientes', value: 'posiblesClientes' }
-                    ]}
+                    onChange={(e) => setOpcionSeleccionada(e.target.value)}
+                >
+                    <option value=""></option>
+                    <option value="clientes">Clientes</option>
+                    <option value="posiblesClientes">Posibles Clientes</option>
+                </select>
+            </div>
+
+            <div className="col-md-8">
+                <label className="form-label">Selecciona</label>
+                <select
+                    className="form-select"
+                    name="clienteSeleccionado"
+                    value={clienteSeleccionado || ''}
+                    onChange={(e) => setClienteSeleccionado(e.target.value)}
+                    disabled={!opcionSeleccionada}
+                >
+                    <option value="">Seleccione un {opcionSeleccionada === 'clientes' ? 'Cliente' : 'Posible Cliente'}</option>
+                    {lista.map((item) => (
+                        <option
+                            key={opcionSeleccionada === 'clientes' ? item.clI_id : item.poC_id}
+                            value={opcionSeleccionada === 'clientes' ? item.clI_id : item.poC_id}
+                        >
+                            {item.nombreCompleto}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            <div className="col-md-6">
+                <label className="form-label">Tipo de Seguimiento</label>
+                <select className="form-select" value={tipoSeguimiento} onChange={(e) => setTipoSeguimiento(e.target.value)} required>
+                    <option value="llamada">Llamada</option>
+                    <option value="correo">Correo</option>
+                    <option value="visita">Visita</option>
+                </select>
+            </div>
+
+            <div className="col-md-6">
+                <label className="form-label">Fecha de Seguimiento</label>
+                <input
+                    type="date"
+                    className="form-control"
+                    value={fechaSeguimiento}
+                    onChange={(e) => setFechaSeguimiento(e.target.value)}
+                    max={today}
                 />
-            </Form.Item>
+            </div>
 
-            <Form.Item label="Selecciona" name="seleccionaCliente">
-                <Select
-                    showSearch // Habilita la búsqueda
-                    placeholder="Seleccione un cliente" // Placeholder
-                    optionFilterProp="children" // Filtra las opciones basadas en su texto
-                    filterOption={(input, option) =>
-                        option?.label?.toLowerCase().includes(input.toLowerCase()) // Función de filtrado
-                    }
-                    value={clienteSeleccionado} // Valor controlado
-                    onChange={(value) => setClienteSeleccionado(value)} // Cambiar el valor seleccionado
-                    options={lista?.map((item) => ({
-                        label: opcionSeleccionada === 'clientes' ? item.clI_nombre : item.poC_nombre,
-                        value: opcionSeleccionada === 'clientes' ? item.clI_id : item.poC_id
-                    }))}
-                    disabled={!opcionSeleccionada} // Deshabilitar si no se ha seleccionado un tipo
-                />
-            </Form.Item>
+            <div className="col-12">
+                <label className="form-label">Asunto</label>
+                <textarea className="form-control" value={asunto} onChange={(e) => setAsunto(e.target.value)} rows="2"></textarea>
+            </div>
 
-            <Form.Item
-                name="seG_tipo_seguimiento"
-                label="Tipo de seguimiento"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Por favor selecciona el tipo de seguimiento',
-                    },
-                ]}
-            >
-                <Select placeholder="Selecciona un tipo de seguimiento">
-                    <Select.Option value="llamada">Llamada</Select.Option>
-                    <Select.Option value="correo">Correo</Select.Option>
-                    <Select.Option value="visita">Visita</Select.Option>
-                </Select>
-            </Form.Item>
+            <div className="col-md-12">
+                <label className="form-label">Propósito de la Llamada</label>
+                <input type="text" className="form-control" value={proposito} onChange={(e) => setProposito(e.target.value)} />
+            </div>
 
-            <Form.Item
-                name="seG_fecha_seguimiento"
-                label="Fecha de seguimiento"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Por favor selecciona una fecha',
-                    },
-                ]}
-            >
-                <DatePicker format={dateFormat} />
-            </Form.Item>
+            <div className="col-md-12">
+                <label className="form-label">Resultado</label>
+                <input type="text" className="form-control" value={resultado} onChange={(e) => setResultado(e.target.value)} />
+            </div>
 
-            <Form.Item name="seG_asunto" label="Asunto">
-                <Input.TextArea rows={2} />
-            </Form.Item>
-            <Form.Item name="seG_proposito_llamada" label="Proposito de llamada">
-                <Input />
-            </Form.Item>
-            <Form.Item name="seG_resultado" label="Resultado">
-                <Input />
-            </Form.Item>
-            <Form.Item
-                name="seG_comentario"
-                label="Comentario"
-                rules={[
-                    {
-                        required: true,
-                        message: 'Por favor añade un comentario',
-                    },
-                ]}
-            >
-                <Input.TextArea rows={4} />
-            </Form.Item>
+            <div className="col-12">
+                <label className="form-label">Comentario</label>
+                <textarea className="form-control" value={comentario} onChange={(e) => setComentario(e.target.value)} rows="4"></textarea>
+            </div>
 
-            <Form.Item
-                wrapperCol={{
-                    offset: 6,
-                }}
-            >
-                <Button type="primary" htmlType="submit">
-                    Submit
-                </Button>
-                <Button danger onClick={handleReset} style={{ marginLeft: 8 }}>
-                    Reset
-                </Button>
-            </Form.Item>
-        </Form>
+            <div className="col-12">
+                <button type="submit" className="btn btn-primary">{isEditMode ? 'Actualizar' : 'Guardar'}</button>
+                <button type="button" className="btn btn-danger ms-2" onClick={handleReset}>Limpiar</button>
+            </div>
+        </form>
     );
 };
 
-export default App;
+export default NuevoSeguimiento;

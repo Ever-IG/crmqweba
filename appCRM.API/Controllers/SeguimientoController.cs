@@ -73,6 +73,7 @@ namespace appCRM.API.Controllers
             existingSeguimiento.SEG_proposito_llamada = seguimiento.SEG_proposito_llamada;
             existingSeguimiento.SEG_resultado = seguimiento.SEG_resultado;
             existingSeguimiento.SEG_comentario = seguimiento.SEG_comentario;
+            existingSeguimiento.SEG_numero_seguimiento = seguimiento.SEG_numero_seguimiento;
 
             _seguimientoService.UpdateSeguimiento(existingSeguimiento);
 

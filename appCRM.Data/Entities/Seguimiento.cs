@@ -12,6 +12,7 @@ namespace appCRM.Data.Entities
         public string SEG_proposito_llamada { get; set; }
         public string SEG_resultado { get; set; }
         public string SEG_comentario { get; set; }
+        public string SEG_numero_seguimiento{ get; set; }
 
         // Método de validación
         public bool EsValido()

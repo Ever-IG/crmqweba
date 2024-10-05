@@ -16,6 +16,8 @@ import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor';
 import MenuOpciones from './Components/MenuOpciones';
 import Seguimiento from './Components/NuevoSeguimiento';
+import VerSeguimientos from './Components/VerSeguimiento';
+import NuevoSeguimiento from './Components/NuevoSeguimiento';
 const { Header, Sider } = Layout;
 
 function App() {
@@ -107,7 +109,8 @@ function App() {
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />
-            <Route path='/Seguimiento' element ={<Seguimiento />}/>
+            <Route path='/VerSeguimiento' element ={<VerSeguimientos />}/>
+            <Route path='/NuevoSeguimiento' element ={<NuevoSeguimiento />}/>
           </Routes>
         </Layout>
             
