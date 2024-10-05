@@ -301,7 +301,6 @@ export default function NuevoPosibleCliente() {
                 </div>
               </div>
             </CustomTabPanel>
-<<<<<<< HEAD
             
             <CustomTabPanel value={value} index={2}>
               <div className="row g-3">
@@ -373,11 +372,6 @@ export default function NuevoPosibleCliente() {
                   </div>
                 </div>
               </div>
-=======
-
-            <CustomTabPanel value={value} index={2}>
-              {/* Aquí debes agregar los campos correspondientes para "Contactos Adicionales" */}
->>>>>>> origin/Bechy
             </CustomTabPanel>
           </Box>
 
