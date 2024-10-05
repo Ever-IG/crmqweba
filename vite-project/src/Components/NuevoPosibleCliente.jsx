@@ -7,6 +7,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
 function CustomTabPanel(props) {
   const { children, value, index } = props;
@@ -105,7 +106,7 @@ export default function NuevoPosibleCliente() {
           POC_correo_electronico_secundario: '', POC_telefono_secundario: '', POC_direccion: '',
           POC_departamento: '', POC_municipio: '', POC_codigo_postal: '', POC_pais: '', POC_imagenurl: '', CVE_id: ''
         });
-        toast.success('Posible Cliente agregado correctamente');
+        Swal.fire('¡Éxito!', 'Cliente agregado correctamente', 'success');
       })
       .catch(error => {
         console.error('Error:', error);
@@ -114,7 +115,7 @@ export default function NuevoPosibleCliente() {
   };
 
   const handleCancel = () => {
-    navigate('/posiblecliente'); 
+    navigate('/posiblecliente');
   };
 
   return (
@@ -128,7 +129,7 @@ export default function NuevoPosibleCliente() {
               <Tabs value={value} onChange={handleChangeTab} aria-label="Tabs">
                 <Tab label="Información Principal" {...a11yProps(0)} />
                 <Tab label="Dirección" {...a11yProps(1)} />
-                <Tab label="Contactos Adicionales" {...a11yProps(2)} />
+                <Tab label="Información Adicional" {...a11yProps(2)} />
               </Tabs>
             </Box>
 
@@ -234,7 +235,7 @@ export default function NuevoPosibleCliente() {
 
             <CustomTabPanel value={value} index={1}>
               <div className="row g-3">
-                <div className="col-md-8">
+                <div className="col-md-12">
                   <div className="form-group mb-3">
                     <label htmlFor="POC_direccion">Dirección</label>
                     <input
@@ -250,17 +251,40 @@ export default function NuevoPosibleCliente() {
                 <div className="col-md-4">
                   <div className="form-group mb-3">
                     <label htmlFor="POC_departamento">Departamento</label>
-                    <input
-                      type="text"
+                    <select
                       className="form-control"
                       id="POC_departamento"
                       name="POC_departamento"
                       value={newPosibleCliente.POC_departamento}
                       onChange={handleChangeInput}
-                    />
+                    >
+                      <option value="Guatemala">Guatemala</option>
+                      <option value="Alta Verapaz">Alta Verapaz</option>
+                      <option value="Baja Verapaz">Baja Verapaz</option>
+                      <option value="Chimaltenango">Chimaltenango</option>
+                      <option value="Chiquimula">Chiquimula</option>
+                      <option value="El Progreso">El Progreso</option>
+                      <option value="Escuintla">Escuintla</option>
+                      <option value="Huehuetenango">Huehuetenango</option>
+                      <option value="Izabal">Izabal</option>
+                      <option value="Jalapa">Jalapa</option>
+                      <option value="Jutiapa">Jutiapa</option>
+                      <option value="Petén">Petén</option>
+                      <option value="Quetzaltenango">Quetzaltenango</option>
+                      <option value="Quiché">Quiché</option>
+                      <option value="Retalhuleu">Retalhuleu</option>
+                      <option value="Sacatepéquez">Sacatepéquez</option>
+                      <option value="San Marcos">San Marcos</option>
+                      <option value="Santa Rosa">Santa Rosa</option>
+                      <option value="Sololá">Sololá</option>
+                      <option value="Suchitepéquez">Suchitepéquez</option>
+                      <option value="Totonicapán">Totonicapán</option>
+                      <option value="Zacapa">Zacapa</option>
+                    </select>
                   </div>
                 </div>
-                <div className="col-md-4">
+
+                <div className="col-md-8">
                   <div className="form-group mb-3">
                     <label htmlFor="POC_municipio">Municipio</label>
                     <input
@@ -289,85 +313,80 @@ export default function NuevoPosibleCliente() {
                 <div className="col-md-4">
                   <div className="form-group mb-3">
                     <label htmlFor="POC_pais">País</label>
-                    <input
-                      type="text"
+                    <select
                       className="form-control"
                       id="POC_pais"
                       name="POC_pais"
                       value={newPosibleCliente.POC_pais}
                       onChange={handleChangeInput}
-                    />
+
+                    >
+                      <option value="Guatemala">Guatemala</option>
+                    </select>
                   </div>
                 </div>
               </div>
             </CustomTabPanel>
-            
+
             <CustomTabPanel value={value} index={2}>
               <div className="row g-3">
-              <div className="col-md-8">
-    <div className="form-group mb-3">
-        <label htmlFor="POC_estado_de_posible_cliente">Estado</label>
-        <select
-            className="form-control"
-            id="POC_estado_de_posible_cliente"
-            name="POC_estado_de_posible_cliente"
-            value={newPosibleCliente.POC_estado_de_posible_cliente}  // Asegúrate de que el estado esté almacenado en el objeto
-            onChange={handleChangeInput}
-        >
-            <option value="">Seleccioe un estado</option> {/* Opción por defecto */}
-            <option value="Prospecto">Prospecto</option>
-        </select>
-    </div>
-</div>
                 <div className="col-md-4">
                   <div className="form-group mb-3">
-                    <label htmlFor="POC_departamento">Departamento</label>
-                    <input
-                      type="text"
+                    <label htmlFor="POC_estado_de_posible_cliente">Estado</label>
+                    <select
                       className="form-control"
-                      id="POC_departamento"
-                      name="POC_departamento"
-                      value={newPosibleCliente.POC_departamento}
+                      id="POC_estado_de_posible_cliente"
+                      name="POC_estado_de_posible_cliente"
+                      value={newPosibleCliente.POC_estado_de_posible_cliente}
+                      onChange={handleChangeInput}
+                      disabled
+                    >
+                      <option value="Prospecto">Prospecto</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group mb-3">
+                    <label htmlFor="POC_fuente_de_posible_cliente">Fuente de Posible Cliente</label>
+                    <select
+                      className="form-control"
+                      id="POC_fuente_de_posible_cliente"
+                      name="POC_fuente_de_posible_cliente"
+                      value={newPosibleCliente.POC_fuente_de_posible_cliente}
+                      onChange={handleChangeInput}
+
+                    >
+                      <option value="1">Facebook</option>
+                      <option value="3">Instagram</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="col-md-6">
+                  <div className="form-group mb-3">
+                    <label htmlFor="POC_correo_electronico_secundario">Correo Electrónico Secundario</label>
+                    <input
+                      type="email"
+                      className="form-control"
+                      id="POC_correo_electronico_secundario"
+                      name="POC_correo_electronico_secundario"
+                      value={newPosibleCliente.POC_correo_electronico_secundario}
                       onChange={handleChangeInput}
                     />
                   </div>
                 </div>
                 <div className="col-md-4">
                   <div className="form-group mb-3">
-                    <label htmlFor="POC_municipio">Municipio</label>
+                    <label htmlFor="POC_telefono_secundario">Teléfono Secundario</label>
                     <input
                       type="text"
                       className="form-control"
-                      id="POC_municipio"
-                      name="POC_municipio"
-                      value={newPosibleCliente.POC_municipio}
+                      id="POC_telefono_secundario"
+                      name="POC_telefono_secundario"
+                      value={newPosibleCliente.POC_telefono_secundario}
                       onChange={handleChangeInput}
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group mb-3">
-                    <label htmlFor="POC_codigo_postal">Código Postal</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="POC_codigo_postal"
-                      name="POC_codigo_postal"
-                      value={newPosibleCliente.POC_codigo_postal}
-                      onChange={handleChangeInput}
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group mb-3">
-                    <label htmlFor="POC_pais">País</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="POC_pais"
-                      name="POC_pais"
-                      value={newPosibleCliente.POC_pais}
-                      onChange={handleChangeInput}
+                      pattern="[0-9]{8}"
+                      title="Número de teléfono de 8 dígitos"
                     />
                   </div>
                 </div>
@@ -380,7 +399,7 @@ export default function NuevoPosibleCliente() {
               Cancelar
             </button>
             <button type="submit" className="btn btn-primary"
-            style={{ backgroundColor: '#8E0D3C', color: '#ffffff' }}>
+              style={{ backgroundColor: '#8E0D3C', color: '#ffffff' }}>
               Agregar
             </button>
           </div>

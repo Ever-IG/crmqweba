@@ -46,7 +46,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
-    
+
             if (response.status === 204) {
                 // Si la respuesta es 204, no hay cuerpo, simplemente actualizamos con formData
                 handleUpdate(posiblecliente.poC_id, formData);
@@ -69,9 +69,9 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
             Swal.fire('Error', 'Hubo un problema al actualizar el posible cliente', 'error');
         }
     };
-    
 
-    
+
+
     return (
         <form className="row g-3" onSubmit={handleSubmit}>
             <div className="col-md-6">
@@ -85,7 +85,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     required
                 />
             </div>
-    
+
             <div className="col-md-6">
                 <label className="form-label">Apellido</label>
                 <input
@@ -97,7 +97,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     required
                 />
             </div>
-    
+
             <div className="col-md-12">
                 <label className="form-label">Empresa</label>
                 <input
@@ -108,7 +108,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     onChange={handleChange}
                 />
             </div>
-    
+
             <div className="col-md-6">
                 <label className="form-label">NIT</label>
                 <input
@@ -119,7 +119,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     onChange={handleChange}
                 />
             </div>
-    
+
             <div className="col-md-6">
                 <label className="form-label">DPI</label>
                 <input
@@ -130,7 +130,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     onChange={handleChange}
                 />
             </div>
-    
+
             <div className="col-md-6">
                 <label className="form-label">Correo Electrónico</label>
                 <input
@@ -142,7 +142,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     required
                 />
             </div>
-    
+
             <div className="col-md-6">
                 <label className="form-label">Teléfono</label>
                 <input
@@ -155,29 +155,35 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     title="Número de teléfono de 8 dígitos"
                 />
             </div>
-    
+
             <div className="col-md-6">
                 <label className="form-label">Fuente de Posible Cliente</label>
-                <input
-                    type="text"
+                <select
                     className="form-control"
-                    name="poC_fuente_de_posible_cliente"
-                    value={formData.poC_fuente_de_posible_cliente}
+                    id="POC_fuente_de_posible_cliente"
+                    name="POC_fuente_de_posible_cliente"
+                    value={formData.POC_fuente_de_posible_cliente}
                     onChange={handleChange}
-                />
+
+                >
+                    <option value="1">Facebook</option>
+                    <option value="3">Instagram</option>
+                </select>
             </div>
-    
             <div className="col-md-6">
                 <label className="form-label">Estado de Posible Cliente</label>
-                <input
-                    type="text"
+                <select
                     className="form-control"
                     name="poC_estado_de_posible_cliente"
                     value={formData.poC_estado_de_posible_cliente}
                     onChange={handleChange}
-                />
+                >
+                    <option value="Prospecto">Prospecto</option>
+                    <option value="Perdido">Perdido</option>
+                </select>
             </div>
-    
+
+
             <div className="col-md-6">
                 <label className="form-label">Correo Electrónico Secundario</label>
                 <input
@@ -188,7 +194,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     onChange={handleChange}
                 />
             </div>
-    
+
             <div className="col-md-6">
                 <label className="form-label">Teléfono Secundario</label>
                 <input
@@ -201,29 +207,42 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     title="Número de teléfono de 8 dígitos"
                 />
             </div>
-    
-            <div className="col-md-6">
-                <label className="form-label">Dirección</label>
-                <input
-                    type="text"
-                    className="form-control"
-                    name="poC_direccion"
-                    value={formData.poC_direccion}
-                    onChange={handleChange}
-                />
-            </div>
-    
+
+
             <div className="col-md-6">
                 <label className="form-label">Departamento</label>
-                <input
-                    type="text"
+                <select
                     className="form-control"
                     name="poC_departamento"
                     value={formData.poC_departamento}
                     onChange={handleChange}
-                />
+                >
+                    <option value="Guatemala">Guatemala</option>
+                    <option value="Alta Verapaz">Alta Verapaz</option>
+                    <option value="Baja Verapaz">Baja Verapaz</option>
+                    <option value="Chimaltenango">Chimaltenango</option>
+                    <option value="Chiquimula">Chiquimula</option>
+                    <option value="El Progreso">El Progreso</option>
+                    <option value="Escuintla">Escuintla</option>
+                    <option value="Huehuetenango">Huehuetenango</option>
+                    <option value="Izabal">Izabal</option>
+                    <option value="Jalapa">Jalapa</option>
+                    <option value="Jutiapa">Jutiapa</option>
+                    <option value="Petén">Petén</option>
+                    <option value="Quetzaltenango">Quetzaltenango</option>
+                    <option value="Quiché">Quiché</option>
+                    <option value="Retalhuleu">Retalhuleu</option>
+                    <option value="Sacatepéquez">Sacatepéquez</option>
+                    <option value="San Marcos">San Marcos</option>
+                    <option value="Santa Rosa">Santa Rosa</option>
+                    <option value="Sololá">Sololá</option>
+                    <option value="Suchitepéquez">Suchitepéquez</option>
+                    <option value="Totonicapán">Totonicapán</option>
+                    <option value="Zacapa">Zacapa</option>
+                </select>
             </div>
-    
+
+
             <div className="col-md-6">
                 <label className="form-label">Municipio</label>
                 <input
@@ -234,7 +253,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     onChange={handleChange}
                 />
             </div>
-    
+
             <div className="col-md-6">
                 <label className="form-label">Código Postal</label>
                 <input
@@ -245,25 +264,25 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
                     onChange={handleChange}
                 />
             </div>
-    
             <div className="col-md-6">
                 <label className="form-label">País</label>
-                <input
-                    type="text"
+                <select
                     className="form-control"
                     name="poC_pais"
                     value={formData.poC_pais}
                     onChange={handleChange}
-                />
+                >
+                    <option value="Guatemala">Guatemala</option>
+                </select>
             </div>
-    
+
             <div className="col-12 d-flex justify-content-end mt-4">
                 <button type="submit" className="btn btn-primary">Guardar Cambios</button>
                 <button type="button" className="btn btn-danger ms-2" onClick={handleClose}>Cancelar</button>
             </div>
         </form>
     );
-    
+
 }
 
 export default EditarPosibleCliente;

@@ -216,6 +216,7 @@ const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSe
                     className="form-select"
                     value={opcionSeleccionada}
                     onChange={(e) => setOpcionSeleccionada(e.target.value)}
+                    required
                 >
                     <option value=""></option>
                     <option value="clientes">Clientes</option>
@@ -266,7 +267,7 @@ const NuevoSeguimiento = ({ seguimiento, handleCloseModal, isEditMode, refreshSe
 
             <div className="col-12">
                 <label className="form-label">Asunto</label>
-                <textarea className="form-control" value={asunto} onChange={(e) => setAsunto(e.target.value)} rows="2"></textarea>
+                <textarea className="form-control" value={asunto} onChange={(e) => setAsunto(e.target.value)} rows="1"></textarea>
             </div>
 
             <div className="col-md-12">
