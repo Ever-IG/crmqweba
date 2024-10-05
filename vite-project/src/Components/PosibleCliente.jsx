@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ConvertirPaC from './ConvertirPaC'; // Importar componente para convertir
 
 const ITEM_HEIGHT = 48;
 
@@ -22,6 +23,7 @@ function PosibleCliente() {
 
   const open = Boolean(anchorEl);
 
+  // Cargar posibles clientes y filtrar aquellos que ya han sido convertidos a clientes
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -31,7 +33,11 @@ function PosibleCliente() {
         }
         const result = await response.json();
         console.log('API Response:', result);
-        setData(result);
+
+        // Filtrar los posibles clientes cuyo estado no sea "Cliente"
+        const posiblesClientesFiltrados = result.filter(cliente => cliente.poC_estado_de_posible_cliente !== 'Cliente');
+
+        setData(posiblesClientesFiltrados);
       } catch (error) {
         console.error('Error al obtener los datos:', error);
         setError(error);
@@ -70,7 +76,7 @@ function PosibleCliente() {
       buttonsStyling: false
     });
 
-    swalWithBootstrapButtons.fire({
+    Swal.fire({
       title: "¿Estás seguro?",
       text: "¡No podrás revertir esto!",
       icon: "warning",
@@ -80,7 +86,7 @@ function PosibleCliente() {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch('https://localhost:7228/api/PosibleCliente/${id}', {
+        fetch(`https://localhost:7228/api/PosibleCliente/${id}`, {
           method: 'DELETE'
         })
           .then(response => {
@@ -88,7 +94,7 @@ function PosibleCliente() {
               throw new Error('Error al eliminar el posible cliente');
             }
             setData(data.filter(posiblecliente => posiblecliente.poC_id !== id));
-            swalWithBootstrapButtons.fire(
+            Swal.fire(
               '¡Eliminado!',
               'El posible cliente ha sido eliminado.',
               'success'
@@ -96,14 +102,14 @@ function PosibleCliente() {
           })
           .catch(error => {
             console.error('Error deleting client:', error);
-            swalWithBootstrapButtons.fire(
+            Swal.fire(
               'Error',
               'Hubo un problema al eliminar el cliente.',
               'error'
             );
           });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithBootstrapButtons.fire(
+        Swal.fire(
           'Cancelado',
           'El posible cliente está a salvo :)',
           'error'
@@ -119,6 +125,11 @@ function PosibleCliente() {
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+
+  // Actualizar la lista de posibles clientes después de la conversión
+  const handleClienteConvertido = (id) => {
+    setData(data.filter(posiblecliente => posiblecliente.poC_id !== id)); // Actualizar lista
   };
 
   if (loading) {
@@ -173,7 +184,7 @@ function PosibleCliente() {
       title: 'Acciones',
       key: 'actions',
       render: (text, record) => (
-        <Link to={{}}>Convertir a cliente</Link>
+        <ConvertirPaC posibleCliente={record} onClienteConvertido={handleClienteConvertido} />
       ),
     },
     {

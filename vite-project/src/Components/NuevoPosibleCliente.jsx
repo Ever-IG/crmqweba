@@ -299,19 +299,21 @@ export default function NuevoPosibleCliente() {
             </CustomTabPanel>
             <CustomTabPanel value={value} index={2}>
               <div className="row g-3">
-                <div className="col-md-8">
-                  <div className="form-group mb-3">
-                    <label htmlFor="POC_direccion">Dirección</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="POC_direccion"
-                      name="POC_direccion"
-                      value={newPosibleCliente.POC_direccion}
-                      onChange={handleChangeInput}
-                    />
-                  </div>
-                </div>
+              <div className="col-md-8">
+    <div className="form-group mb-3">
+        <label htmlFor="POC_estado_de_posible_cliente">Estado</label>
+        <select
+            className="form-control"
+            id="POC_estado_de_posible_cliente"
+            name="POC_estado_de_posible_cliente"
+            value={newPosibleCliente.POC_estado_de_posible_cliente}  // Asegúrate de que el estado esté almacenado en el objeto
+            onChange={handleChangeInput}
+        >
+            <option value="">Seleccioe un estado</option> {/* Opción por defecto */}
+            <option value="Prospecto">Prospecto</option>
+        </select>
+    </div>
+</div>
                 <div className="col-md-4">
                   <div className="form-group mb-3">
                     <label htmlFor="POC_departamento">Departamento</label>

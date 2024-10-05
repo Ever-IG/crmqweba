@@ -16,8 +16,9 @@ import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor';
 import MenuOpciones from './Components/MenuOpciones';
 import Seguimiento from './Components/NuevoSeguimiento';
+import ConvertirPaC from './Components/ConvertirPaC';
 const { Header, Sider } = Layout;
-
+ 
 function App() {
   const [darkTheme, setDarkTheme] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -108,6 +109,7 @@ function App() {
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />
             <Route path='/Seguimiento' element ={<Seguimiento />}/>
+            <Route path='/ConvertirPaC' element ={<ConvertirPaC />}/>
           </Routes>
         </Layout>
             
