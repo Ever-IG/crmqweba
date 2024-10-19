@@ -209,7 +209,7 @@ function NuevaQueja() {
                                 onChange={handleChange}
                             >
                                 <option value="">Selecciona un estado</option>
-                                <option value="En progreso">En progreso</option>
+                                <option value="En progreso">Capturada</option>
                                 <option value="Cerrada">Cerrada</option>
                                 <option value="Escalada">Escalada</option>
                             </select>

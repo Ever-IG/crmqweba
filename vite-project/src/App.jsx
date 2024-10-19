@@ -18,6 +18,9 @@ import MenuOpciones from './Components/MenuOpciones';
 import Seguimiento from './Components/NuevoSeguimiento';
 import NuevaQueja from './Components/NuevaQueja';
 import VerQueja from './Components/VerQueja';
+import ModalQueja from './Components/ModalQueja';
+import Dashboard from './Components/Dashboard';
+
 import ConvertirPaC from './Components/ConvertirPaC';
 import VerSeguimiento from './Components/VerSeguimiento';
 const { Header, Sider } = Layout;
@@ -116,6 +119,8 @@ function App() {
             <Route path='/Seguimiento' element ={<Seguimiento />}/>
             <Route path='/NuevaQueja' element ={<NuevaQueja />}/>
             <Route path='/VerQueja' element ={<VerQueja />}/>
+            <Route path='/ModalQueja' element ={<ModalQueja />}/>
+            <Route path='/Dashboard' element ={<Dashboard />}/>
           </Routes>
         </Layout>
             
