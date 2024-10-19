@@ -13,12 +13,34 @@ function VerQueja() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://localhost:7228/api/Queja");
-        if (!response.ok) {
-          throw new Error('Error al obtener los Quejas');
+        const responseQuejas = await fetch("https://localhost:7228/api/Queja");
+        if (!responseQuejas.ok) {
+          throw new Error('Error al obtener las quejas');
         }
-        const result = await response.json();
-        setData(result);
+        const responseClientes = await fetch('https://localhost:7228/api/Cliente');
+        if (!responseClientes.ok) {
+          throw new Error('Error al obtener los clientes');
+        }
+
+        const quejasData = await responseQuejas.json();
+        const clientesData = await responseClientes.json();
+
+        // Procesar los datos de quejas y asociar el nombre completo del cliente
+        const processedData = quejasData.map((queja) => {
+          let nombreCompleto = 'Cliente desconocido';
+
+          // Buscar el cliente por su clI_id
+          if (queja.clI_id) {
+            const cliente = clientesData.find((c) => c.clI_id === queja.clI_id);
+            if (cliente) {
+              nombreCompleto = `${cliente.clI_nombre} ${cliente.clI_apellido}`; // Concatenar nombre y apellido
+            }
+          }
+
+          return { ...queja, nombre: nombreCompleto }; // Asignar el nombre completo concatenado
+        });
+
+        setData(processedData);
         setLoading(false);
       } catch (error) {
         setError(error);
@@ -45,63 +67,63 @@ function VerQueja() {
     setShowModal(false);  // Cerrar el modal
   };
 
-// Función para manejar la eliminación
-const handleDelete = (id) => {
-  const swalWithBootstrapButtons = Swal.mixin({
-    customClass: {
-      confirmButton: 'btn btn-success me-2', 
-      cancelButton: 'btn btn-danger me-4'
-    },
-    buttonsStyling: false
-  });
-  // Mostrar el Swal de confirmación
-  swalWithBootstrapButtons.fire({
-    title: "¿Estás seguro?",
-    text: "¡No podrás revertir esto!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Sí, eliminarlo!",
-    cancelButtonText: "No, cancelar!",
-    reverseButtons: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      // Si el usuario confirma, proceder a eliminar
-      fetch(`https://localhost:7228/api/Queja/${id}`, {
-        method: 'DELETE'
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Error al eliminar el Queja');
-        }
+  // Función para manejar la eliminación
+  const handleDelete = (id) => {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success me-2', 
+        cancelButton: 'btn btn-danger me-4'
+      },
+      buttonsStyling: false
+    });
 
-        // Actualizar la lista tras la eliminación
-        setData(data.filter(Queja => Queja.quE_id !== id));
+    // Mostrar el Swal de confirmación
+    swalWithBootstrapButtons.fire({
+      title: "¿Estás seguro?",
+      text: "¡No podrás revertir esto!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminarlo!",
+      cancelButtonText: "No, cancelar!",
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma, proceder a eliminar
+        fetch(https`://localhost:7228/api/Queja/${id}`, {
+          method: 'DELETE'
+        })
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Error al eliminar la queja');
+          }
 
-        // Mostrar mensaje de éxito con Swal
+          // Actualizar la lista tras la eliminación
+          setData(data.filter(Queja => Queja.quE_id !== id));
+
+          // Mostrar mensaje de éxito con Swal
+          swalWithBootstrapButtons.fire(
+            '¡Eliminado!',
+            'La queja ha sido eliminada.',
+            'success'
+          );
+        })
+        .catch(error => {
+          console.error('Error deleting queja:', error);
+          swalWithBootstrapButtons.fire(
+            'Error',
+            'Hubo un problema al eliminar la queja.',
+            'error'
+          );
+        });
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
         swalWithBootstrapButtons.fire(
-          '¡Eliminado!',
-          'El Queja ha sido eliminado.',
-          'success'
-        );
-      })
-      .catch(error => {
-        console.error('Error deleting client:', error);
-        swalWithBootstrapButtons.fire(
-          'Error',
-          'Hubo un problema al eliminar el Queja.',
+          'Cancelado',
+          'La queja está a salvo :)',
           'error'
         );
-      });
-    } else if (result.dismiss === Swal.DismissReason.cancel) {
-      swalWithBootstrapButtons.fire(
-        'Cancelado',
-        'La Queja está a salvo :)',
-        'error'
-      );
-    }
-  });
-};
- 
+      }
+    });
+  };
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -114,67 +136,62 @@ const handleDelete = (id) => {
   return (
     <div className="Quejas">
       <header className="header-vista">
-        <h3 className="header-title">Todos las Quejas</h3>
-        <Button className="nuevo-btn" variant="contained" color="primary">
-          Nuevo
-        </Button>
+        <h3 className="header-title">Todas las Quejas</h3>
+        <Button
+                    className="btn btn-sm me-2"
+                    style={{ backgroundColor: '#43933d', color: 'white' }}
+                    onClick={() => handleEdit(item.quE_id)}
+                  >
+                    Agregar Nueva
+                  </Button>
       </header>
-      <table className="table table-vista">
+      <Table className="table table-vista">
         <thead className='thead-vista'>
           <tr>
+            <th>Cliente</th>
             <th>PRIORIDAD</th>
             <th>ESTADO</th>
             <th>FECHA</th>
             <th>MOTIVO</th>
-            <th>DESCRIPCION</th>
+            <th>DESCRIPCIÓN</th>
           </tr>
         </thead>
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td colSpan="5">No hay Quejas disponibles</td>
+              <td colSpan="6">No hay quejas disponibles</td>
             </tr>
           ) : (
             data.map((item) => (
               <tr key={item.quE_id}>
+                <td>{item.nombre}</td> {/* Mostrar el nombre completo del cliente */}
                 <td>{item.quE_prioridad}</td>
                 <td>{item.quE_estado}</td>
                 <td>{item.quE_fecha}</td>
                 <td>{item.quE_motivo}</td>
                 <td>{item.quE_descripcion}</td>
                 <td className='opciones'>
-                  {/*<Button 
-                    className="btn btn-sm me-2"
-                    style={{
-                      backgroundColor: '#43933d',
-                      border: '',
-                      color: 'white',
-                      outline: 'none',
-                      boxShadow: 'none',
-                      alignContent: 'center'
-                    }}
-                    onClick={() => handleEdit(item.quE_id)}
-                  >
-                    Editar
-                  </Button>
-                  <Button 
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(item.quE_id)}
-                  >
-                    Eliminar
-                  </Button>
-                  */}
+                  
                 </td>
               </tr>
             ))
           )}
         </tbody>
-      </table>
+      </Table>
+      
 
-      {/* Modal para editar el Queja */}
-     
+      {/* Modal para editar la queja */}
+      {selectedQueja && (
+        <ModalQueja
+          show={showModal}
+          handleClose={() => setShowModal(false)}
+          queja={selectedQueja}
+          handleUpdate={handleUpdate}
+        />
+      )}
     </div>
   );
 }
+
 
 export default VerQueja;

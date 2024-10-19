@@ -11,13 +11,16 @@ import NuevoProveedor from './Components/NuevoProveedor';
 import NuevoPosibleCliente from './Components/NuevoPosibleCliente';
 import VerServicio from './Components/VerServicio';
 import VerPosibleCliente from './Components/VerPosibleCliente';
-import VerCliente from './Components/VerCliente1';
+import VerCliente from './Components/VerCliente';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor1';
 import MenuOpciones from './Components/MenuOpciones';
 import Seguimiento from './Components/NuevoSeguimiento';
 import NuevaQueja from './Components/NuevaQueja';
 import VerQueja from './Components/VerQueja';
+import ModalQueja from './Components/ModalQueja';
+import Dashboard from './Components/Dashboard';
+
 const { Header, Sider } = Layout;
 
 function App() {
@@ -112,6 +115,8 @@ function App() {
             <Route path='/Seguimiento' element ={<Seguimiento />}/>
             <Route path='/NuevaQueja' element ={<NuevaQueja />}/>
             <Route path='/VerQueja' element ={<VerQueja />}/>
+            <Route path='/ModalQueja' element ={<ModalQueja />}/>
+            <Route path='/Dashboard' element ={<Dashboard />}/>
           </Routes>
         </Layout>
             

@@ -9,7 +9,7 @@ const MenuList = ({ darkTheme }) => {
     <Menu theme={darkTheme ? 'dark' : 'light'} mode='inline' className='menu-bar'>
       
       <Menu.Item key="Inicio" icon={<HomeOutlined />}> {}
-        <Link to="/">Inicio</Link>
+        <Link to="/Dashboard">Inicio</Link>
       </Menu.Item>
 
       <SubMenu key="PosiblesClientes" icon={<UserOutlined />} title="Posibles Clientes">
@@ -58,6 +58,9 @@ const MenuList = ({ darkTheme }) => {
         </Menu.Item>
         <Menu.Item key="12">
         <NavLink to="/VerQueja" activeClassName="active">Ver Queja</NavLink>
+        </Menu.Item>
+        <Menu.Item key="12">
+        <NavLink to="/ModalQueja" activeClassName="active">Agregar Queja</NavLink>
         </Menu.Item>
       </SubMenu>
     </Menu>
