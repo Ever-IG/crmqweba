@@ -11,7 +11,7 @@ import NuevoProveedor from './Components/NuevoProveedor';
 import NuevoPosibleCliente from './Components/NuevoPosibleCliente';
 import VerServicio from './Components/VerServicio';
 import VerPosibleCliente from './Components/VerPosibleCliente';
-import VerCliente from './Components/VerCliente';
+import VerCliente from './Components/VerCliente1';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor1';
 import MenuOpciones from './Components/MenuOpciones';

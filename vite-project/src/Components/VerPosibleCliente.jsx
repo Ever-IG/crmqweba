@@ -117,13 +117,16 @@ function PosibleCliente() {
     <Box sx={{ width: '100%' }}>
       <header className="header-vista">
         <h3 className="header-title">Posibles Clientes</h3>
+        <div className="botones-contenedor">
           <Button 
-          variant='contained'
-          onClick={() => navigate('/NuevoPosibleCliente')}
+            className="nuevo-btn" 
+            type="primary" 
+            onClick={handleNavigate}
             style={{ backgroundColor: '#8E0D3C', color: '#ffffff' }}
           >
             Nuevo
           </Button>
+        </div>
       </header>
 
       <Paper sx={{ width: '100%', margin: '0 auto', mb: 0, padding: 10 }}>

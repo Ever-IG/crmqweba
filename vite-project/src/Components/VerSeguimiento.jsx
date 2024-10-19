@@ -273,13 +273,16 @@ export default function EnhancedTable() {
       {/* Encabezado y botón */}
       <header className="header-vista">
         <h3 className="header-title">Seguimientos</h3>
+        <div className="botones-contenedor">
           <Button
-            variant='contained'
+            className="nuevo-btn"
+            type="primary"
             onClick={handleOpenModal}  // Aquí seguimos usando handleOpenModal para abrir el modal
             style={{ backgroundColor: '#8E0D3C', color: '#ffffff' }}
           >
             Nuevo
           </Button>
+        </div>
       </header>
 
       {/* Tabla */}
