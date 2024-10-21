@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
+import {
+    TextField,
+    MenuItem,
+    Button,
+    Select,
+    FormControl,
+    InputLabel,
+  } from "@mui/material";
 
 const EditarSeguimiento = ({ seguimiento, handleCloseModal }) => {
     const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
@@ -15,9 +23,23 @@ const EditarSeguimiento = ({ seguimiento, handleCloseModal }) => {
     const [resultado, setResultado] = useState('');
     const [comentario, setComentario] = useState('');
     const [numeroSeguimiento, setNumeroSeguimiento] = useState('');
+    const [usuarios, setUsuarios] = useState([]); // Nueva lista de usuarios
+    const [usuarioSeleccionado, setUsuarioSeleccionado] = useState("");
 
     const today = dayjs().format('YYYY-MM-DD');
 
+
+    const obtenerUsuarios = async () => {
+        try {
+          const response = await fetch("https://localhost:7228/api/Usuario");
+          const data = await response.json();
+          setUsuarios(data); // Guardamos la lista de usuarios
+        } catch (error) {
+          console.error("Error al obtener los usuarios:", error);
+        }
+      };
+
+      
     const obtenerClientes = () => {
         fetch('https://localhost:7228/api/Cliente')
             .then(response => {
@@ -42,6 +64,9 @@ const EditarSeguimiento = ({ seguimiento, handleCloseModal }) => {
             .catch(error => console.error('Error fetching prospects:', error));
     };
 
+    useEffect(() => {
+        obtenerUsuarios();
+    }, []);
     // Cargar datos del seguimiento cuando el componente se monte
     useEffect(() => {
         if (seguimiento) {
@@ -54,6 +79,7 @@ const EditarSeguimiento = ({ seguimiento, handleCloseModal }) => {
             setResultado(seguimiento.seG_resultado);
             setComentario(seguimiento.seG_comentario);
             setNumeroSeguimiento(seguimiento.seG_numero_seguimiento);
+            setUsuarioSeleccionado(seguimiento.usU_id);
         }
     }, [seguimiento]);
 
@@ -68,7 +94,7 @@ const EditarSeguimiento = ({ seguimiento, handleCloseModal }) => {
     const handleUpdate = (event) => {
         event.preventDefault();
         const data = {
-            usU_id: 1, // Este ID lo puedes modificar según tu lógica
+            usU_id: usuarioSeleccionado, // Este ID lo puedes modificar según tu lógica
             clI_id: opcionSeleccionada === 'clientes' ? clienteSeleccionado : null,
             poC_id: opcionSeleccionada === 'posiblesClientes' ? clienteSeleccionado : null,
             seG_tipo_seguimiento: tipoSeguimiento,
@@ -115,112 +141,157 @@ const EditarSeguimiento = ({ seguimiento, handleCloseModal }) => {
     };
 
     return (
-        <form className="row g-3" onSubmit={handleUpdate}>
+        <form className="row g-4" onSubmit={handleUpdate}>
             <div className="col-md-6">
-                <label className="form-label">Número de Seguimiento</label>
-                <input
-                    type="text"
-                    className="form-control"
+                <TextField
+                    label="Número de Seguimiento"
+                    fullWidth
                     value={numeroSeguimiento}
-                    readOnly
+                    onChange={(e) => setNumeroSeguimiento(e.target.value)}
+                    required
+                    disabled
                 />
             </div>
-            <div className="col-md-6"></div>
-            <div className="col-md-4">
-                <label className="form-label">Tipo de Cliente</label>
-                <select
-                    className="form-select"
-                    value={opcionSeleccionada}
-                    onChange={(e) => setOpcionSeleccionada(e.target.value)}
-                    disabled // Aquí deshabilitamos el campo de tipo de cliente para que no se pueda modificar
-                >
-                    <option value="clientes">Clientes</option>
-                    <option value="posiblesClientes">Posibles Clientes</option>
-                </select>
-            </div>
 
-            <div className="col-md-8">
-                <label className="form-label">Selecciona</label>
-                <select
-                    className="form-select"
-                    name="clienteSeleccionado"
+            <div className="col-md-6">
+        <TextField
+          label="Usuario"
+          fullWidth
+          select
+          value={usuarioSeleccionado}
+          onChange={(e) => setUsuarioSeleccionado(e.target.value)}
+          required
+        >
+          {usuarios.map((usuario) => (
+            <MenuItem key={usuario.usU_id} value={usuario.usU_id}>
+              {usuario.usU_nombre}
+            </MenuItem>
+          ))}
+        </TextField>
+      </div>
+
+      <div className="col-md-4">
+        <TextField
+            label="Tipo de Cliente"
+            fullWidth
+            value={opcionSeleccionada}
+            onChange={(e) => setOpcionSeleccionada(e.target.value)}
+            InputProps={{ readOnly: true }}
+        >
+            <MenuItem value="clientes">Clientes</MenuItem>
+            <MenuItem value="posiblesClientes">Posibles Clientes</MenuItem>
+        </TextField>
+        </div>
+
+           <div className="col-md-8">
+                <TextField
+                    label={`Selecciona un ${opcionSeleccionada === 'clientes' ? 'Cliente' : 'Posible Cliente'}`}
+                    fullWidth
+                    select
                     value={clienteSeleccionado || ''}
                     onChange={(e) => setClienteSeleccionado(e.target.value)}
                     disabled={!opcionSeleccionada}
                 >
-                    <option value="">Seleccione un {opcionSeleccionada === 'clientes' ? 'Cliente' : 'Posible Cliente'}</option>
                     {lista.map((item) => (
-                        <option
+                        <MenuItem
                             key={opcionSeleccionada === 'clientes' ? item.clI_id : item.poC_id}
                             value={opcionSeleccionada === 'clientes' ? item.clI_id : item.poC_id}
                         >
                             {opcionSeleccionada === 'clientes' ? item.clI_nombre : item.poC_nombre}
-                        </option>
+                        </MenuItem>
                     ))}
-                </select>
+                </TextField>
             </div>
+                    <div className="col-md-6">
+                        <TextField 
+                            label="Tipo de Seguimiento"
+                            fullWidth
+                            select
+                            value={tipoSeguimiento}
+                            onChange={(e) => setTipoSeguimiento(e.target.value)}
+                            required
+                        >
+                            <MenuItem value="llamada">Llamada</MenuItem>
+                            <MenuItem value="correo">Correo</MenuItem>
+                            <MenuItem value="visita">Visita</MenuItem>
+                        </TextField>
+                    </div>
 
-            <div className="col-md-6">
-                <label className="form-label">Tipo de Seguimiento</label>
-                <select className="form-select" value={tipoSeguimiento} onChange={(e) => setTipoSeguimiento(e.target.value)} required>
-                    <option value="llamada">Llamada</option>
-                    <option value="correo">Correo</option>
-                    <option value="visita">Visita</option>
-                </select>
+                    <div className="col-md-6">
+                        <TextField
+                            label="Fecha de Seguimiento"
+                            fullWidth
+                            type="date"
+                            value={fechaSeguimiento}
+                            onChange={(e) => setFechaSeguimiento(e.target.value)}
+                            InputLabelProps={{ shrink: true }}
+          inputProps={{ max: today }}
+                            required
+                        />
+                    </div>
+
+                    <div className="col-12">
+                        <TextField
+                            label="Asunto"
+                            fullWidth
+                            value={asunto}
+                            onChange={(e) => setAsunto(e.target.value)}
+                            required
+                            multiline
+                            rows={2}
+                        />
+                    </div>
+
+                    <div className="col-md-12">
+                        <TextField
+                            label="Propósito del Seguimiento"
+                            fullWidth
+                            select
+                            value={proposito}
+                            onChange={(e) => setProposito(e.target.value)}
+                            required
+                        >
+                            <MenuItem value="Atención al cliente">Atención al cliente</MenuItem>
+                            <MenuItem value="Fidelización">Fidelización</MenuItem>
+                            <MenuItem value="Venta adicional (Up-selling)">Venta adicional (Up-selling)</MenuItem>
+                            <MenuItem value="Venta cruzada (Cross-selling)">Venta cruzada (Cross-selling)</MenuItem>
+                            <MenuItem value="Seguimiento post-venta">Seguimiento post-venta</MenuItem>
+                            <MenuItem value="Renovación de contratos o servicios">Renovación de contratos o servicios</MenuItem>
+                            <MenuItem value="Reactivación de clientes inactivos">Reactivación de clientes inactivos</MenuItem>
+                            <MenuItem value="Recoger feedback">Recoger feedback</MenuItem>
+                            <MenuItem value="Confirmación de eventos, citas o reprogramación">Confirmación de eventos, citas o reprogramación</MenuItem>
+                        </TextField>
+                    </div>
+
+                    <div className="col-md-12">
+                        <TextField
+                            label="Resultado"
+                            fullWidth
+                            select
+                            value={resultado}
+                            onChange={(e) => setResultado(e.target.value)}
+                            required
+                        >
+                            <MenuItem value="No respondió">No respondió</MenuItem>
+                            <MenuItem value="Respondió">Respondió</MenuItem>
+                            <MenuItem value="Reprogramación">Reprogramación</MenuItem>
+                            <MenuItem value="Negociación de condiciones">Negociación de condiciones</MenuItem>
+                            <MenuItem value="Solicitud de más información">Solicitud de más información</MenuItem>
+                            <MenuItem value="Otro">Otro</MenuItem>
+                        </TextField>
+                    </div>
+                    <div className="col-12">
+                <TextField
+                    label="Comentario"
+                    fullWidth
+                    value={comentario}
+                    onChange={(e) => setComentario(e.target.value)}
+                    multiline
+                    rows={4}
+                />
             </div>
-
-            <div className="col-md-6">
-                <label className="form-label">Fecha de Seguimiento</label>
-                <input type="date" 
-                className="form-control" 
-                value={fechaSeguimiento} 
-                onChange={(e) => setFechaSeguimiento(e.target.value)} 
-                max={today}
-                 />
-            </div>
-
-            <div className="col-12">
-                <label className="form-label">Asunto</label>
-                <textarea className="form-control" value={asunto} onChange={(e) => setAsunto(e.target.value)} rows="2"></textarea>
-            </div>
-
-            <div className="col-md-12">
-                <label className="form-label">Propósito del Seguimiento</label>
-                <select className="form-select" value={proposito} onChange={(e) => setProposito(e.target.value)}>
-                    <option value="">Seleccione un propósito</option>
-                    <option value="Atención al cliente">Atención al cliente</option>
-                    <option value="Fidelización">Fidelización</option>
-                    <option value="Venta adicional (Up-selling)">Venta adicional (Up-selling)</option>
-                    <option value="Venta cruzada (Cross-selling)">Venta cruzada (Cross-selling)</option>
-                    <option value="Seguimiento post-venta">Seguimiento post-venta</option>
-                    <option value="Renovación de contratos o servicios">Renovación de contratos o servicios</option>
-                    <option value="Reactivación de clientes inactivos">Reactivación de clientes inactivos</option>
-                    <option value="Recoger feedback">Recoger feedback</option>
-                    <option value="Confirmación de eventos, citas o reprogramación">Confirmación de eventos, citas o reprogramación</option>
-                </select>
-            </div>
-
-
-            <div className="col-md-12">
-                <label className="form-label">Resultado</label>
-                <select className="form-select" value={resultado} onChange={(e) => setResultado(e.target.value)}>
-                    <option value="">Seleccione un resultado</option>
-                    <option value="No respondió">No respondió</option>
-                    <option value="Respondió">Respondió</option>
-                    <option value="Reprogramación">Reprogramación</option>
-                    <option value="Negociación de condiciones">Negociación de condiciones</option>
-                    <option value="Solicitud de más información">Solicitud de más información</option>
-                    <option value="Otro">Otro</option>
-
-                </select>
-            </div>
-
-            <div className="col-12">
-                <label className="form-label">Comentario</label>
-                <textarea className="form-control" value={comentario} onChange={(e) => setComentario(e.target.value)} rows="4" ></textarea>
-            </div>
-
-            <div className="col-12">
+            
+            <div className="col-12 d-flex justify-content-end">
                 <button type="submit" className="btn btn-primary">Actualizar</button>
                 <button type="button" className="btn btn-danger ms-2" onClick={handleCloseModal}>Cancelar</button>
             </div>

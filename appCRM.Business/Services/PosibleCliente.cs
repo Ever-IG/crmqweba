@@ -56,6 +56,7 @@ namespace appCRM.Business.Services
                 existingPosibleCliente.POC_pais = posibleCliente.POC_pais;
                 existingPosibleCliente.POC_imagenurl = posibleCliente.POC_imagenurl;
                 existingPosibleCliente.CVE_id = posibleCliente.CVE_id;
+                existingPosibleCliente.USU_id = posibleCliente.USU_id;
 
                 _context.SaveChanges();
             }

@@ -32,7 +32,8 @@ function ConvertirPaC({ posibleCliente, onClienteConvertido }) {
       cli_codigo_postal: posibleCliente.poC_codigo_postal,
       cli_pais: posibleCliente.poC_pais,
       cli_imagenurl: posibleCliente.poC_imagenurl,
-      cve_id: posibleCliente.cve_id || 1
+      cve_id: posibleCliente.cvE_id,
+      usu_id: posibleCliente.usU_id,
     };
   
     const response = await fetch('https://localhost:7228/api/Cliente', {
@@ -71,7 +72,8 @@ function ConvertirPaC({ posibleCliente, onClienteConvertido }) {
       poC_imagenurl: posibleCliente.poC_imagenurl,
       poC_municipio: posibleCliente.poC_municipio,
       poC_codigo_postal: posibleCliente.poC_codigo_postal,
-      cvE_id: posibleCliente.cve_id || 1,
+      cvE_id: posibleCliente.cvE_id,
+      usU_id: posibleCliente.usU_id,
       poC_estado_de_posible_cliente: 'Cliente', // Cambiar el estado a 'Cliente'
     };
   

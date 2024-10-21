@@ -15,14 +15,10 @@ const MenuList = ({ darkTheme }) => {
         <Menu.Item key="PosiblesClientes" icon={<UserOutlined />} title="Posibles Clientes">
           <Link to="/PosibleCliente">Posibles Clientes</Link>
         </Menu.Item>
-      <SubMenu key="Clientes" icon={<UserOutlined />} title="Clientes">
-        <Menu.Item key="7">
-          <Link to="/NuevoCliente">Crear Clientes</Link>
+
+        <Menu.Item key="Clientes" icon={<UserOutlined />} title="Clientes">
+          <Link to="/VerCliente">Clientes</Link>
         </Menu.Item>
-        <Menu.Item key="8">
-        <NavLink to="/VerCliente" activeClassName="active">Ver Cliente</NavLink>
-        </Menu.Item>
-      </SubMenu>
       <Menu.Item key="VerSeguimiento" icon={<CommentOutlined />}> {}
         <Link to="/VerSeguimiento">Seguimientos</Link>
       </Menu.Item>
@@ -43,18 +39,9 @@ const MenuList = ({ darkTheme }) => {
         <NavLink to="/VerServicio" activeClassName="active">Ver Servicios</NavLink>
         </Menu.Item>
         </SubMenu>
-
-        <SubMenu key="QUEJA " icon={<WarningOutlined />} title="Queja">
-        <Menu.Item key="12">
-        <NavLink to="/NuevaQueja" activeClassName="active">Agregar Queja</NavLink>
-        </Menu.Item>
-        <Menu.Item key="12">
-        <NavLink to="/VerQueja" activeClassName="active">Ver Queja</NavLink>
-        </Menu.Item>
-        <Menu.Item key="12">
-        <NavLink to="/ModalQueja" activeClassName="active">Agregar Queja</NavLink>
-        </Menu.Item>
-      </SubMenu>
+        <Menu.Item key="Quejas" icon={<CommentOutlined />}> {}
+        <Link to="/VerQueja">Quejas</Link>
+      </Menu.Item>
     </Menu>
   );
 };

@@ -121,7 +121,6 @@ function NuevaQueja() {
         <div className="NuevaQueja">
             <div className="form-container">
                 <form className="row g-3" onSubmit={handleSubmit}>
-                    <center><label><h3> AGREGAR NUEVA QUEJA </h3></label></center>
                 
                     {/* Campo para seleccionar cliente */}
                     <div className="col-md-8">
@@ -209,9 +208,10 @@ function NuevaQueja() {
                                 onChange={handleChange}
                             >
                                 <option value="">Selecciona un estado</option>
-                                <option value="En progreso">Capturada</option>
-                                <option value="Cerrada">Cerrada</option>
+                                <option value="Capturada">Capturada</option>
                                 <option value="Escalada">Escalada</option>
+                                <option value="Cerrada">Cerrada</option>
+                                
                             </select>
                         </div>
                     </div>

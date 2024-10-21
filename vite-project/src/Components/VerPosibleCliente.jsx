@@ -102,8 +102,21 @@ function PosibleCliente() {
   };
 
   const visibleRows = [...posiblesClientes]
-    .sort((a, b) => (orderBy === 'asc' ? a[orderBy].localeCompare(b[orderBy]) : b[orderBy].localeCompare(a[orderBy])))
-    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  .sort((a, b) => {
+    if (orderBy === 'poC_nombre_completo') {
+      const nombreCompletoA = `${a.poC_nombre} ${a.poC_apellido}`;
+      const nombreCompletoB = `${b.poC_nombre} ${b.poC_apellido}`;
+      return order === 'asc'
+        ? nombreCompletoA.localeCompare(nombreCompletoB)
+        : nombreCompletoB.localeCompare(nombreCompletoA);
+    } else {
+      return order === 'asc'
+        ? a[orderBy].localeCompare(b[orderBy])
+        : b[orderBy].localeCompare(a[orderBy]);
+    }
+  })
+  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
 
   const handleNavigate = () => {
     navigate('/NuevoPosibleCliente');
@@ -235,6 +248,7 @@ function PosibleCliente() {
           <Typography variant="h6" component="h2">
             Editar Posible Cliente
           </Typography>
+          <br />
           {selectedCliente && (
             <EditarPosibleCliente
               posiblecliente={selectedCliente}
