@@ -26,6 +26,8 @@ import VerSeguimiento from './Components/VerSeguimiento';
 import Informe from './Components/Informes/ReporteSeguimiento';
 import ReporteSeguimiento from './Components/Informes/ReporteSeguimiento';
 import PClienteReporte from './Components/PClienteReporte';
+import ReporteQuejas from './Components/Informes/ReporteQuejas';
+import InformesGenerales from './Components/InformesGenerales';
 const { Header, Sider } = Layout;
  
 function App() {
@@ -136,8 +138,11 @@ function App() {
             <Route path='/VerQueja' element ={<VerQueja />}/>
             <Route path='/ModalQueja' element ={<ModalQueja />}/>
             <Route path='/Dashboard' element ={<Dashboard />}/>
+            <Route path='/InformesGenerales' element ={<InformesGenerales />}/>
             <Route path='/Informes/ReporteSeguimiento' element ={<ReporteSeguimiento />}/>
+            <Route path='/Informes/ReporteQuejas' element ={<ReporteQuejas />} />
             <Route path='/PClienteReporte' element ={<PClienteReporte />}/>
+
           </Routes>
         </Layout>
             

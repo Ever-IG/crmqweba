@@ -62,9 +62,9 @@ const MenuList = ({ darkTheme }) => {
         <Link to="/VerQueja">Quejas</Link>
       </Menu.Item>
 
-      <Menu.Item key="Informe" icon={<AuditOutlined />} title="Informe" >
+      <Menu.Item key="Informes" icon={<AuditOutlined />} title="Informes" >
        {}
-        <Link to="/Informes/ReporteSeguimiento">Informe</Link>
+        <Link to="/InformesGenerales">Informes</Link>
       </Menu.Item>
 
       <Menu.Item key="PClienteReporte" icon={<CommentOutlined />}>

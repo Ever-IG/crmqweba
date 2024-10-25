@@ -196,3 +196,17 @@ td.opciones button {
 :where(.css-dev-only-do-not-override-qnu6hi).ant-modal .ant-modal-content {
   margin-top: -98px;
 }
+
+
+/* App.css */
+.background-container {
+  width: 100%;
+  height: 100vh;
+  background-image: url('/assets/chart.jpg');
+  background-size: cover; /* La imagen cubrirá toda la pantalla */
+  background-position: center; /* La imagen estará centrada */
+  background-repeat: no-repeat; /* No se repetirá */
+  background-attachment: fixed; /* Se mantiene fija al hacer scroll */
+  display: flex;
+  padding: 5rem;
+}
