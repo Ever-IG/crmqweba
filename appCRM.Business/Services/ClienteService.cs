@@ -56,6 +56,7 @@ namespace appCRM.Business.Services
                 existingCliente.CLI_pais = cliente.CLI_pais;
                 existingCliente.CLI_imagenurl = cliente.CLI_imagenurl;
                 existingCliente.CVE_id = cliente.CVE_id;
+                existingCliente.USU_id = cliente.USU_id;
 
                 _context.SaveChanges();
             }

@@ -1,283 +1,351 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from "react";
+import { Form, Button } from "react-bootstrap";
+import Swal from "sweetalert2";
+import { TextField, MenuItem } from "@mui/material";
+import DepartamentoMunicipioSelect from "./Datos/DepartamentoMunicipioSelect";
 
-function EditarCliente({ show, handleClose, cliente, handleUpdate }) {
-    // Estado local para los datos del formulario
-    const [formData, setFormData] = useState({
-        clI_nombre: '',
-        clI_apellido: '',
-        clI_empresa: '',
-        clI_nit: '',
-        clI_dpi: '',
-        clI_correo_electronico: '',
-        clI_telefono: '',
-        clI_correo_electronico_secundario: '',
-        clI_telefono_secundario: '',
-        clI_direccion: '',
-        clI_departamento: '',
-        clI_municipio: '',
-        clI_codigo_postal: '',
-        clI_pais: '',
-        clI_imagenurl: ''
-    });
+function EditarCliente({ cliente, handleUpdate, handleClose }) {
+  const [formData, setFormData] = useState({
+    clI_nombre: "",
+    clI_apellido: "",
+    clI_empresa: "",
+    clI_nit: "",
+    clI_dpi: "",
+    clI_correo_electronico: "",
+    clI_telefono: "",
+    clI_correo_electronico_secundario: "",
+    clI_telefono_secundario: "",
+    clI_direccion: "",
+    clI_departamento: "",
+    clI_municipio: "",
+    clI_codigo_postal: "",
+    clI_pais: "",
+    clI_imagenurl: "",
+    cvE_id: "",
+    usU_id: "",
 
-    // Actualizar el formData cuando cambie el cliente seleccionado
-    useEffect(() => {
-        if (cliente) {
-            setFormData({
-                clI_nombre: cliente.clI_nombre,
-                clI_apellido: cliente.clI_apellido,
-                clI_empresa: cliente.clI_empresa,
-                clI_nit: cliente.clI_nit,
-                clI_dpi: cliente.clI_dpi,
-                clI_correo_electronico: cliente.clI_correo_electronico,
-                clI_telefono: cliente.clI_telefono,
-                clI_correo_electronico_secundario: cliente.clI_correo_electronico_secundario,
-                clI_telefono_secundario: cliente.clI_telefono_secundario,
-                clI_direccion: cliente.clI_direccion,
-                clI_departamento: cliente.clI_departamento,
-                clI_municipio: cliente.clI_municipio,
-                clI_codigo_postal: cliente.clI_codigo_postal,
-                clI_pais: cliente.clI_pais,
-                clI_imagenurl: cliente.clI_imagenurl
+  });
+  const [canalesVenta, setCanalesVenta] = useState([]);
+  const [vendedores, setVendedores] = useState([]); 
 
-            });
+  useEffect(() => {
+    fetch("https://localhost:7228/api/CanalVenta")
+      .then((response) => response.json())
+      .then((data) => setCanalesVenta(data))
+      .catch((error) =>
+        console.error("Error al cargar canales de venta:", error)
+      );
+  }, []);
+
+  useEffect(() => {
+    fetch("https://localhost:7228/api/Usuario")
+      .then((response) => response.json())
+      .then((data) => setVendedores(data))
+      .catch((error) => console.error("Error al cargar vendedores:", error));
+  }, []);
+
+  useEffect(() => {
+    if (cliente) {
+      setFormData((prevData) => ({
+        ...prevData,
+        ...cliente,
+        cvE_id: cliente.cvE_id || "", // Asegurarse que esté preseleccionado si existe
+        usU_id: cliente.usU_id || "", // Asegurarse que esté preseleccionado si existe
+      }));
+    }
+  }, [cliente]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(
+        `https://localhost:7228/api/Cliente/${cliente.clI_id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
         }
-    }, [cliente]);
+      );
 
-    // Manejar los cambios en los campos del formulario
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+      if (!response.ok) throw new Error("Error al actualizar el cliente");
 
-    // Manejar el envío del formulario
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+      const updatedCliente =
+        response.status !== 204 ? await response.json() : formData;
+      handleUpdate(cliente.clI_id, updatedCliente);
+      Swal.fire("¡Éxito!", "Cliente actualizado correctamente", "success");
+      handleClose();
+    } catch (error) {
+      Swal.fire("Error", "Hubo un problema al actualizar el cliente", "error");
+    }
+  };
 
-        try {
-            // Enviar los datos actualizados al backend usando PUT
-            const response = await fetch(`https://localhost:7228/api/Cliente/${cliente.clI_id}`, {
-                method: 'PUT', 
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+  return (
+    <Form className="row g-3" onSubmit={handleSubmit}>
+      <div className="col-md-6">
+        <TextField
+          label="Nombre"
+          name="clI_nombre"
+          value={formData.clI_nombre}
+          onChange={handleChange}
+          required
+          fullWidth
+        />
+      </div>
 
-            if (!response.ok) {
-                throw new Error('Error al actualizar el cliente');
-            }
+      <div className="col-md-6">
+        <TextField
+          label="Apellido"
+          name="clI_apellido"
+          value={formData.clI_apellido}
+          onChange={handleChange}
+          required
+          fullWidth
+        />
+      </div>
 
-            // Manejar respuesta según código de estado
-            if (response.status !== 204) {
-                const updatedCliente = await response.json(); // Solo analiza si no es 204
-                handleUpdate(cliente.clI_id, updatedCliente);
-            } else {
-                handleUpdate(cliente.clI_id, formData);
-            }
+      <div className="col-md-12">
+        <TextField
+          label="Empresa"
+          name="clI_empresa"
+          value={formData.clI_empresa}
+          onChange={handleChange}
+          fullWidth
+        />
+      </div>
 
-            // Notificación de éxito
-            Swal.fire({
-                icon: 'success',
-                title: 'Cliente actualizado correctamente',
-                showConfirmButton: false,
-                timer: 1500
-            });
+      <div className="col-md-6">
+        <TextField
+          label="NIT"
+          name="clI_nit"
+          value={formData.clI_nit}
+          onChange={handleChange}
+          fullWidth
+        />
+      </div>
 
-            setTimeout(() => {
-                window.location.reload();
-              }, 600);
+      <div className="col-md-6">
+        <TextField
+          label="DPI"
+          name="clI_dpi"
+          value={formData.clI_dpi}
+          onChange={handleChange}
+          inputProps={{ pattern: "^[1-9][0-9]{12}$", maxLength: 13 }}
+          error={formData.clI_dpi && !/^[1-9][0-9]{12}$/.test(formData.clI_dpi)}
+          helperText={
+            formData.clI_dpi && !/^[1-9][0-9]{12}$/.test(formData.clI_dpi)
+              ? "El DPI debe contener 13 dígitos y no comenzar con 0"
+              : ""
+          }
+          fullWidth
+        />
+      </div>
+      <div className="col-md-6">
+        <TextField
+          label="Correo Electrónico"
+          name="clI_correo_electronico"
+          value={formData.clI_correo_electronico}
+          onChange={handleChange}
+          type="email"
+          required
+          fullWidth
+          error={
+            formData.clI_correo_electronico &&
+            !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+              formData.clI_correo_electronico
+            )
+          }
+          helperText={
+            formData.clI_correo_electronico &&
+            !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+              formData.clI_correo_electronico
+            )
+              ? "Por favor ingrese un correo electrónico válido"
+              : ""
+          }
+        />
+      </div>
 
-        } catch (error) {
-            // Manejar errores y mostrar una alerta
-            console.error('Error al actualizar el cliente:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error al actualizar el cliente',
-                text: error.message,
-            });
-        }
-    };
+      <div className="col-md-6">
+        <TextField
+          label="Teléfono"
+          name="clI_telefono"
+          value={formData.clI_telefono}
+          onChange={handleChange}
+          fullWidth
+          inputProps={{
+            pattern: "[0-9]{8}", // 8 dígitos
+            title: "Número de teléfono de 8 dígitos",
+          }}
+          error={
+            formData.clI_telefono && !/^[0-9]{8}$/.test(formData.clI_telefono)
+          }
+          helperText={
+            formData.clI_telefono && !/^[0-9]{8}$/.test(formData.clI_telefono)
+              ? "Número de teléfono de 8 dígitos"
+              : ""
+          }
+        />
+      </div>
+      <div className="col-md-12">
+        <TextField
+          label="Dirección"
+          name="clI_direccion"
+          value={formData.clI_direccion}
+          onChange={handleChange}
+          fullWidth
+        />
+      </div>
+      <div>
+        <DepartamentoMunicipioSelect
+          formData={formData}
+          setFormData={setFormData}
+        />
+      </div>
 
-    return (
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Editar Cliente</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmit}>
-                    <Form.Group controlId="clI_nombre">
-                        <Form.Label>Nombre</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_nombre"
-                            value={formData.clI_nombre}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+      <div className="col-md-6">
+        <TextField
+          label="Código Postal"
+          name="clI_codigo_postal"
+          value={formData.clI_codigo_postal}
+          onChange={handleChange}
+          fullWidth
+          inputProps={{
+            pattern: "^[0-9]{5}$", // Asegura que sean solo 5 dígitos numéricos
+            maxLength: 5, // Máximo de 5 caracteres
+            title: "El código postal debe ser un número de 5 dígitos",
+          }}
+          error={
+            formData.clI_codigo_postal &&
+            !/^[0-9]{5}$/.test(formData.clI_codigo_postal)
+          }
+          helperText={
+            formData.clI_codigo_postal &&
+            !/^[0-9]{5}$/.test(formData.clI_codigo_postal)
+              ? "El código postal debe contener exactamente 5 dígitos"
+              : ""
+          }
+        />
+      </div>
 
-                    <Form.Group controlId="clI_apellido" className="mt-3">
-                        <Form.Label>Apellido</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_apellido"
-                            value={formData.clI_apellido}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
+      <div className="col-md-6">
+        <TextField
+          label="País"
+          name="clI_pais"
+          value={formData.clI_pais}
+          onChange={handleChange}
+          fullWidth
+        />
+      </div>
 
-                    <Form.Group controlId="clI_empresa" className="mt-3">
-                        <Form.Label>Empresa</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_empresa"
-                            value={formData.clI_empresa}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
+      <div className="col-md-6">
+        <TextField
+          label="Correo Electrónico Secundario"
+          name="clI_correo_electronico_secundario"
+          value={formData.clI_correo_electronico_secundario}
+          onChange={handleChange}
+          type="email"
+          fullWidth
+          error={
+            formData.clI_correo_electronico_secundario &&
+            !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+              formData.clI_correo_electronico_secundario
+            )
+          }
+          helperText={
+            formData.clI_correo_electronico_secundario &&
+            !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+              formData.clI_correo_electronico_secundario
+            )
+              ? "Por favor ingrese un correo electrónico válido"
+              : ""
+          }
+        />
+      </div>
+      <div className="col-md-6">
+        <TextField
+          label="Teléfono Secundario"
+          name="clI_telefono_secundario"
+          value={formData.clI_telefono_secundario}
+          onChange={handleChange}
+          fullWidth
+          inputProps={{
+            pattern: "[0-9]{8}", // 8 dígitos
+            title: "Número de teléfono de 8 dígitos",
+          }}
+          error={
+            formData.clI_telefono_secundario &&
+            !/^[0-9]{8}$/.test(formData.clI_telefono_secundario)
+          }
+          helperText={
+            formData.clI_telefono_secundario &&
+            !/^[0-9]{8}$/.test(formData.clI_telefono_secundario)
+              ? "Número de teléfono de 8 dígitos"
+              : ""
+          }
+        />
+      </div>
+      <div className="col-md-6">
+        <TextField
+          label="Canal de Venta"
+          name="CVE_id"
+          value={formData.cvE_id || ""} // Valor preseleccionado o vacío
+          onChange={handleChange}
+          select
+          fullWidth
+        >
+          {canalesVenta.map((canal) => (
+            <MenuItem key={canal.cvE_id} value={canal.cvE_id}>
+              {canal.cvE_nombre}
+            </MenuItem>
+          ))}
+        </TextField>
+      </div>
 
-                    <Form.Group controlId="clI_nit" className="mt-3">
-                        <Form.Label>NIT</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_nit"
-                            value={formData.clI_nit}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
+      <div className="col-md-6">
+        <TextField
+          label="Vendedor"
+          name="usU_id"
+          value={formData.usU_id || ""} // Valor preseleccionado o vacío
+          onChange={handleChange}
+          select
+          fullWidth
+        >
+          {vendedores.map((vendedor) => (
+            <MenuItem key={vendedor.usU_id} value={vendedor.usU_id}>
+              {vendedor.usU_nombre}
+            </MenuItem>
+          ))}
+        </TextField>
+      </div>
 
-                    <Form.Group controlId="clI_dpi" className="mt-3">
-                        <Form.Label>DPI</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_dpi"
-                            value={formData.clI_dpi}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
+      <div className="col-md-12">
+        <TextField
+          label="Fotografía"
+          name="clI_imagenurl"
+          value={formData.clI_imagenurl}
+          onChange={handleChange}
+          fullWidth
+        />
+      </div>
 
-                    <Form.Group controlId="clI_correo_electronico" className="mt-3">
-                        <Form.Label>Correo Electrónico</Form.Label>
-                        <Form.Control
-                            type="email"
-                            name="clI_correo_electronico"
-                            value={formData.clI_correo_electronico}
-                            onChange={handleChange}
-                            required
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_telefono" className="mt-3">
-                        <Form.Label>Teléfono</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_telefono"
-                            value={formData.clI_telefono}
-                            onChange={handleChange}
-                            pattern="[0-9]{8}"
-                            title="Número de teléfono de 8 dígitos"
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_correo_electronico_secundario" className="mt-3">
-                        <Form.Label>Correo Electrónico Secundario</Form.Label>
-                        <Form.Control
-                            type="email"
-                            name="clI_correo_electronico_secundario"
-                            value={formData.clI_correo_electronico_secundario}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_telefono_secundario" className="mt-3">
-                        <Form.Label>Teléfono Secundario</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_telefono_secundario"
-                            value={formData.clI_telefono_secundario}
-                            onChange={handleChange}
-                            pattern="[0-9]{8}"
-                            title="Número de teléfono de 8 dígitos"
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_direccion" className="mt-3">
-                        <Form.Label>Dirección</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_direccion"
-                            value={formData.clI_direccion}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_departamento" className="mt-3">
-                        <Form.Label>Departamento</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_departamento"
-                            value={formData.clI_departamento}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_municipio" className="mt-3">
-                        <Form.Label>Municipio</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_municipio"
-                            value={formData.clI_municipio}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_codigo_postal" className="mt-3">
-                        <Form.Label>Código Postal</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_codigo_postal"
-                            value={formData.clI_codigo_postal}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_pais" className="mt-3">
-                        <Form.Label>País</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_pais"
-                            value={formData.clI_pais}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-
-                    <Form.Group controlId="clI_imagenurl" className="mt-3">
-                        <Form.Label>URL de Imagen</Form.Label>
-                        <Form.Control
-                            type="text"
-                            name="clI_imagenurl"
-                            value={formData.clI_imagenurl}
-                            onChange={handleChange}
-                        />
-                    </Form.Group>
-                    <div className="d-flex justify-content-end mt-4">
-                        <Button variant="secondary" onClick={handleClose} className="me-2">
-                            Cancelar
-                        </Button>
-                        <Button variant="primary" type="submit">
-                            Guardar Cambios
-                        </Button>
-                    </div>
-                </Form>
-            </Modal.Body>
-        </Modal>
-    );
+      <div className="col-12 d-flex justify-content-end mt-4">
+        <Button variant="primary" type="submit">
+          Guardar Cambios
+        </Button>
+        <Button variant="danger" className="ms-2" onClick={handleClose}>
+          Cancelar
+        </Button>
+      </div>
+    </Form>
+  );
 }
 
 export default EditarCliente;

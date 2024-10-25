@@ -18,17 +18,12 @@ dist-ssr
 .idea
 .DS_Store
 *.suo
-*.ntvs*
+.ntvs
 *.njsproj
 *.sln
 *.sw?
 
-bin/
-obj/
-node_modules/
-
-appCRM.API/bin/
-appCRM.API/obj/
-appCRM.Business/bin/
-appCRM.Data/obj/
-vite-project/node_modules/
+node_modules
+bin
+build
+obj

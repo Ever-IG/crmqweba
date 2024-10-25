@@ -1,217 +1,249 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import Swal from 'sweetalert2'; 
+import React, { useState, useEffect } from "react";
+import { Button, TextField, Box, Select, MenuItem } from "@mui/material";
+import Swal from "sweetalert2";
+import DepartamentoMunicipioSelect from "./Datos/DepartamentoMunicipioSelect";
 
-function EditarProveedor({ show, handleClose, proveedor, handleUpdate }) {
-  const [formData, setFormData] = useState({
-    prO_nombre: '',
-    prO_apellido: '',
-    prO_nit: '',
-    prO_telefono: '',
-    prO_correo_electronico: '',
-    prO_direccion: '',
-    prO_departamento: '',
-    prO_municipio: '',
-    prO_codigo_postal: '',
-    prO_pais: '',
-    prO_nombre_empresa: ''
-  });
+const EditarProveedor = ({proveedor, handleCloseModal, refreshproveedores }) => {
+  const [formData, setFormData] = useState('');
+  const [opcionSeleccionada, setOpcionSeleccionada] = useState('');
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [nit, setNit] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [correo_electronico, setCorreo_electronico] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [departamento, setDepartamento] = useState("");
+  const [municipio, setMunicipio] = useState("");
+  const [codigo_postal, setCodigo_postal] = useState("");
+  const [pais, setPais] = useState("");
+  const [nombre_empresa, setNombre_empresa] = useState("");
+
 
   // Actualizar el formData cuando cambie el proveedor seleccionado
-  useEffect(() => {
+
+
+     useEffect(() => {
     if (proveedor) {
-      setFormData({
-        prO_nombre: proveedor.prO_nombre,
-        prO_apellido: proveedor.prO_apellido,
-        prO_nit: proveedor.prO_nit,
-        prO_telefono: proveedor.prO_telefono,
-        prO_correo_electronico: proveedor.prO_correo_electronico,
-        prO_direccion: proveedor.prO_direccion,
-        prO_departamento: proveedor.prO_departamento,
-        prO_municipio: proveedor.prO_municipio,
-        prO_codigo_postal: proveedor.prO_codigo_postal,
-        prO_pais: proveedor.prO_pais,
-        prO_nombre_empresa: proveedor.prO_nombre_empresa
-      });
-    // Remove the extra closing curly brace
-  }
- }, [proveedor]);
+      setNombre(proveedor.prO_nombre);
+      setApellido(proveedor.prO_apellido);
+      setNit(proveedor.prO_nit);
+      setTelefono(proveedor.prO_telefono);
+      setCorreo_electronico(proveedor.prO_correo_electronico);
+      setDireccion(proveedor.prO_direccion);
+      setDepartamento(proveedor.prO_departamento);
+      setMunicipio(proveedor.prO_municipio);
+      setCodigo_postal(proveedor.prO_codigo_postal);
+      setPais(proveedor.prO_pais);
+      setNombre_empresa(proveedor.prO_nombre_empresa);
+    }
+  }, [proveedor]);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    try {
-      // Enviar los datos actualizados al backend usando PUT
-      const response = await fetch(`https://localhost:7228/api/Proveedor/${proveedor.prO_id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-  
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    const data = {  
+      prO_id: proveedor.prO_id,
+      prO_nombre: nombre,
+      prO_apellido: apellido,
+      prO_nit: nit,
+      prO_telefono: telefono,
+      prO_correo_electronico: correo_electronico,
+      prO_direccion: direccion,
+      prO_departamento: departamento,
+      prO_municipio: municipio,
+      prO_codigo_postal: codigo_postal,
+      prO_pais: pais,
+      prO_nombre_empresa: nombre_empresa,
+    };
+    
+    
+    fetch(`https://localhost:7228/api/Proveedor/${proveedor.prO_id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    .then((response) => {
       if (!response.ok) {
         throw new Error('Error al actualizar el proveedor');
       }
-  
-      if (response.status !== 204) {
-        const updatedProveedor = await response.json();
-        handleUpdate(proveedor.prO_id, updatedProveedor);
-      } else {
-        handleUpdate(proveedor.prO_id, formData);
-      }
-  
       Swal.fire({
-        icon: 'success',
-        title: 'Proveedor actualizado correctamente',
-        showConfirmButton: false,
-        timer: 1500
-      });
-  
-      setTimeout(() => {
-        window.location.reload();
-      }, 600);
-  
-    } catch (error) {
-      console.error('Error al actualizar el proveedor:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error al actualizar el proveedor',
-        text: error.message,
-      });
-    }
-  };
+        title: "Éxito!",
+        text: "Proveedor Actualizado Correctamente!",
+        icon: "success",
+        willOpen: () => {
+            document.querySelector('.swal2-container').style.zIndex = '3000';
+        }
+    }).then(() => {
+        handleCloseModal(); // Cerrar el modal después de actualizar
 
+    });
+}).catch((error) => {
+    console.error('Error al actualizar el proveedor:', error);
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Verifica los datos e intenta de nuevo!",
+      willOpen: () => {
+          document.querySelector('.swal2-container').style.zIndex = '3000';
+      }
+  });
+});
+};
+
+
+
+   
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Editar Proveedor</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="prO_nombre">
-            <Form.Label>Nombre</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_nombre" 
-              value={formData.prO_nombre} 
-              onChange={handleChange} 
-              required 
+    <form className="row g-3" onSubmit={handleUpdate}>
+        <div className="col-md-6">
+            <TextField
+                label="Nombre"
+                name="prO_nombre"
+                type="text"
+                value={nombre}
+                onChange={(event) => setNombre(event.target.value)}
+                fullWidth
+                required
             />
-          </Form.Group>
-          <Form.Group controlId="prO_apellido" className="mt-3">
-            <Form.Label>Apellido</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_apellido" 
-              value={formData.prO_apellido} 
-              onChange={handleChange} 
-              required 
+        </div>
+        <div className="col-md-6">
+            <TextField
+                label="Apellido"
+                name="prO_apellido"
+                type="text"
+                value={apellido}
+                onChange={(event) => setApellido(event.target.value)}
+                fullWidth
+                required
             />
-          </Form.Group>
-          <Form.Group controlId="prO_nit" className="mt-3">
-            <Form.Label>NIT</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_nit" 
-              value={formData.prO_nit} 
-              onChange={handleChange} 
-              required 
+        </div>
+
+        <div className="col-md-12">
+            <TextField
+                label="Nombre de la Empresa"
+                name="prO_nombre_empresa"
+                type="text"
+                value={nombre_empresa}
+                onChange={(event) => setNombre_empresa(event.target.value)}
+                fullWidth
+                required
             />
-          </Form.Group>
-          <Form.Group controlId="prO_telefono" className="mt-3">
-            <Form.Label>Teléfono</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_telefono" 
-              value={formData.prO_telefono} 
-              onChange={handleChange}
-              pattern="[0-9]{8}"
-              title="Número de teléfono de 8 dígitos"
+        </div>
+        <div className="col-md-6">
+            <TextField
+                label="NIT"
+                name="prO_nit"
+                type="text"
+                value={nit}
+                onChange={(event) => setNit(event.target.value)}
+                fullWidth
+                required
             />
-          </Form.Group>
-          <Form.Group controlId="prO_correo_electronico" className="mt-3">
-            <Form.Label>Correo Electrónico</Form.Label>
-            <Form.Control 
-              type="email" 
-              name="prO_correo_electronico" 
-              value={formData.prO_correo_electronico} 
-              onChange={handleChange}
-              required
+        </div>
+
+        <div className="col-md-6">
+            <TextField
+                label="Teléfono"
+                name="prO_telefono"
+                type="text"
+                value={telefono}
+                onChange={(event) => setTelefono(event.target.value)}
+                fullWidth
+                inputProps={{pattern: "^[0-9]{8}$", maxLength: 8}}
+                onError={
+                    formData.prO_telefono &&
+                    !/^[0-9]{8}$/.test(formData.prO_telefono)
+                }
+                helperText={
+                    formData.prO_telefono &&
+                    !/^[0-9]{8}$/.test(formData.prO_telefono)
+                    ? "El teléfono debe contener 8 dígitos"
+                    : ""
+                }
+                />
+        </div>
+        <div className="col-md-6">
+            <TextField
+
+                label="Correo Electrónico"
+                name="prO_correo_electronico"
+                type="email"
+                value={correo_electronico}
+                onChange={event => setCorreo_electronico(event.target.value)}
+                fullWidth
+                error={
+                    formData.prO_correo_electronico &&
+                    !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+                      formData.prO_correo_electronico
+                    )
+                  }
+                  helperText={
+                    formData.prO_correo_electronico &&
+                    !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+                      formData.prO_correo_electronico
+                    )
+                      ? "Por favor ingrese un correo electrónico válido"
+                      : ""
+                  }
             />
-          </Form.Group>
-          <Form.Group controlId="prO_direccion" className="mt-3">
-            <Form.Label>Dirección</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_direccion" 
-              value={formData.prO_direccion} 
-              onChange={handleChange}
+        </div>
+
+        <div className="col-md-6">
+            <TextField
+                label="Dirección"
+                name="prO_direccion"
+                type="text"
+                value={direccion}
+                onChange={(event) => setDireccion(event.target.value)}
+                fullWidth
+                />
+        </div>
+        <div>
+            <DepartamentoMunicipioSelect
+            formData={formData}
+            setFormData={setFormData}
             />
-          </Form.Group>
-          <Form.Group controlId="prO_departamento" className="mt-3">
-            <Form.Label>Departamento</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_departamento" 
-              value={formData.prO_departamento} 
-              onChange={handleChange}
+            </div> 
+
+
+        <div className="col-md-6">
+            <TextField
+                label="Código Postal"
+                name="prO_codigo_postal"
+                type="number"
+                value={codigo_postal}
+                onChange={(event) => setCodigo_postal(event.target.value)}
+                fullWidth
+                inputProps={{ pattern: "^[0-9]{5}$", maxLength: 5 }}
+                    error={
+                      formData.prO_codigo_postal &&
+                      !/^[0-9]{5}$/.test(formData.prO_codigo_postal)
+                    }
+                    helperText={
+                      formData.prO_codigo_postal &&
+                      !/^[0-9]{5}$/.test(formData.prO_codigo_postal)
+                        ? "El código postal debe tener exactamente 5 dígitos"
+                        : ""
+                    }
             />
-          </Form.Group>
-          <Form.Group controlId="prO_municipio" className="mt-3">
-            <Form.Label>Municipio</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_municipio" 
-              value={formData.prO_municipio} 
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="prO_codigo_postal" className="mt-3">
-            <Form.Label>Código Postal</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_codigo_postal" 
-              value={formData.prO_codigo_postal} 
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="prO_pais" className="mt-3">
-            <Form.Label>País</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_pais" 
-              value={formData.prO_pais} 
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <Form.Group controlId="prO_nombre_empresa" className="mt-3">
-            <Form.Label>Nombre Empresa</Form.Label>
-            <Form.Control 
-              type="text" 
-              name="prO_nombre_empresa" 
-              value={formData.prO_nombre_empresa} 
-              onChange={handleChange}
-            />
-          </Form.Group>
-          <div className="d-flex justify-content-end mt-4">
-                        <Button variant="secondary" onClick={handleClose} className="me-2">
-                            Cancelar
-                        </Button>
-                        <Button variant="primary" type="submit">
-                            Guardar Cambios
-                        </Button>
-                    </div>
-        </Form>
-      </Modal.Body>
-    </Modal>
+        </div>
+        <div className="col-md-6">
+            <TextField
+                label="País"
+                name="prO_pais"
+                select
+                value={pais}
+                onChange={(event) => setPais(event.target.value)}
+                fullWidth
+                >
+                    <MenuItem value="Guatemala">Guatemala</MenuItem>
+                </TextField>
+        </div>
+        <div className="col-12 d-flex justify-content-end">
+              <button type='submit' className="btn btn-primary">Actualizar</button>
+              <button type="button" className="btn btn-danger ms-2" onClick={handleCloseModal}>Cancelar</button>
+        </div>
+    </form>
   );
 }
 

@@ -19,6 +19,7 @@ namespace appCRM.Data.Entities
         public string CLI_pais { get; set; } // País del cliente
         public string CLI_imagenurl { get; set; } // URL de la imagen del cliente
         public int CVE_id { get; set; } // Clave foránea a CanalVenta
+        public int USU_id { get; set; } // Clave foránea a Usuario
     
     
     }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Button, Table } from 'antd';
-import EditarPosibleCliente from './EditarPosibleCliente';
+import EditarProveedor from './EditarProveedor';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -10,13 +10,13 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const ITEM_HEIGHT = 48;
 
-function PosibleCliente() {
+function VerProveedor() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [selectedCliente, setSelectedCliente] = useState(null);
+  const [selectedProveedor, setSelectedProveedor] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -25,7 +25,7 @@ function PosibleCliente() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://localhost:7228/api/PosibleCliente");
+        const response = await fetch("https://localhost:7228/api/Proveedor");
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -44,18 +44,18 @@ function PosibleCliente() {
   }, []);
 
   const handleNavigate = () => {
-    navigate('/NuevoPosibleCliente');
+    navigate('/NuevoProveedor');
   };
 
-  const handleEdit = (posibleclienteId) => {
-    const posiblecliente = data.find(item => item.poC_id === posibleclienteId);
-    setSelectedCliente(posiblecliente);
+  const handleEdit = (ProveedorId) => {
+    const Proveedor = data.find(item => item.prO_id === ProveedorId);
+    setSelectedProveedor(Proveedor);
     setShowModal(true); // Mostrar el modal
   };
 
-  const handleUpdate = (posibleclienteId, updatedPosibleCliente) => {
-    const updatedData = data.map(posiblecliente =>
-      posiblecliente.poC_id === posibleclienteId ? updatedPosibleCliente : posiblecliente
+  const handleUpdate = (ProveedorId, updatedProveedor) => {
+    const updatedData = data.map(Proveedor =>
+      Proveedor.prO_id === ProveedorId ? updatedProveedor : Proveedor
     );
     setData(updatedData);
     setShowModal(false);  // Cerrar el modal
@@ -80,17 +80,17 @@ function PosibleCliente() {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch('https://localhost:7228/api/PosibleCliente/${id}', {
+        fetch('https://localhost:7228/api/Proveedor/${id}', {
           method: 'DELETE'
         })
           .then(response => {
             if (!response.ok) {
-              throw new Error('Error al eliminar el posible cliente');
+              throw new Error('Error al eliminar el Proveedor');
             }
-            setData(data.filter(posiblecliente => posiblecliente.poC_id !== id));
+            setData(data.filter(Proveedor => Proveedor.prO_id !== id));
             swalWithBootstrapButtons.fire(
               '¡Eliminado!',
-              'El posible cliente ha sido eliminado.',
+              'El Proveedor ha sido eliminado.',
               'success'
             );
           })
@@ -98,20 +98,21 @@ function PosibleCliente() {
             console.error('Error deleting client:', error);
             swalWithBootstrapButtons.fire(
               'Error',
-              'Hubo un problema al eliminar el cliente.',
+              'Hubo un problema al eliminar el Proveedor.',
               'error'
             );
           });
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         swalWithBootstrapButtons.fire(
           'Cancelado',
-          'El posible cliente está a salvo :)',
+          'El Proveedor está a salvo :)',
           'error'
         );
       }
     });
   };
 
+  //here
   const handleMenuClick = (event, record) => {
     setAnchorEl(event.currentTarget);
     setSelectedOption(record);
@@ -138,42 +139,42 @@ function PosibleCliente() {
   const columns = [
     {
       title: 'Nombre',
-      dataIndex: 'poC_nombre',
-      key: 'poC_nombre',
+      dataIndex: 'prO_nombre',
+      key: 'prO_nombre',
       render: (text, record) => (
         <Link to={{}}>{text}</Link>
       ),
     },
     {
       title: 'Apellido',
-      dataIndex: 'poC_apellido',
-      key: 'poC_apellido',
+      dataIndex: 'prO_apellido',
+      key: 'prO_apellido',
     },
     {
       title: 'Empresa',
-      dataIndex: 'poC_empresa',
-      key: 'poC_empresa',
+      dataIndex: 'prO_empresa',
+      key: 'prO_empresa',
     },
     {
       title: 'NIT',
-      dataIndex: 'poC_nit',
-      key: 'poC_nit',
+      dataIndex: 'prO_nit',
+      key: 'prO_nit',
     },
     {
       title: 'Correo electrónico',
-      dataIndex: 'poC_correo_electronico',
-      key: 'poC_correo_electronico',
+      dataIndex: 'prO_correo_electronico',
+      key: 'prO_correo_electronico',
     },
     {
       title: 'Teléfono',
-      dataIndex: 'poC_telefono',
-      key: 'poC_telefono',
+      dataIndex: 'prO_telefono',
+      key: 'prO_telefono',
     },
     {
       title: 'Acciones',
       key: 'actions',
       render: (text, record) => (
-        <Link to={{}}>Convertir a cliente</Link>
+        <Link to={{}}>Convertir a Proveedor</Link>
       ),
     },
     {
@@ -203,11 +204,11 @@ function PosibleCliente() {
             }}
           >
             <MenuItem onClick={() => {
-              handleEdit(record.poC_id);
+              handleEdit(record.prO_id);
               handleCloseMenu();
             }}>Editar</MenuItem>
             <MenuItem onClick={() => {
-              handleDelete(record.poC_id);
+              handleDelete(record.prO_id);
               handleCloseMenu();
             }}>Eliminar</MenuItem>
           </Menu>
@@ -217,9 +218,9 @@ function PosibleCliente() {
   ];
 
   return (
-    <div className="PosibleCliente">
+    <div className="Proveedor">
       <header className="header-vista">
-        <h3 className="header-title"> Todos los posibles clientes</h3>
+        <h3 className="header-title"> Todos los Proveedor</h3>
         <div className="botones-contenedor">
           <Button className="nuevo-btn" type="primary" onClick={handleNavigate}
            style={{ backgroundColor: '#8E0D3C', color: '#ffffff' }}>
@@ -231,18 +232,18 @@ function PosibleCliente() {
       <Table className='table'
         columns={columns}
         dataSource={data}
-        rowKey="poC_id" 
+        rowKey="prO_id" 
         pagination={{ pageSize: 10 }}  
         scroll={{ y: 500 }}
         style={{ width: '100%' }}
       />
 
-      {/* Modal para editar el posible cliente */}
-      {selectedCliente && (
-        <EditarPosibleCliente
+      {/* Modal para editar el Proveedor */}
+      {selectedProveedor && (
+        <EditarProveedor
           show={showModal}
           handleClose={() => setShowModal(false)}
-          posiblecliente={selectedCliente}
+          Proveedor={selectedProveedor}
           handleUpdate={handleUpdate}
         />
       )}
@@ -250,4 +251,4 @@ function PosibleCliente() {
   );
 }
 
-export default PosibleCliente;
+export default VerProveedor;
