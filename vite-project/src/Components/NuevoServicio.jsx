@@ -1,142 +1,138 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { TextField, Button, Box, Typography, FormControl } from '@mui/material';
 
-function NuevoServicio() {
-    const [newServicio, setNewServicio] = useState({
-        SER_nombre: '',
-        SER_descripcion: '',
-        SER_precio: ''
-    });
+const NuevoServicio = ({
+  servicio,
+  handleCloseModal,
+  isEditMode,
+  refreshServicios,
+}) => {
+    const [nombre, setNombre] = useState("");
+    const [descripcion , setDescripcion] = useState("");
+    const [precio, setPrecio] = useState("");
 
-    // Manejar cambios en el formulario
-    const handleChange = (e) => {
-        setNewServicio({
-            ...newServicio,
-            [e.target.name]: e.target.value
-        });
-    };
-
-    // Manejar la creación del servicio
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // Validar que los campos obligatorios estén completos
-        if (!newServicio.SER_nombre || !newServicio.SER_precio) {
-            toast.error('Nombre del servicio y precio son obligatorios', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-            return;
+    useEffect(() => {
+        if (isEditMode && servicio) {
+            setNombre(servicio.seR_nombre);
+            setDescripcion(servicio.seR_descripcion);
+            setPrecio(servicio.seR_precio);
         }
+    }, [isEditMode, servicio]);
 
-        // Crear nuevo servicio
-        fetch('https://localhost:7228/api/Servicio', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newServicio)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al agregar el servicio');
-            }
-            return response.json();
-        })
-        .then(data => {
-            setNewServicio({ SER_nombre: '', SER_descripcion: '', SER_precio: '' });
-            toast.success('Servicio agregado correctamente!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-        })
-        .catch(error => {
-            console.error('Error al agregar el servicio:', error);
-            toast.error('Ocurrió un error al agregar el servicio', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-        });
+    const onFinish = async (event) => {
+    event.preventDefault();
+
+    const data = {
+        seR_nombre: nombre,
+        seR_descripcion: descripcion,
+        seR_precio: precio,
     };
 
-    return (
-        <div className="NuevoCliente">
-            <div className="form-container">
-                <ToastContainer />
-                <h2 className="mb-4">Agregar Servicio</h2>
-                <form onSubmit={handleSubmit} className="mb-4">
-                    <div className="form-group mb-3">
-                        <label htmlFor="SER_nombre">Nombre del Servicio</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="SER_nombre"
-                            name="SER_nombre"
-                            placeholder="Nombre del Servicio"
-                            value={newServicio.SER_nombre}
-                            onChange={handleChange}
-                            pattern="^[A-Za-z\s]+$"  
-                            title="El nombre solo debe contener letras mayúsculas, minúsculas y espacios"
-                        />
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="SER_descripcion">Descripción</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="SER_descripcion"
-                            name="SER_descripcion"
-                            placeholder="Descripción"
-                            value={newServicio.SER_descripcion}
-                            onChange={handleChange}
-                            pattern="^[A-Za-z\s]+$"  
-                            title="La descripción puede contener letras y espacios"
-                        />
-                    </div>
-                    <div className="form-group mb-3">
-                        <label htmlFor="SER_precio">Precio</label>
-                        <input
-                            type="number"
-                            className="form-control"
-                            id="SER_precio"
-                            name="SER_precio"
-                            placeholder="Precio"
-                            value={newServicio.SER_precio}
-                            onChange={handleChange}
-                            step="0.000001"
-                            min="0"
-                            max="10000"
-                            title="El precio debe ser un número positivo con hasta 6 decimales"
-                            required
-                        />
-                    </div>
-                    <div className="col-md-10">
-                        <button type="submit" className="btn btn-primary"
-                        style={{
-                            backgroundColor: "#8E0D3C",
-                            color: "#ffffff",
-                            outline: "none",
-                          }}
-                          >Agregar Servicio</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
+    const url = isEditMode
+        ? `https://localhost:7228/api/Servicio/${servicio.seR_id}`
+        : 'https://localhost:7228/api/Servicio';
+
+    const method = isEditMode ? 'PUT' : 'POST';
+
+    fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Error al enviar el servicio');
+        }
+        return response.json();
+    })
+    .then(() => {
+        Swal.fire({
+            title: '¡Éxito!',
+            text: isEditMode
+            ? 'Servicio actualizado correctamente.'
+            : 'Servicio agregado correctamente.',
+            icon: 'success',
+            willOpen: () => {
+                document.querySelector('.swal2-container').style.zIndex = '3000';
+            },
+        }).then(() => {
+            handleCloseModal();
+            refreshServicios();
+    });
+})
+.catch((error) => {
+    console.error('Error al enviar el servicio:', error);
+    Swal.fire({
+        icon: 'error',
+        title: '¡Error!',
+        text: 'Verifica los datos e intenta de nuevo.',
+        willOpen: () => {
+            document.querySelector('.swal2-container').style.zIndex = '3000';
+        },
+    });
+});
 };
 
+
+  return (
+    <form className="row g-3" onSubmit={onFinish}>
+      <div className="col-md-12">
+        <TextField
+            label="Nombre del Servicio"
+            name="seR_nombre"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            fullWidth
+            required
+            />
+      </div>
+      <div className="col-md-12">
+        <TextField
+            label="Descripción"
+            name="seR_descripcion"
+            value={descripcion}
+            onChange={(e) => setDescripcion(e.target.value)}
+            fullWidth
+            multiline
+            rows={3}
+            />
+        </div>
+
+        <div className="col-md-12">
+            <TextField
+            label="Precio"
+            type="number"
+            name="seR_precio"
+            value={precio}
+            onChange={(e) => setPrecio(e.target.value)}
+            inputProps={{ min: 0, step: 0.01 }}
+            fullWidth
+            required
+            />
+        </div>
+        <div className="col-12 d-flex justify-content-end">
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className="me-2"
+        >
+          {isEditMode ? "Actualizar" : "Guardar"}
+        </Button>
+        <button
+          type="button"
+          className="btn btn-danger ms-2"
+          onClick={handleCloseModal}
+        >
+          Cancelar
+        </button>
+      </div>
+      </form>
+  );
+};
 export default NuevoServicio;

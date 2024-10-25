@@ -4,8 +4,9 @@ import { Button, Layout, theme, Input } from 'antd';
 import Logo from './Components/Logo';
 import MenuList from './Components/MenuList';
 import ToggleThemeButton from './Components/ToggleThemeButton';
-import { MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined } from '@ant-design/icons';
+import { MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined, SettingOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Box } from '@mui/material';
 import NuevoCliente from './Components/NuevoCliente';
 import NuevoProveedor from './Components/NuevoProveedor';
 import NuevoPosibleCliente from './Components/NuevoPosibleCliente';
@@ -13,16 +14,18 @@ import VerServicio from './Components/VerServicio';
 import VerPosibleCliente from './Components/VerPosibleCliente';
 import VerCliente from './Components/VerCliente';
 import NuevoServicio from './Components/NuevoServicio';
-import VerProveedor from './Components/VerProveedor1';
+import VerProveedor from './Components/VerProveedor';
 import MenuOpciones from './Components/MenuOpciones';
 import Seguimiento from './Components/NuevoSeguimiento';
 import NuevaQueja from './Components/NuevaQueja';
 import VerQueja from './Components/VerQueja';
 import ModalQueja from './Components/ModalQueja';
 import Dashboard from './Components/Dashboard';
-
 import ConvertirPaC from './Components/ConvertirPaC';
 import VerSeguimiento from './Components/VerSeguimiento';
+import Informe from './Components/Informes/ReporteSeguimiento';
+import ReporteSeguimiento from './Components/Informes/ReporteSeguimiento';
+import PClienteReporte from './Components/PClienteReporte';
 const { Header, Sider } = Layout;
  
 function App() {
@@ -61,7 +64,19 @@ function App() {
         >
           <Logo />
           <MenuList darkTheme={darkTheme} />
-          <ToggleThemeButton darkTheme={darkTheme} toggleTheme={toggleTheme} />
+          <Box 
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', bottom: '0', width: '100%', paddingBottom: '30px' }}
+          >
+            {/* Botón para alternar el tema */}
+            <ToggleThemeButton darkTheme={darkTheme} toggleTheme={toggleTheme} />
+
+            {/* Ícono de Configuración */}
+            <Button 
+              type="text" 
+              icon={<SettingOutlined />} 
+              onClick={() => console.log('Abrir configuración')}
+            />
+          </Box>
         </Sider>
 
         <Layout
@@ -121,6 +136,8 @@ function App() {
             <Route path='/VerQueja' element ={<VerQueja />}/>
             <Route path='/ModalQueja' element ={<ModalQueja />}/>
             <Route path='/Dashboard' element ={<Dashboard />}/>
+            <Route path='/Informes/ReporteSeguimiento' element ={<ReporteSeguimiento />}/>
+            <Route path='/PClienteReporte' element ={<PClienteReporte />}/>
           </Routes>
         </Layout>
             

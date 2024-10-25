@@ -141,8 +141,7 @@ export default function EnhancedTable() {
     setIsEditMode(true); // Cambiar a modo edición
     setSeguimientoSeleccionado(seguimiento); // Establecer el seguimiento a editar
     setIsModalVisible(true); // Abrir el modal
-  };
-
+  }
   const obtenerSeguimientos = async () => {
     try {
       const response = await fetch('https://localhost:7228/api/Seguimiento');

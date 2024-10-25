@@ -1,274 +1,256 @@
-import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
+import { TextField, Button, Box, Typography, MenuItem } from '@mui/material';
+import DepartamentoMunicipioSelect from "./Datos/DepartamentoMunicipioSelect";
 
-function NuevoProveedor() {
-    const [newProveedor, setNewProveedor] = useState({
-        PRO_nombre: '',
-        PRO_apellido: '',
-        PRO_nit: '',
-        PRO_telefono: '',
-        PRO_correo_electronico: '',
-        PRO_direccion: '',
-        PRO_departamento: '',
-        PRO_municipio: '',
-        PRO_codigo_postal: '',
-        PRO_pais: '',
-        PRO_nombre_empresa: ''
-    });
+const NuevoProveedor = ({
+  proveedor,
+  handleCloseModal,
+  isEditMode,
+  refreshProveedores,
+}) => {
+  const [formData, setFormData] = useState({
+    prO_nombre: '',
+    prO_apellido: '',
+    prO_nombre_empresa: '',
+    prO_nit: '',
+    prO_telefono: '',
+    prO_correo_electronico: '',
+    prO_direccion: '',
+    prO_departamento: '',
+    prO_municipio: '',
+    prO_codigo_postal: '',
+    prO_pais: '',
+  });
 
-    // Manejar cambios en el formulario
-    const handleChange = (e) => {
-        setNewProveedor({
-            ...newProveedor,
-            [e.target.name]: e.target.value
-        });
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
-    // Manejar la creación del proveedor
-    const handleSubmit = (e) => {
-        e.preventDefault();
+  const handleDepartamentoMunicipioSelect = ({ departamento, municipio }) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      prO_departamento: departamento,
+      prO_municipio: municipio,
+    }));
+  };
 
-        // Validar que los campos obligatorios estén completos
-        if (!newProveedor.PRO_nombre_empresa || !newProveedor.PRO_correo_electronico) {
-            toast.error('Nombre de la empresa y correo son obligatorios', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-            return;
+  useEffect(() => {
+    if (isEditMode && proveedor) {
+      setFormData(proveedor);
+    }
+  }, [isEditMode, proveedor]);
+
+  const onFinish = async (event) => {
+    event.preventDefault();
+
+    const url = isEditMode
+      ? `https://localhost:7228/api/Proveedor/${proveedor.prO_id}`
+      : 'https://localhost:7228/api/Proveedor';
+
+    const method = isEditMode ? 'PUT' : 'POST';
+
+    fetch(url, {
+      method: method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Error al enviar los datos del proveedor');
         }
+        return response.json();
+      })
+      .then(() => {
+        Swal.fire({
+          title: '¡Éxito!',
+          text: isEditMode
+            ? 'Proveedor actualizado correctamente.'
+            : 'Proveedor agregado correctamente.',
+          icon: 'success',
+          willOpen: () => {
+            document.querySelector('.swal2-container').style.zIndex = '3000';
+          },
+        }).then(() => {
+          handleCloseModal();
+          refreshProveedores();
+        });
+      })
+      .catch((error) => {
+        console.error('Error al enviar los datos del proveedor:', error);
+        Swal.fire({
+          icon: 'error',
+          title: '¡Error!',
+          text: 'Verifica los datos e intenta de nuevo.',
+          willOpen: () => {
+            document.querySelector('.swal2-container').style.zIndex = '3000';
+          },
+        });
+      });
+  };
 
-        // Crear nuevo proveedor
-        fetch('https://localhost:7228/api/Proveedor', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newProveedor)
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al agregar el proveedor');
-            }
-            return response.json();
-        })
-        .then(data => {
-            setNewProveedor({
-                PRO_nombre: '',
-                PRO_apellido: '',
-                PRO_nit: '',
-                PRO_telefono: '',
-                PRO_correo_electronico: '',
-                PRO_direccion: '',
-                PRO_departamento: '',
-                PRO_municipio: '',
-                PRO_codigo_postal: '',
-                PRO_pais: '',
-                PRO_nombre_empresa: ''
-            });
-            toast.success('Proveedor agregado correctamente!', {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-            });
-        })
-        .catch(error => console.error('Error adding provider:', error));
-    };
-
-    return (
-        <div className="NuevoCliente">
-            <div className="form-container">
-            <form className="row g-3" onSubmit= {handleSubmit}>
-            <ToastContainer />
-            <center><label> <h3> AGREGAR NUEVO PROVEEDOR </h3> </label> </center>
-            <div className="col-md-6">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_nombre">Nombre</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_nombre"
-                        name="PRO_nombre"
-                        placeholder="Nombre"
-                        value={newProveedor.PRO_nombre}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-6">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_apellido">Apellido</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_apellido"
-                        name="PRO_apellido"
-                        placeholder="Apellido"
-                        value={newProveedor.PRO_apellido}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-8">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_nombre_empresa">Nombre de la Empresa</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_nombre_empresa"
-                        name="PRO_nombre_empresa"
-                        placeholder="Nombre de la Empresa"
-                        value={newProveedor.PRO_nombre_empresa}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-4">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_nit">NIT</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_nit"
-                        name="PRO_nit"
-                        placeholder="NIT"
-                        value={newProveedor.PRO_nit}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-4">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_telefono">Teléfono</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_telefono"
-                        name="PRO_telefono"
-                        placeholder="Teléfono"
-                        value={newProveedor.PRO_telefono}
-                        onChange={handleChange}
-                        pattern="[0-9]{8}"
-                        title="Número de teléfono de 8 dígitos"
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-8">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_correo_electronico">Correo Electrónico</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        id="PRO_correo_electronico"
-                        name="PRO_correo_electronico"
-                        placeholder="Correo Electrónico"
-                        value={newProveedor.PRO_correo_electronico}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-8">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_direccion">Dirección</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_direccion"
-                        name="PRO_direccion"
-                        placeholder="Dirección"
-                        value={newProveedor.PRO_direccion}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-4">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_departamento">Departamento</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_departamento"
-                        name="PRO_departamento"
-                        placeholder="Departamento"
-                        value={newProveedor.PRO_departamento}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-4">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_municipio">Municipio</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_municipio"
-                        name="PRO_municipio"
-                        placeholder="Municipio"
-                        value={newProveedor.PRO_municipio}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-4">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_codigo_postal">Código Postal</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_codigo_postal"
-                        name="PRO_codigo_postal"
-                        placeholder="Código Postal"
-                        value={newProveedor.PRO_codigo_postal}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-
-                <div className="col-md-4">
-                <div className="form-group mb-3">
-                    <label htmlFor="PRO_pais">País</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="PRO_pais"
-                        name="PRO_pais"
-                        placeholder="País"
-                        value={newProveedor.PRO_pais}
-                        onChange={handleChange}
-                    />
-                </div>
-                </div>
-                <div className="col md-10">
-                <button type="submit" className="btn btn-primary"
-                style={{
-                    backgroundColor: "#8E0D3C",
-                    color: "#ffffff",
-                    outline: "none",
-                  }}
-                  >Agregar Proveedor</button>
-                </div>
-                <ToastContainer />
-            </form>
+  return (
+    <form className="row g-3" onSubmit={onFinish}>
+        <div className="col-md-6">
+            <TextField
+                label="Nombre"
+                name="prO_nombre"
+                type="text"
+                value={formData.prO_nombre}
+                onChange={handleChange}
+                fullWidth
+                required
+            />
         </div>
+        <div className="col-md-6">
+            <TextField
+                label="Apellido"
+                name="prO_apellido"
+                type="text"
+                value={formData.prO_apellido}
+                onChange={handleChange}
+                fullWidth
+                required
+            />
         </div>
-    );
-}
+
+        <div className="col-md-12">
+            <TextField
+                label="Nombre de la Empresa"
+                name="prO_nombre_empresa"
+                type="text"
+                value={formData.prO_nombre_empresa}
+                onChange={handleChange}
+                fullWidth
+                required
+            />
+        </div>
+        <div className="col-md-6">
+            <TextField
+                label="NIT"
+                name="prO_nit"
+                type="text"
+                value={formData.prO_nit}
+                onChange={handleChange}
+                fullWidth
+                required
+            />
+        </div>
+
+        <div className="col-md-6">
+            <TextField
+                label="Teléfono"
+                name="prO_telefono"
+                type="text"
+                value={formData.prO_telefono}
+                onChange={handleChange}
+                fullWidth
+                inputProps={{pattern: "^[0-9]{8}$", maxLength: 8}}
+                onError={
+                    formData.prO_telefono &&
+                    !/^[0-9]{8}$/.test(formData.prO_telefono)
+                }
+                helperText={
+                    formData.prO_telefono &&
+                    !/^[0-9]{8}$/.test(formData.prO_telefono)
+                    ? "El teléfono debe contener 8 dígitos"
+                    : ""
+                }
+                />
+        </div>
+        <div className="col-md-6">
+            <TextField
+
+                label="Correo Electrónico"
+                name="prO_correo_electronico"
+                type="email"
+                value={formData.prO_correo_electronico}
+                onChange={handleChange}
+                fullWidth
+                error={
+                    formData.prO_correo_electronico &&
+                    !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+                      formData.prO_correo_electronico
+                    )
+                  }
+                  helperText={
+                    formData.prO_correo_electronico &&
+                    !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(
+                      formData.prO_correo_electronico
+                    )
+                      ? "Por favor ingrese un correo electrónico válido"
+                      : ""
+                  }
+            />
+        </div>
+
+        <div className="col-md-6">
+            <TextField
+                label="Dirección"
+                name="prO_direccion"
+                type="text"
+                value={formData.prO_direccion}
+                onChange={handleChange}
+                fullWidth
+                />
+        </div>
+        <div>
+            <DepartamentoMunicipioSelect
+            formData={formData}
+            setFormData={setFormData}
+            />
+            </div> 
+
+
+        <div className="col-md-6">
+            <TextField
+                label="Código Postal"
+                name="prO_codigo_postal"
+                type="number"
+                value={formData.prO_codigo_postal}
+                onChange={handleChange}
+                fullWidth
+                inputProps={{ pattern: "^[0-9]{5}$", maxLength: 5 }}
+                    error={
+                      formData.prO_codigo_postal &&
+                      !/^[0-9]{5}$/.test(formData.prO_codigo_postal)
+                    }
+                    helperText={
+                      formData.prO_codigo_postal &&
+                      !/^[0-9]{5}$/.test(formData.prO_codigo_postal)
+                        ? "El código postal debe tener exactamente 5 dígitos"
+                        : ""
+                    }
+            />
+        </div>
+        <div className="col-md-6">
+            <TextField
+                label="País"
+                name="prO_pais"
+                select
+                value={formData.prO_pais}
+                onChange={handleChange}
+                fullWidth
+                >
+                    <MenuItem value="Guatemala">Guatemala</MenuItem>
+                </TextField>
+        </div>
+
+      <div className="col-12 d-flex justify-content-end">
+        <Button type="submit" variant="contained" color="primary" className="me-2">
+          {isEditMode ? 'Actualizar' : 'Guardar'}
+        </Button>
+        <button
+          type="button"
+          className="btn btn-danger ms-2"
+          onClick={handleCloseModal}
+        >
+          Cancelar
+        </button>
+      </div>
+    </form>
+  );
+};
 
 export default NuevoProveedor;
