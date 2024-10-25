@@ -20,6 +20,8 @@ import NuevaQueja from './Components/NuevaQueja';
 import VerQueja from './Components/VerQueja';
 import ConvertirPaC from './Components/ConvertirPaC';
 import VerSeguimiento from './Components/VerSeguimiento';
+import PClienteReporte from './Components/PClienteReporte';
+
 const { Header, Sider } = Layout;
  
 function App() {
@@ -80,6 +82,8 @@ function App() {
               alignItems: 'center',
               justifyContent: 'space-between',
             }}
+
+
           >
             <Button
               type="text"
@@ -116,6 +120,7 @@ function App() {
             <Route path='/Seguimiento' element ={<Seguimiento />}/>
             <Route path='/NuevaQueja' element ={<NuevaQueja />}/>
             <Route path='/VerQueja' element ={<VerQueja />}/>
+            <Route path='/PClienteReporte' element ={<PClienteReporte />}/>
           </Routes>
         </Layout>
             
@@ -125,3 +130,4 @@ function App() {
 }
 
 export default App;
+

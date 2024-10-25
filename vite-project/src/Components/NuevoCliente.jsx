@@ -119,6 +119,8 @@ function NuevoCliente() {
                     name="CLI_nombre"
                     value={newCliente.CLI_nombre}
                     onChange={handleChange}
+                    pattern="^[A-Za-z\s]+$"  
+                    title="El nombre solo debe contener letras mayúsculas, minúsculas y espacios"             
                 />
             </div>
             </div>
@@ -132,6 +134,8 @@ function NuevoCliente() {
                     name="CLI_apellido"
                     value={newCliente.CLI_apellido}
                     onChange={handleChange}
+                    pattern="^[A-Za-z\s]+$"  
+                    title="El nombre solo debe contener letras mayúsculas, minúsculas y espacios"              
                 />
             </div>
             </div>
@@ -171,6 +175,9 @@ function NuevoCliente() {
                     name="CLI_dpi"
                     value={newCliente.CLI_dpi}
                     onChange={handleChange}
+                    pattern="\d{13}"
+                    maxLength={13}
+                    title="El DPI debe contener exactamente 13 números."
                 />
             </div>
             </div>
