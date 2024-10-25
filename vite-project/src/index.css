@@ -11,6 +11,12 @@
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
 }
 
+/* Estilos globales */
+body {
+  -webkit-text-size-adjust: 100%; /* Para compatibilidad con navegadores antiguos */
+  text-size-adjust: 100%; /* Para compatibilidad con navegadores modernos */
+}
+
 
 .sidebar {
   color: #fff;
