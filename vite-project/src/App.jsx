@@ -16,7 +16,15 @@ import VerCliente from './Components/VerCliente';
 import NuevoServicio from './Components/NuevoServicio';
 import VerProveedor from './Components/VerProveedor';
 import MenuOpciones from './Components/MenuOpciones';
-
+import Seguimiento from './Components/NuevoSeguimiento';
+import NuevaQueja from './Components/NuevaQueja';
+import VerQueja from './Components/VerQueja';
+import ModalQueja from './Components/ModalQueja';
+import Dashboard from './Components/Dashboard';
+import ConvertirPaC from './Components/ConvertirPaC';
+import VerSeguimiento from './Components/VerSeguimiento';
+import Informe from './Components/Informes/ReporteSeguimiento';
+import ReporteSeguimiento from './Components/Informes/ReporteSeguimiento';
 const { Header, Sider } = Layout;
  
 function App() {
@@ -120,6 +128,14 @@ function App() {
             <Route path="/NuevoServicio" element={<NuevoServicio />} />
             <Route path="/VerServicio" element={<VerServicio />} />
             <Route path="/VerCliente" element={<VerCliente />} />
+            <Route path='/VerSeguimiento' element ={<VerSeguimiento />}/>
+            <Route path='/ConvertirPaC' element ={<ConvertirPaC />}/>
+            <Route path='/Seguimiento' element ={<Seguimiento />}/>
+            <Route path='/NuevaQueja' element ={<NuevaQueja />}/>
+            <Route path='/VerQueja' element ={<VerQueja />}/>
+            <Route path='/ModalQueja' element ={<ModalQueja />}/>
+            <Route path='/Dashboard' element ={<Dashboard />}/>
+            <Route path='/Informes/ReporteSeguimiento' element ={<ReporteSeguimiento />}/>
           </Routes>
         </Layout>
             
