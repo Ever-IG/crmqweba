@@ -1,30 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustSelect from './CustSelect';
 
-const QuoteDetailTable = () => {
+const QuoteDetailTable = ({ onDetailDataChange }) => {
   const [items, setItems] = useState([
-    { id: 1, name: '', 
+    { id: 0, name: "", 
       quantity: 1, 
       unitPrice: 0, 
       discount: 0,
-      discounttype: 0,
+      discounttype: "Directo",
       total: 0 }
   ]);
+
+//const [items, setItems] = useState([]);
 
   const handleItemChange = (index, field, value) => {
     const updatedItems = [...items];
     updatedItems[index][field] = value;
     
     // Recalcular el total de la fila
-    updatedItems[index].total = updatedItems[index].quantity * updatedItems[index].unitPrice;
+    var Discount = 0;
+    switch (updatedItems[index].discounttype){
+      case "Directo": Discount = updatedItems[index].discount; break;
+      case "Porcentaje": Discount = updatedItems[index].quantity * updatedItems[index].unitPrice*(updatedItems[index].discount/100); break;
+    }
+    
+    updatedItems[index].total = updatedItems[index].quantity * updatedItems[index].unitPrice - Discount;
     
     setItems(updatedItems);
   };
 
+  const handleCustSelectChange = (e) => {
+    //console.log("*** Entro a handle de QuoteDetailTable con: " + e.target.id + "; " + e.target.name + "; " + e.target.value);
+    handleItemChange(e.target.id, e.target.name, e.target.value);
+  }
+
   const addItem = () => {
     setItems([
       ...items,
-      { id: items.length + 1, name: '', quantity: 1, unitPrice: 0, total: 0 }
+      { id: items.length + 1, name: 0, quantity: 1, unitPrice: 0, total: 0 }
     ]);
   };
 
@@ -36,6 +49,14 @@ const QuoteDetailTable = () => {
   const calculateTotal = () => {
     return items.reduce((acc, item) => acc + item.total, 0);
   };
+
+  // Usar useEffect para notificar al padre sobre los cambios en un ítem en específico
+  useEffect(() => {
+    if (onDetailDataChange) {
+      // Pasar el primer item de ejemplo; puedes adaptar esto para que maneje varios ítems
+      onDetailDataChange(items); // Pasando el primer item a modo de ejemplo
+    }
+  }, [items, onDetailDataChange]);
 
   return (
     <div className="util-container mt-4">
@@ -59,7 +80,9 @@ const QuoteDetailTable = () => {
                   className="form-control"
                   info="Servicios"
                   value={item.name} 
-                  onChange={(e) => handleItemChange(index, 'name', e.target.value)} 
+                  name="name"
+                  itemindex = {index}
+                  onChange={handleCustSelectChange} 
                   />
               </td>
               <td>
@@ -90,10 +113,10 @@ const QuoteDetailTable = () => {
                 <select 
                   className="form-control" 
                   value={item.discounttype} 
-                  onChange={(e) => handleItemChange(index, 'discounttype', parseFloat(e.target.value) || 0)} 
+                  onChange={(e) => handleItemChange(index, 'discounttype', e.target.value)} 
                 >
-                  <option value="1">Directo</option>
-                  <option value="2">Porcentaje</option>
+                  <option value="Directo">Directo</option>
+                  <option value="Porcentaje">Porcentaje</option>
                 </select>
               </td>
               <td>{item.total.toFixed(2)}</td>
@@ -108,9 +131,9 @@ const QuoteDetailTable = () => {
           ))}
         </tbody>
       </table>
-      <button className="btn btn-primary" onClick={addItem}>
-        Agregar Producto/Servicio
-      </button>
+      <div className="btn btn-primary" onClick={addItem}>
+        Agregar Servicio
+      </div>
       <h3 className="mt-4">Total Cotización: ${calculateTotal().toFixed(2)}</h3>
     </div>
   );

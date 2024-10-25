@@ -23,6 +23,9 @@ const CustSelect = (props) => {
       case "Servicios":
         apiurl = "https://localhost:7228/api/Servicio";
         break;
+      case "Usuarios":
+        apiurl = "https://localhost:7228/api/Usuario";
+        break;
       default:
         apiurl = "https://localhost:7228/api/Cliente";
     }
@@ -44,9 +47,13 @@ const CustSelect = (props) => {
               setOptions(result.map(item => ({ value: item.clI_id, label: item.clI_nombre + " " +  item.clI_apellido })));
               console.log('Options Array:', result.map(item => ({ value: item.clI_id, label: item.clI_nombre + " " +  item.clI_apellido })));
               break;
-              case 'Servicios':
-                setOptions(result.map(item => ({ value: item.sER_id, label: item.seR_nombre })));
-                console.log('Options Array:', result.map(item => ({ value: item.sER_id, label: item.seR_nombre })));
+            case 'Servicios':
+                setOptions(result.map(item => ({ value: item.seR_id, label: item.seR_nombre })));
+                console.log('Options Array:', result.map(item => ({ value: item.seR_id, label: item.seR_nombre })));
+                break;
+            case 'Usuarios':
+                setOptions(result.map(item => ({ value: item.uSU_id, label: item.uSU_nombre })));
+                console.log('Options Array:', result.map(item => ({ value: item.uSU_id, label: item.uSU_nombre })));
                 break;
             default:
               setOptions(result.map(item => ({ value: item.clI_id, label: item.clI_nombre + " " +  item.clI_apellido })));
@@ -65,10 +72,18 @@ const CustSelect = (props) => {
 
     }, []);
 
+  const handleSelChange = (e) => {
+    setSelectedOption(e.target.value);
+    console.log("Valor target CustSelect: " + selectedOption);
+    props.onChange(e);
+  };
+
   return (
-    <select className='form-select' 
+    <select className='form-select'
+            name={props.name}
             value={selectedOption} 
-            onChange={event => setSelectedOption(event.target.value)}
+            id={props.itemindex}
+            onChange={handleSelChange}
     >
       {options.map(option => (
         <option key={option.value} value={option.value}>
