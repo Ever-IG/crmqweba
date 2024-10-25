@@ -89,8 +89,6 @@
 }
 
 
-
-
 .form-container2 {
   background-color: #ffffff;
   margin: 50px;
@@ -185,8 +183,13 @@ td.opciones button {
 
 .container input, .container select {
   background-color: #455e7e;
+  /*background-color: #ce2828; naranja*/
+  /*background-color: #15093b; azul*/
+  /*background-color: #8E0D3C; cereza */
   color: #fff;
 }
 :where(.css-dev-only-do-not-override-qnu6hi).ant-modal .ant-modal-content {
   margin-top: -98px;
 }
+
+

@@ -439,6 +439,11 @@ const NuevoSeguimiento = ({
           type="button"
           className="btn btn-danger ms-2"
           onClick={handleCloseModal}
+          style={{
+            backgroundColor: "#8E0D3C",
+            color: "#ffffff",
+            outline: "none",
+          }}
         >
           Cancelar
         </button>

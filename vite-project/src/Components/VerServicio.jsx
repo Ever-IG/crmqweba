@@ -144,7 +144,7 @@ const handleDelete = (id) => {
                   <Button 
                     className="btn btn-sm me-2"
                     style={{
-                      backgroundColor: '#43933d',
+                      backgroundColor: '#15093b',
                       border: '',
                       color: 'white',
                       outline: 'none',
@@ -157,6 +157,14 @@ const handleDelete = (id) => {
                   </Button>
                   <Button 
                     className="btn btn-danger btn-sm"
+                    style={{
+                      backgroundColor: '#8E0D3C',
+                      border: '',
+                      color: 'white',
+                      outline: 'none',
+                      boxShadow: 'none',
+                      alignContent: 'center'
+                    }}
                     onClick={() => handleDelete(item.seR_id)}
                   >
                     Eliminar

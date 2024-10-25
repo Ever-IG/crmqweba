@@ -125,7 +125,13 @@ function NuevoServicio() {
                         />
                     </div>
                     <div className="col-md-10">
-                        <button type="submit" className="btn btn-primary">Agregar Servicio</button>
+                        <button type="submit" className="btn btn-primary"
+                        style={{
+                            backgroundColor: "#8E0D3C",
+                            color: "#ffffff",
+                            outline: "none",
+                          }}
+                          >Agregar Servicio</button>
                     </div>
                 </form>
             </div>

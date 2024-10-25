@@ -256,7 +256,13 @@ function NuevoProveedor() {
                 </div>
                 </div>
                 <div className="col md-10">
-                <button type="submit" className="btn btn-primary">Agregar Proveedor</button>
+                <button type="submit" className="btn btn-primary"
+                style={{
+                    backgroundColor: "#8E0D3C",
+                    color: "#ffffff",
+                    outline: "none",
+                  }}
+                  >Agregar Proveedor</button>
                 </div>
                 <ToastContainer />
             </form>
