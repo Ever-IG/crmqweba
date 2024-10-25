@@ -67,6 +67,10 @@ const MenuList = ({ darkTheme }) => {
         <Link to="/Informes/ReporteSeguimiento">Informe</Link>
       </Menu.Item>
 
+      <Menu.Item key="PClienteReporte" icon={<CommentOutlined />}>
+        <Link to="/PClienteReporte">REPORTE</Link>
+      </Menu.Item>
+
     </Menu>
     
 
