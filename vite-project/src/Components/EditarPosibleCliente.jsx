@@ -3,7 +3,9 @@ import { Form, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { TextField, MenuItem } from "@mui/material";
 import DepartamentoMunicipioSelect from "./Datos/DepartamentoMunicipioSelect";
+import dayjs from 'dayjs';
 
+const today = dayjs().format('YYYY-MM-DD');
 function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
   const [formData, setFormData] = useState({
     poC_nombre: "",
@@ -23,6 +25,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
     poC_codigo_postal: "",
     poC_pais: "",
     poC_imagenurl: "",
+    poC_fecha: "",
     cvE_id: "",
     usU_id: "",
   });
@@ -50,6 +53,9 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
       setFormData((prevData) => ({
         ...prevData,
         ...posiblecliente,
+        poC_fecha: posiblecliente.poC_fecha 
+        ? dayjs(posiblecliente.poC_fecha).format('YYYY-MM-DD') // Formatear la fecha
+        : today, 
         cvE_id: posiblecliente.cvE_id || "",
         usU_id: posiblecliente.usU_id || "", // Asegurarse que esté preseleccionado si existe
         poC_estado_de_posible_cliente: posiblecliente.poC_estado_de_posible_cliente || "",
@@ -139,7 +145,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
         />
       </div>
 
-      <div className="col-md-12">
+      <div className="col-md-8">
         <TextField
           label="Empresa"
           name="poC_empresa"
@@ -148,6 +154,21 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
           fullWidth
         />
       </div>
+
+      <div className="col-md-4">
+                <TextField
+                label="Fecha de ingreso"
+                type="date"
+                name="POC_fecha"
+                value={formData.poC_fecha}
+                onChange={handleChange}
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ max: today }}
+                required
+                />
+                </div>
+
 
       <div className="col-md-6">
         <TextField

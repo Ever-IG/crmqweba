@@ -49,10 +49,10 @@ export default function InformePosiblesClientes() {
     const { estado, canalVenta, vendedor, fechaInicio, fechaFin } = filters;
 
     const filtrados = clientes.filter((cliente) => {
-      const fechaCliente = dayjs(cliente.fecha_registro);
+      const fechaCliente = dayjs(cliente.poC_fecha);
       const coincideEstado = estado ? cliente.poC_estado_de_posible_cliente === estado : true;
-      const coincideCanal = canalVenta ? cliente.canal_venta_id === parseInt(canalVenta) : true;
-      const coincideVendedor = vendedor ? cliente.vendedor_id === parseInt(vendedor) : true;
+      const coincideCanal = canalVenta ? cliente.cvE_id === parseInt(canalVenta) : true;
+      const coincideVendedor = vendedor ? cliente.usU_id === parseInt(vendedor) : true;
       const coincideFechaInicio = fechaInicio ? fechaCliente.isAfter(dayjs(fechaInicio).subtract(1, 'day')) : true;
       const coincideFechaFin = fechaFin ? fechaCliente.isBefore(dayjs(fechaFin).add(1, 'day')) : true;
 
@@ -150,8 +150,8 @@ export default function InformePosiblesClientes() {
         >
           <MenuItem value="">Todos los Canales</MenuItem>
           {canalesVenta.map((canal) => (
-            <MenuItem key={canal.id} value={canal.id}>
-              {canal.nombre}
+            <MenuItem key={canal.cvE_id} value={canal.cvE_id}>
+              {canal.cvE_nombre}
             </MenuItem>
           ))}
         </Select>

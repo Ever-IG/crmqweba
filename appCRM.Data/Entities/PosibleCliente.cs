@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,6 +27,7 @@ namespace appCRM.Data.Entities
         public string POC_pais { get; set; } // País del posible cliente
         public string POC_imagenurl { get; set; } // URL de la imagen del posible cliente
         public int CVE_id { get; set; } // ID del canal de venta asociado
+        public DateTime POC_fecha { get; set; }
 
         public int USU_id { get; set; } // ID del usuario asociado
     }
