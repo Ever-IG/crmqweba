@@ -56,7 +56,7 @@ const QuoteDetailTable = ({ onDetailDataChange }) => {
       // Pasar el primer item de ejemplo; puedes adaptar esto para que maneje varios ítems
       onDetailDataChange(items); // Pasando el primer item a modo de ejemplo
     }
-  }, [items, onDetailDataChange]);
+  }, [items]);
 
   return (
     <div className="util-container mt-4">
@@ -124,7 +124,7 @@ const QuoteDetailTable = ({ onDetailDataChange }) => {
                 <button 
                   className="btn btn-danger" 
                   onClick={() => removeItem(index)}>
-                  <i class="bi bi-trash-fill"></i>
+                  <i className="bi bi-trash-fill"></i>
                 </button>
               </td>
             </tr>
@@ -132,7 +132,7 @@ const QuoteDetailTable = ({ onDetailDataChange }) => {
         </tbody>
       </table>
       <div className="btn btn-primary" onClick={addItem}>
-        Agregar Servicio
+        Agregar   Servicio
       </div>
       <h3 className="mt-4">Total Cotización: ${calculateTotal().toFixed(2)}</h3>
     </div>

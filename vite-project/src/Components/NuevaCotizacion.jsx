@@ -7,7 +7,7 @@ import {Form, Button, FormGroup} from 'react-bootstrap';
 import QuoteDetailTable from './Utilities/QuoteDetailTable';
 import Swal from 'sweetalert2';
 
-const Cotizacion = () => {
+const NuevaCotizacion = () => {
 
     const now = new Date();
 
@@ -67,25 +67,36 @@ const Cotizacion = () => {
     */
 
     const handleDetailDataChange = (items) => {
-        setDetData(
-            items.map(item => (
+        const newDetData = items.map(item => (
             { 
               dET_id: 0,
-              cOT_id: 0, // Este valor depende de cómo lo estés gestionando
+              cOT_id: 0, // Este valor depende de cómo lo esté gestionando
               sER_id: item.name, // O el campo que corresponda
               dET_cantidad: item.quantity,
               dET_precio: item.unitPrice,
               dET_descuento: item.discount,
               dET_tipo_descuento: item.discounttype,
               dET_subtotal: item.total
-            })));
+            }));
+        setDetData(newDetData);
         //console.log('Datos actualizados en el padre:', detData); // Verificar el resultado
-            formData.cOT_total = calculateTotal();
+            formData.cOT_total = accumulate(newDetData);            
       };
 
-      const calculateTotal = () => {
-        return detData.reduce((acc, item) => acc + item.dET_subtotal, 0);
+      function accumulate(arr) {
+        let result = 0;
+        for (let i = 0; i < arr.length; i++) {
+          result = result + arr[i].dET_subtotal;
+        }
+        return result;
+      }
+
+      const calculateTotal = () => {        
+        //return detData.reduce((acc,item) => acc + item.dET_subtotal,0);        
+        return accumulate(detData);
       };
+
+      
 
     // Manejar la creación de la cotizacion
     const handleSubmit = (e) => {
@@ -325,4 +336,4 @@ const Cotizacion = () => {
 
 };
 
-export default Cotizacion;
+export default NuevaCotizacion;

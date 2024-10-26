@@ -25,6 +25,7 @@ import ConvertirPaC from './Components/ConvertirPaC';
 import VerSeguimiento from './Components/VerSeguimiento';
 import Informe from './Components/Informes/ReporteSeguimiento';
 import ReporteSeguimiento from './Components/Informes/ReporteSeguimiento';
+import NuevaCotizacion from './Components/NuevaCotizacion';
 const { Header, Sider } = Layout;
  
 function App() {
@@ -136,6 +137,7 @@ function App() {
             <Route path='/ModalQueja' element ={<ModalQueja />}/>
             <Route path='/Dashboard' element ={<Dashboard />}/>
             <Route path='/Informes/ReporteSeguimiento' element ={<ReporteSeguimiento />}/>
+            <Route path='/NuevaCotizacion' element={<NuevaCotizacion />} />
           </Routes>
         </Layout>
             
