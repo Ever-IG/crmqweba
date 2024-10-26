@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { TextField, MenuItem } from "@mui/material";
-import DepartamentoMunicipioSelect from "./Datos/DepartamentoMunicipioSelect";
+import DepartamentosPoC from "./Datos/DepartamentosPoC";
 import dayjs from 'dayjs';
 
 const today = dayjs().format('YYYY-MM-DD');
@@ -81,38 +81,23 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
           body: JSON.stringify(formData),
         }
       );
-
+  
       if (response.status === 204) {
-        // Si la respuesta es 204, no hay cuerpo, simplemente actualizamos con formData
-        handleUpdate(posiblecliente.poC_id, formData);
-        Swal.fire(
-          "¡Éxito!",
-          "Posible cliente actualizado correctamente",
-          "success"
-        );
-        handleClose();
-      } else if (response.status === 201) {
-        const newCliente = await response.json();
-        handleUpdate(posiblecliente.poC_id, newCliente); // Actualizar con la nueva información del cliente creado
-        Swal.fire(
-          "¡Éxito!",
-          "Posible cliente convertido a cliente correctamente",
-          "success"
-        );
+        // Actualización exitosa sin cuerpo (204 No Content)
+        handleUpdate(posiblecliente.poC_id, formData); // Actualizamos con los datos del formulario
+        Swal.fire("¡Éxito!", "Posible cliente actualizado correctamente", "success");
         handleClose();
       } else if (response.ok) {
+        // En caso de otra respuesta exitosa con datos
         const updatedCliente = await response.json();
-        handleUpdate(posiblecliente.poC_id, updatedCliente);
-        Swal.fire(
-          "¡Éxito!",
-          "Posible cliente actualizado correctamente",
-          "success"
-        );
+        handleUpdate(posiblecliente.poC_id, updatedCliente); // Actualizar con los datos del cliente
+        Swal.fire("¡Éxito!", "Posible cliente actualizado correctamente", "success");
         handleClose();
       } else {
-        throw new Error("Error inesperado en la actualización");
+        throw new Error("Error inesperado en la actualización.");
       }
     } catch (error) {
+      console.error("Error al actualizar el posible cliente:", error);
       Swal.fire(
         "Error",
         "Hubo un problema al actualizar el posible cliente",
@@ -120,6 +105,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
       );
     }
   };
+  
 
   return (
     <form className="row g-4" onSubmit={handleSubmit}>
@@ -322,7 +308,7 @@ function EditarPosibleCliente({ posiblecliente, handleUpdate, handleClose }) {
       
 
       <div>
-        <DepartamentoMunicipioSelect
+        <DepartamentosPoC
         formData={formData}
         setFormData={setFormData}
         />

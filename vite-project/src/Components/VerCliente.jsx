@@ -16,6 +16,7 @@ import {
   Button,
   Modal,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
@@ -213,12 +214,16 @@ function VerCliente() {
                   <TableCell>{cliente.clI_correo_electronico}</TableCell>
                   <TableCell>{cliente.clI_telefono}</TableCell>
                   <TableCell>
+                    <Tooltip title="Editar">
                     <IconButton onClick={() => handleEdit(cliente)}>
-                      <EditIcon />
+                      <EditIcon  sx={{ color: "#5759a7" }} />{" "}
                     </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Eliminar">
                     <IconButton onClick={() => handleDelete(cliente.clI_id)}>
-                      <DeleteIcon />
+                      <DeleteIcon sx={{ color: "#ff8d00" }} />
                     </IconButton>
+                    </Tooltip>
                   </TableCell>
                 </TableRow>
               ))}

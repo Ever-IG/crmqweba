@@ -1,15 +1,13 @@
+// PerdidoPoc.jsx
 import React from 'react';
-import { Button } from 'antd';
+import { Tooltip, IconButton } from '@mui/material';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'; 
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
-import { IconButton, Tooltip } from '@mui/material';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff'; 
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-function PerdidoPoc({ posibleCliente, onClientePerdido }) {
+function PerdidoPoc({ posibleCliente, onClientePerdido, onConfirmarPerdidoExternamente }) {
   const today = dayjs().format('YYYY-MM-DD');
 
-  // Función para actualizar el estado del posible cliente a "Perdido"
   const marcarComoPerdido = async (posibleCliente) => {
     const clienteActualizado = {
       poC_id: posibleCliente.poC_id,
@@ -37,51 +35,45 @@ function PerdidoPoc({ posibleCliente, onClientePerdido }) {
 
     const response = await fetch(`https://localhost:7228/api/PosibleCliente/${posibleCliente.poC_id}`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(clienteActualizado),
     });
 
-    if (response.status === 204) { // Actualización exitosa sin contenido
-      return {}; // No hay contenido que procesar
-    } else if (!response.ok) {
-      throw new Error('Error al marcar el posible cliente como perdido.');
-    }
+    if (response.status === 204) return;
+    else throw new Error('Error al marcar como perdido.');
   };
 
-  // Función para confirmar y marcar el cliente como perdido
   const confirmarPerdido = async () => {
-    const confirmacion = await Swal.fire({
+    const result = await Swal.fire({
       title: '¿Estás seguro?',
-      text: "El posible cliente será marcado como perdido.",
+      text: 'El posible cliente será marcado como perdido.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
       confirmButtonText: 'Sí, marcar como perdido',
       cancelButtonText: 'Cancelar',
     });
 
-    if (confirmacion.isConfirmed) {
+    if (result.isConfirmed) {
       try {
         await marcarComoPerdido(posibleCliente);
         Swal.fire('Éxito', 'El posible cliente ha sido marcado como perdido.', 'success');
         onClientePerdido(posibleCliente.poC_id); // Notificar al componente padre
       } catch (error) {
-        console.error('Error al marcar como perdido:', error);
-        Swal.fire('Error', error.message || 'Hubo un problema al marcar como perdido.', 'error');
+        Swal.fire('Error', 'Hubo un problema al marcar como perdido.', 'error');
       }
-    } else {
-      Swal.fire('Cancelado', 'El marcado como perdido fue cancelado.', 'info');
     }
   };
 
+  // Exponer la función para uso externo si se proporciona la prop
+  if (onConfirmarPerdidoExternamente) {
+    onConfirmarPerdidoExternamente(confirmarPerdido);
+  }
+
   return (
     <Tooltip title="Marcar como Perdido">
-    <IconButton onClick={confirmarPerdido}>
-      <HighlightOffIcon sx={{ color: '#d9534f' }} /> {/* Ícono rojo para perdido */}
-    </IconButton>
+      <IconButton onClick={confirmarPerdido}>
+        <HighlightOffIcon sx={{ color: '#d9534f' }} />
+      </IconButton>
     </Tooltip>
   );
 }

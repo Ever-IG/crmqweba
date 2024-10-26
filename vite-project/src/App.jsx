@@ -32,7 +32,7 @@ import DetallePosibleCliente from './Components/DetallePosibleCliente';
 const { Header, Sider } = Layout;
  
 function App() {
-  const [darkTheme, setDarkTheme] = useState(false);
+  const [darkTheme, setDarkTheme] = useState(true);
   const [collapsed, setCollapsed] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 

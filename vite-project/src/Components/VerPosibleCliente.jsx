@@ -277,18 +277,18 @@ function PosibleCliente() {
                         onClienteConvertido={handleClienteConvertido}
                       />
 
-                      {/* Botón Editar */}
+                      {/* Botón Editar 
                       <Tooltip title="Editar">
                         <IconButton
                           onClick={() => handleEdit(row)}
                           aria-label="editar"
                         >
                           <EditIcon sx={{ color: "#5759a7" }} />{" "}
-                          {/* Ícono con color azul */}
+                          
                         </IconButton>
                       </Tooltip>
 
-                      {/* Botón Eliminar */}
+                      
                       <Tooltip title="Eliminar">
                         <IconButton
                           onClick={() => handleDelete(row.poC_id)}

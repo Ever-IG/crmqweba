@@ -491,15 +491,7 @@ export default function NuevoPosibleCliente() {
                     }
                   />
                 </div>
-                <div className="col-md-12">
-                  <TextField
-                    label="Imagen URL"
-                    name="POC_imagenurl"
-                    value={newPosibleCliente.POC_imagenurl}
-                    onChange={handleChangeInput}
-                    fullWidth
-                  />
-                </div>
+                
               </div>
             </CustomTabPanel>
           </Box>
