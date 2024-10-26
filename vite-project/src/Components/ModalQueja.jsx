@@ -206,6 +206,7 @@ function ModalQueja({ handleClose, queja, handleUpdate }) {
           <option value="Escalada">Escalada</option>
           <option value="Cerrada">Cerrada</option>
           
+          
         </Form.Control>
       </Form.Group>
 

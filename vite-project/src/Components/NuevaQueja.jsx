@@ -51,6 +51,34 @@ function NuevaQueja() {
             });
     }, []);
 
+    useEffect(() => {
+        fetch('https://localhost:7228/api/Usuario')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar Agentes');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const clientesConNombreCompleto = data.map(cliente => ({
+                    ...cliente,
+                    nombreCompleto:`${cliente.usU_nombre} ${cliente.usU_apellido}` // Concatenar nombre y apellido
+                }));
+                setClientes(clientesConNombreCompleto);
+            })
+            .catch(error => {
+                console.error('Error fetching clients:', error);
+                toast.error('Error al cargar agentes', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+            });
+    }, []);
+
     const handleChange = (e) => {
         setNewComplaint({
             ...NewComplaint,
@@ -212,6 +240,27 @@ function NuevaQueja() {
                                 <option value="Escalada">Escalada</option>
                                 <option value="Cerrada">Cerrada</option>
                                 
+                                
+                            </select>
+                        </div>
+                    </div>
+
+                    {/* Campo para seleccionar cliente */}
+                    <div className="col-md-8">
+                        <div className="form-group mb-3">
+                            <label htmlFor="usU_id" className="form-label">Agente</label>
+                            <select
+                                className="form-control"
+                                name="usU_id" // Asegúrate de que el nombre aquí coincida con el estado
+                                value={NewComplaint.usU_id} // Usa clI_id para almacenar el ID
+                                onChange={handleChange}
+                            >
+                                <option value="">Asignar queja</option>
+                                {clientes.map(cliente => (
+                                    <option key={cliente.id} value={cliente.usU_id}> {/* Usa el ID correcto aquí */}
+                                        {cliente.nombreCompleto} 
+                                    </option>
+                                ))}
                             </select>
                         </div>
                     </div>

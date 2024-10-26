@@ -3,7 +3,8 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-// Register Chart.js components
+
+// Registrar componentes de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const SalesChart = () => {
@@ -12,7 +13,7 @@ const SalesChart = () => {
     datasets: [
       {
         label: 'Ventas Mensuales',
-        data: [12, 19, 3, 5, 2, 3], // Ejemplo de datos
+        data: [12, 19, 3, 5, 2, 3],
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
       },
     ],
@@ -20,6 +21,7 @@ const SalesChart = () => {
 
   const options = {
     responsive: true,
+    maintainAspectRatio: false, // Evita que se distorsione al redimensionar
     plugins: {
       legend: {
         position: 'top',
@@ -31,7 +33,12 @@ const SalesChart = () => {
     },
   };
 
-  return <Bar data={data} options={options} />;
+  return (
+    <div className="chart-container">
+      <Bar data={data} options={options} />
+    </div>
+  );
 };
 
 export default SalesChart;
+

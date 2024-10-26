@@ -199,3 +199,15 @@ td.opciones button {
 }
 
 
+/* src/components/SalesChart.css */
+.chart-container {
+  width: 400px;   /* Ajusta el ancho del gráfico */
+  height: 300px;  /* Ajusta la altura del gráfico */
+  margin: 20px;   /* Margen para alinearlo */
+  display: flex;
+  justify-content: flex-start; /* Alinear al margen izquierdo */
+  background-color: #d4caf4;
+  font-style:unset;
+
+}
+

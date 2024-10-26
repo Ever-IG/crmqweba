@@ -4,7 +4,6 @@ import { Grid, Card, CardContent, Typography } from '@mui/material';
 import SalesChart from './SalesChart';
 
 const Dashboard = () => {
-  // Datos de ejemplo
   const stats = [
     { title: 'Clientes Totales', value: 120 },
     { title: 'Ventas Este Mes', value: 15 },
@@ -17,6 +16,7 @@ const Dashboard = () => {
       <Typography variant="h4" gutterBottom>
         Dashboard
       </Typography>
+
       <Grid container spacing={3}>
         {stats.map((stat, index) => (
           <Grid item xs={12} sm={6} md={3} key={index}>
@@ -33,11 +33,27 @@ const Dashboard = () => {
           </Grid>
         ))}
       </Grid>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+
+      <Grid container spacing={3} style={{ marginTop: '20px' }}>
+        {/* Cada gráfico ocupa 4 columnas (1/3 del ancho) en pantallas medianas y grandes */}
+        <Grid item xs={12} md={4}>
           <Card>
             <CardContent>
-              <SalesChart /> {/* Aquí se integra el gráfico */}
+              <SalesChart />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <SalesChart />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Card>
+            <CardContent>
+              <SalesChart />
             </CardContent>
           </Card>
         </Grid>
@@ -47,3 +63,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
