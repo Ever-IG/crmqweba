@@ -19,7 +19,7 @@ const MenuList = ({ darkTheme }) => {
       mode="inline"
       className="menu-bar"
     >
-      <Menu.Item key="Inicio" icon={<HomeOutlined />}>
+      <Menu.Item key="Dashboard" icon={<HomeOutlined />}>
         {" "}
         {}
         <Link to="/Dashboard">Inicio</Link>

@@ -3,33 +3,27 @@ import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-
 // Registrar componentes de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const SalesChart = () => {
+const SalesChart = ({ dataValues }) => {
   const data = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+    labels: ['Posibles Clientes', 'Clientes', 'Quejas', 'Cotizaciones', 'Seguimientos' ],
     datasets: [
       {
-        label: 'Ventas Mensuales',
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        label: 'Resumen de Totales',
+        data: dataValues,
+        backgroundColor: ['#94de8c', '#48a1ff', '#fc5d2d', '#ffd65d', '#e1005e'],
       },
     ],
   };
 
   const options = {
     responsive: true,
-    maintainAspectRatio: false, // Evita que se distorsione al redimensionar
+    maintainAspectRatio: false,
     plugins: {
-      legend: {
-        position: 'top',
-      },
-      title: {
-        display: true,
-        text: 'Ventas del Año',
-      },
+      legend: { position: 'top' },
+      title: { display: true, text: 'TOTALES EN EL MES' },
     },
   };
 
@@ -41,4 +35,3 @@ const SalesChart = () => {
 };
 
 export default SalesChart;
-
