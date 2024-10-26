@@ -220,24 +220,49 @@ export default function VerQueja() {
     setSelectedQueja(null);
   };
 
-  const handleDelete = (id) => {
-    Swal.fire({
-      title: "¿Estás seguro?",
-      text: "¡No podrás revertir esto!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, eliminar",
-      cancelButtonText: "Cancelar",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        setData((prevData) => prevData.filter((q) => q.quE_id !== id));
-        Swal.fire("¡Eliminado!", "La queja ha sido eliminada.", "success");
-      }
-    });
-  };
 
+  const obtenerQuejas = async () => {
+    try {
+      const [responseQuejas, responseClientes] = await Promise.all([
+        fetch("https://localhost:7228/api/Queja"),
+        fetch("https://localhost:7228/api/Cliente"),
+      ]);
+  
+      const [quejasData, clientesData] = await Promise.all([
+        responseQuejas.json(),
+        responseClientes.json(),
+      ]);
+  
+      const processedData = quejasData.map((queja) => {
+        const cliente = clientesData.find((c) => c.clI_id === queja.clI_id);
+        const nombreCompleto = cliente
+          ? `${cliente.clI_nombre} ${cliente.clI_apellido}`
+          : "Cliente Desconocido";
+  
+        return { ...queja, nombre: nombreCompleto };
+      });
+  
+      setData(processedData);
+    } catch (error) {
+      console.error("Error al obtener los datos:", error);
+    }
+  };
+  
+
+  const handleDelete = async (id) => {
+try {
+    await fetch(`https://localhost:7228/api/Queja/${id}`, {
+      method: "DELETE"});
+    setData(data.filter((q) => q.quE_id !== id));
+  } catch (error) {
+    console.error("Error al eliminar la queja:", error);
+  }
+  setSelected((prevSelected) => prevSelected.filter((q) => q !== id));
+};
+
+
+
+  
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -385,14 +410,14 @@ export default function VerQueja() {
                       sx={{
                         backgroundColor: (() => {
                           const estado = row.quE_estado.trim().toLowerCase();
-                          if (estado === "capturada") return "#FFCDD2"; // Rojo claro
+                          if (estado === 'capturada') return "#FFCDD2"; // Rojo claro
                           if (estado === "escalada") return "#FFE082"; // Amarillo claro
                           if (estado === "cerrada") return "#C8E6C9"; // Verde claro
                           return "#E0E0E0"; // Gris claro por defecto (estado desconocido)
                         })(),
                         color: (() => {
                           const estado = row.quE_estado.trim().toLowerCase();
-                          if (estado === "capturada") return "#D32F2F"; // Rojo oscuro
+                          if (estado === 'capturada') return "#D32F2F"; // Rojo oscuro
                           if (estado === "escalada") return "#F9A825"; // Amarillo oscuro
                           if (estado === "cerrada") return "#388E3C"; // Verde oscuro
                           return "#757575"; // Gris oscuro por defecto
@@ -413,7 +438,31 @@ export default function VerQueja() {
                       </IconButton>
                     </Tooltip>
                     <Tooltip title="Eliminar">
-                      <IconButton onClick={() => handleDelete(row.quE_id)}>
+                      <IconButton onClick={() => {
+                        Swal.fire({
+                          title: '¿Estás seguro?',
+                          text: "¡No podrás revertir esto!",
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonColor: '#3085d6',
+                          cancelButtonColor: '#d33',
+                          confirmButtonText: 'Sí, eliminarlo',
+                          cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            handleDelete(row.quE_id);
+                            Swal.fire(
+                              '¡Eliminado!',
+                              'La queja ha sido eliminada.',
+                              'success'
+                            )
+                          }
+                        })
+                      }
+                      }
+                      
+                      
+                      >
                         <DeleteIcon />
                       </IconButton>
                     </Tooltip>
@@ -462,22 +511,15 @@ export default function VerQueja() {
           <Typography variant="h6" component="h2">
             {isEditMode ? "Editar Queja" : "Nueva Queja"}
           </Typography>
+<hr />
 
-          {isEditMode ? (
-            <ModalQueja
-              show={showModal}
-              handleClose={handleCloseModal}
-              queja={selectedQueja}
-              handleUpdate={(id, updatedQueja) => {
-                setData((prevData) =>
-                  prevData.map((q) => (q.quE_id === id ? updatedQueja : q))
-                );
-                handleCloseModal();
-              }}
-            />
-          ) : (
-            <NuevaQueja handleClose={handleCloseModal} />
-          )}
+<br />
+<NuevaQueja
+  queja={selectedQueja}
+  isEditMode={isEditMode}
+  handleCloseModal={handleCloseModal}
+  refreshQuejas={obtenerQuejas}  // O la función que refresca la lista
+/>
         </Box>
       </Modal>
     </Box>
