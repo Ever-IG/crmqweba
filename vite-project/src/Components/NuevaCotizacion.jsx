@@ -25,13 +25,28 @@ const NuevaCotizacion = () => {
 
     const [detData, setDetData] = useState({
         dET_id: 0,
-        cOT_id: 13,
+        cOT_id: 0,
         sER_id: 0,
         dET_cantidad: 0,
         dET_precio: 0,
         dET_descuento: 0,
         dET_tipo_descuento: "",
         dET_subtotal: 0
+    });
+
+    const [detDataApi, setDetDataApi] = useState({
+        cOT_id: 0,
+        dET_id: 0,
+        detalleCotizacion: [
+          {
+            sER_id: 0,
+            dET_cantidad: 0,
+            dET_precio: 0,
+            dET_descuento: 0,
+            dET_tipo_descuento: "Directo",
+            dET_subtotal: 0
+          }
+        ]      
     });
 
     const navigate = useNavigate();
@@ -69,8 +84,6 @@ const NuevaCotizacion = () => {
     const handleDetailDataChange = (items) => {
         const newDetData = items.map(item => (
             { 
-              dET_id: 0,
-              cOT_id: 0, // Este valor depende de cómo lo esté gestionando
               sER_id: item.name, // O el campo que corresponda
               dET_cantidad: item.quantity,
               dET_precio: item.unitPrice,
@@ -79,6 +92,13 @@ const NuevaCotizacion = () => {
               dET_subtotal: item.total
             }));
         setDetData(newDetData);
+        setDetDataApi(
+            {
+                cOT_id: 0,
+                dET_id: 0,
+                detalleCotizacion: newDetData
+            }
+        );
         //console.log('Datos actualizados en el padre:', detData); // Verificar el resultado
             formData.cOT_total = accumulate(newDetData);            
       };
@@ -124,7 +144,7 @@ const NuevaCotizacion = () => {
     */
 
     console.log('Datos a enviar:', formData);
-    console.log('Detalle a enviar: ', detData);
+    console.log('Detalle a enviar: ', detDataApi);
 
         // Crear nueva cotizacion
         fetch('https://localhost:7228/api/Cotizacion', {
@@ -142,21 +162,19 @@ const NuevaCotizacion = () => {
             return response.json();
         })
         .then(data => {               
-            setDetData(
-                detData.map(item =>(
-                    item.cOT_id = data.coT_id
-                )));
+            
+            detDataApi.cOT_id = data.coT_id;
                 
-                detData.map(item => (console.log("***STRINGIFY*****:" + JSON.stringify(item))));
+                console.log("***STRINGIFY*****:" + JSON.stringify(detDataApi));
 
                 // Insertar detalle de cotización
-                detData.map(item => (            
+         
                     fetch('https://localhost:7228/api/DetalleCotizacion', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify(item)
+                        body: JSON.stringify(detDataApi)
                     })
                     .then(response => {
                         if (!response.ok) {
@@ -166,13 +184,13 @@ const NuevaCotizacion = () => {
                         return response.json();
                     })        
                     .catch(error => {
-                        console.error('Error al agregar el detalle de la cotización:', error);
+                        console.error('Error al agregar el detalle de la cotización:' + error, error);
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
                             text: "Ocurrió un error al agregar el detalle de la cotizacion!"
                         });
-                    })));
+                    });
 
             setFormData({
                 cOT_id: 0,
@@ -194,6 +212,20 @@ const NuevaCotizacion = () => {
                 dET_descuento: 0,
                 dET_tipo_descuento: "Directo",
                 dET_subtotal: 0
+            });
+            setDetDataApi({
+                cOT_id: 0,
+                dET_id: 0,
+                detalleCotizacion: [
+                  {
+                    sER_id: 0,
+                    dET_cantidad: 0,
+                    dET_precio: 0,
+                    dET_descuento: 0,
+                    dET_tipo_descuento: "Directo",
+                    dET_subtotal: 0
+                  }
+                ]      
             });
             /*
             Swal.fire({
