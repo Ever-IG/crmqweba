@@ -5,7 +5,7 @@ import Logo from './Components/Logo';
 import MenuList from './Components/MenuList';
 import ToggleThemeButton from './Components/ToggleThemeButton';
 import { MenuFoldOutlined, MenuUnfoldOutlined, SearchOutlined, SettingOutlined } from '@ant-design/icons';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box } from '@mui/material';
 import NuevoCliente from './Components/NuevoCliente';
 import NuevoProveedor from './Components/NuevoProveedor';
@@ -123,6 +123,8 @@ function App() {
           </Header>
 
           <Routes>
+             <Route path="/" element={<Navigate to="/Dashboard" replace />} />
+
             <Route path="/NuevoCliente" element={<NuevoCliente />} />
             <Route path="/NuevoProveedor" element={<NuevoProveedor />} />
             <Route path="/VerProveedor" element={<VerProveedor />} />
