@@ -67,9 +67,6 @@ const MenuList = ({ darkTheme }) => {
         <Link to="/InformesGenerales">Informes</Link>
       </Menu.Item>
 
-      <Menu.Item key="PClienteReporte" icon={<CommentOutlined />}>
-        <Link to="/PClienteReporte">REPORTE</Link>
-      </Menu.Item>
 
     </Menu>
     

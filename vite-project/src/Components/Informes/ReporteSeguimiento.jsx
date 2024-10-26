@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowBack } from "@mui/icons-material"; 
+import { useNavigate } from "react-router-dom";
 import {
   Box, Table, TableBody, TableCell, TableContainer, TableHead,
   TablePagination, TableRow, Paper, TextField, Select, MenuItem, Button, 
@@ -138,19 +140,25 @@ export default function ReporteSeguimiento() {
     doc.save('seguimientos.pdf');
   };
 
+  const navigate = useNavigate(); 
+
   return (
-    <Box sx={{ width: '100%', backgroundColor: 'white' }}>
+    <Box sx={{ width: '100%', backgroundColor: 'white', padding: 2}}>
       <header
-        className="header-vista"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 5,
-          height: '100px',
-          marginTop: '15px'
-        }}
+       style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        marginBottom: "20px",
+      }}
       >
+        <Button
+          startIcon={<ArrowBack />}
+          onClick={() => navigate("/InformesGenerales")}
+          sx={{ color: "black", textTransform: "none", alignSelf: "flex-start" }}
+        >
+          Volver
+        </Button>
         <h3>Informe de Seguimientos</h3>
 
         <FormControl sx={{ width: '20%', margin: '0 8px' }} size="small">
@@ -183,7 +191,7 @@ export default function ReporteSeguimiento() {
         display: 'flex', 
         gap: 2, 
         marginBottom: 2,
-         marginTop: 18, 
+         marginTop: 8, 
          justifyContent: 'center' }}>
         <Select
           name="vendedor"

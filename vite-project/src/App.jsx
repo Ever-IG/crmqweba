@@ -28,6 +28,7 @@ import ReporteSeguimiento from './Components/Informes/ReporteSeguimiento';
 import PClienteReporte from './Components/PClienteReporte';
 import ReporteQuejas from './Components/Informes/ReporteQuejas';
 import InformesGenerales from './Components/InformesGenerales';
+import DetallePosibleCliente from './Components/DetallePosibleCliente';
 const { Header, Sider } = Layout;
  
 function App() {
@@ -90,7 +91,7 @@ function App() {
           <Header
             style={{
               padding: 0,
-              background: '#8E0D3C',
+              background: '#001529',
               position: 'fixed',
               width: `calc(100% - ${collapsed ? '80px' : '200px'})`,
               zIndex: 1001,
@@ -142,6 +143,7 @@ function App() {
             <Route path='/Informes/ReporteSeguimiento' element ={<ReporteSeguimiento />}/>
             <Route path='/Informes/ReporteQuejas' element ={<ReporteQuejas />} />
             <Route path='/PClienteReporte' element ={<PClienteReporte />}/>
+            <Route path="/detalle-posible-cliente/:id" element={<DetallePosibleCliente />} />
 
           </Routes>
         </Layout>

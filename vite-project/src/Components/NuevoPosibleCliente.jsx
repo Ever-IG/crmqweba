@@ -102,11 +102,12 @@ export default function NuevoPosibleCliente() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     if (!newPosibleCliente.POC_nombre || !newPosibleCliente.POC_correo_electronico) {
       toast.error("Nombre y correo electrónico son obligatorios");
       return;
     }
-
+  
     fetch("https://localhost:7228/api/PosibleCliente", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -117,35 +118,16 @@ export default function NuevoPosibleCliente() {
         return response.json();
       })
       .then(() => {
-        setNewPosibleCliente({
-          POC_nombre: "",
-          POC_apellido: "",
-          POC_empresa: "",
-          POC_nit: "",
-          POC_dpi: "",
-          POC_correo_electronico: "",
-          POC_telefono: "",
-          POC_fuente_de_posible_cliente: "",
-          POC_estado_de_posible_cliente: "",
-          POC_correo_electronico_secundario: "",
-          POC_telefono_secundario: "",
-          POC_direccion: "",
-          POC_departamento: "",
-          POC_municipio: "",
-          POC_codigo_postal: "",
-          POC_pais: "",
-          POC_imagenurl: "",
-          POC_fecha: "",
-          CVE_id: "",
-          USU_id: "",
+        Swal.fire("¡Éxito!", "Posible cliente agregado correctamente", "success").then(() => {
+          navigate("/posiblecliente"); // Redirigir al listado después de éxito
         });
-        Swal.fire("¡Éxito!", "Cliente agregado correctamente", "success");
       })
       .catch((error) => {
         console.error("Error:", error);
         toast.error("Error al agregar el posible cliente");
       });
   };
+  
 
   const handleCancel = () => {
     navigate("/posiblecliente");
@@ -174,9 +156,23 @@ export default function NuevoPosibleCliente() {
                 aria-label="Tabs"
                 centered
               >
-                <Tab label="Información Principal" {...a11yProps(0)} />
+               <Tab
+  label={
+    <span>
+      Información Principal <span style={{ color: "red" }}>*</span>
+    </span>
+  }
+  {...a11yProps(0)}
+/>
                 <Tab label="Dirección" {...a11yProps(1)} />
-                <Tab label="Información Adicional" {...a11yProps(2)} />
+                <Tab
+  label={
+    <span>
+      Información Adicional <span style={{ color: "red" }}>*</span>
+    </span>
+  }
+  {...a11yProps(2)}
+/>
               </Tabs>
             </Box>
 
@@ -227,14 +223,30 @@ export default function NuevoPosibleCliente() {
                 </div>
 
                 <div className="col-md-6">
-                  <TextField
-                    label="NIT"
-                    name="POC_nit"
-                    value={newPosibleCliente.POC_nit}
-                    onChange={handleChangeInput}
-                    fullWidth
-                  />
-                </div>
+  <TextField
+    label="NIT"
+    name="POC_nit"
+    value={newPosibleCliente.POC_nit}
+    onChange={(e) => 
+      handleChangeInput({
+        target: { name: e.target.name, value: e.target.value.toUpperCase() },
+      })
+    }
+    fullWidth
+    inputProps={{ maxLength: 10 }}
+    error={
+      newPosibleCliente.POC_nit &&
+      !/^(CF|[1-9]\d{0,8}K?)$/.test(newPosibleCliente.POC_nit)
+    }
+    helperText={
+      newPosibleCliente.POC_nit &&
+      !/^(CF|[1-9]\d{0,8}K?)$/.test(newPosibleCliente.POC_nit)
+        ? "El NIT debe ser CF o contener números y terminar en K si corresponde, sin ningún tipo de caracter especial (-)."
+        : ""
+    }
+  />
+</div>
+
 
                 <div className="col-md-6">
                   <TextField
@@ -383,6 +395,7 @@ export default function NuevoPosibleCliente() {
                     value={newPosibleCliente.CVE_id}
                     onChange={handleChangeInput}
                     select
+                    required
                     fullWidth
                   >
                     {canalesVenta.map((canal) => (
@@ -413,6 +426,7 @@ export default function NuevoPosibleCliente() {
                 <div className="col-md-6">
                 <TextField
                 label="Vendedor"
+                required
                 name="USU_id"
                 value={newPosibleCliente.USU_id}
                 onChange={handleChangeInput}

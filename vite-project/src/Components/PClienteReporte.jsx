@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { ArrowBack } from "@mui/icons-material"; 
+import { useNavigate } from "react-router-dom";
 import {
   Box, Table, TableBody, TableCell, TableContainer, TableHead,
   TablePagination, TableRow, Paper, TextField, Select, MenuItem,
@@ -96,18 +98,27 @@ export default function InformePosiblesClientes() {
     doc.save("informe_posibles_clientes.pdf");
   };
 
+  const navigate = useNavigate(); 
+
   return (
     <Box sx={{ width: '100%', padding: 2, backgroundColor: 'white' }}>
       <header
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          marginBottom: '20px',
+         style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          marginBottom: "20px",
         }}
       >
+        <Button
+          startIcon={<ArrowBack />}
+          onClick={() => navigate("/InformesGenerales")}
+          sx={{ color: "black", textTransform: "none", alignSelf: "flex-start" }}
+        >
+          Volver
+        </Button>
         <h3>Informe de Posibles Clientes</h3>
-        <FormControl sx={{ width: '20%' }} size="small">
+        <FormControl sx={{ width: '20%',  margin: '0 8px' }} size="small">
           <InputLabel variant="standard" htmlFor="exportar-select">
             Exportar
           </InputLabel>

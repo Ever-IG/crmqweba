@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button } from 'antd';
 import Swal from 'sweetalert2';
+import {  Tooltip } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 function ConvertirPaC({ posibleCliente, onClienteConvertido }) {
 
@@ -134,13 +136,14 @@ function ConvertirPaC({ posibleCliente, onClienteConvertido }) {
   
 
   return (
-    <Button 
-      type="primary" 
-      onClick={convertirACliente} 
-      style={{ backgroundColor: '#8E0D3C', color: '#ffffff' }}
-    >
-      Convertir a Cliente
-    </Button>
+    <Tooltip title="Convertir a Cliente">
+   
+    
+    
+    <CheckCircleIcon onClick={convertirACliente} sx={{ color: 'green' }} /> {/* Ícono de check verde */}
+
+
+  </Tooltip>
   );
 }
 
