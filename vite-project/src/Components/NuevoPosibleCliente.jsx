@@ -9,8 +9,11 @@ import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import { TextField, MenuItem } from "@mui/material";
 import DepartamentoMunicipioSelect from "./Datos/DepartamentoMunicipioSelect";
+import dayjs from 'dayjs';
+
 
 function CustomTabPanel(props) {
+  
   const { children, value, index } = props;
   return (
     <div
@@ -37,6 +40,7 @@ function a11yProps(index) {
   };
 }
 
+const today = dayjs().format('YYYY-MM-DD');
 export default function NuevoPosibleCliente() {
   const [value, setValue] = useState(0);
   const [canalesVenta, setCanalesVenta] = useState([]);
@@ -59,6 +63,7 @@ export default function NuevoPosibleCliente() {
     POC_municipio: "",
     POC_codigo_postal: "",
     POC_pais: "",
+    POC_fecha: today,
     POC_imagenurl: "",
     CVE_id: "",
     USU_id: "", // Agregar aquí el campo de usuario
@@ -130,6 +135,7 @@ export default function NuevoPosibleCliente() {
           POC_codigo_postal: "",
           POC_pais: "",
           POC_imagenurl: "",
+          POC_fecha: "",
           CVE_id: "",
           USU_id: "",
         });
@@ -196,7 +202,7 @@ export default function NuevoPosibleCliente() {
                     fullWidth
                   />
                 </div>
-                <div className="col-md-12">
+                <div className="col-md-8">
                   <TextField
                     label="Empresa"
                     name="POC_empresa"
@@ -205,6 +211,21 @@ export default function NuevoPosibleCliente() {
                     fullWidth
                   />
                 </div>
+                
+                <div className="col-md-4">
+                <TextField
+                label="Fecha de ingreso"
+                type="date"
+                name="POC_fecha"
+                value={newPosibleCliente.POC_fecha}
+                onChange={handleChangeInput}
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ max: today }}
+                required
+                />
+                </div>
+
                 <div className="col-md-6">
                   <TextField
                     label="NIT"
