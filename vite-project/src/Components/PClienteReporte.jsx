@@ -1,175 +1,235 @@
-import React, { useEffect, useState } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableRow, Button, Modal, TextField, Select, MenuItem } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {
+  Box, Table, TableBody, TableCell, TableContainer, TableHead,
+  TablePagination, TableRow, Paper, TextField, Select, MenuItem,
+  Button, FormControl, InputLabel, NativeSelect
+} from '@mui/material';
+import dayjs from 'dayjs';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as XLSX from 'xlsx';
 
-const PClienteReporte = () => {
-  const [posiblesClientes, setPosiblesClientes] = useState([]);
-  const [modalOpen, setModalOpen] = useState(null);
-  const [filtroFecha, setFiltroFecha] = useState({ desde: '', hasta: '' });
-  const [filtroEstado, setFiltroEstado] = useState('');
-  const [filtroFuente, setFiltroFuente] = useState('');
-  const [filtroRegion, setFiltroRegion] = useState('');
+export default function InformePosiblesClientes() {
+  const [clientes, setClientes] = useState([]);
+  const [canalesVenta, setCanalesVenta] = useState([]);
+  const [vendedores, setVendedores] = useState([]);
+  const [filteredClientes, setFilteredClientes] = useState([]);
+  const [filters, setFilters] = useState({
+    estado: '',
+    canalVenta: '',
+    vendedor: '',
+    fechaInicio: '',
+    fechaFin: ''
+  });
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  // Simula la obtención de datos de la API
+  const obtenerDatos = async () => {
+    try {
+      const [clientesRes, canalesRes, vendedoresRes] = await Promise.all([
+        fetch('https://localhost:7228/api/PosibleCliente').then((res) => res.json()),
+        fetch('https://localhost:7228/api/CanalVenta').then((res) => res.json()),
+        fetch('https://localhost:7228/api/Usuario').then((res) => res.json()),
+      ]);
+
+      setClientes(clientesRes);
+      setFilteredClientes(clientesRes);
+      setCanalesVenta(canalesRes);
+      setVendedores(vendedoresRes);
+    } catch (error) {
+      console.error('Error al obtener los datos:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchPosiblesClientes = async () => {
-      try {
-        // Reemplaza esta URL por tu API real
-        const response = await fetch('/api/posiblesClientes');
-        const data = await response.json();
-        setPosiblesClientes(data);
-      } catch (error) {
-        console.error('Error al obtener los posibles clientes:', error);
-      }
-    };
-
-    fetchPosiblesClientes();
+    obtenerDatos();
   }, []);
 
-  // Función para abrir el modal correspondiente
-  const openModal = (modalType) => {
-    setModalOpen(modalType);
+  const aplicarFiltros = () => {
+    const { estado, canalVenta, vendedor, fechaInicio, fechaFin } = filters;
+
+    const filtrados = clientes.filter((cliente) => {
+      const fechaCliente = dayjs(cliente.fecha_registro);
+      const coincideEstado = estado ? cliente.poC_estado_de_posible_cliente === estado : true;
+      const coincideCanal = canalVenta ? cliente.canal_venta_id === parseInt(canalVenta) : true;
+      const coincideVendedor = vendedor ? cliente.vendedor_id === parseInt(vendedor) : true;
+      const coincideFechaInicio = fechaInicio ? fechaCliente.isAfter(dayjs(fechaInicio).subtract(1, 'day')) : true;
+      const coincideFechaFin = fechaFin ? fechaCliente.isBefore(dayjs(fechaFin).add(1, 'day')) : true;
+
+      return coincideEstado && coincideCanal && coincideVendedor && coincideFechaInicio && coincideFechaFin;
+    });
+
+    setFilteredClientes(filtrados);
   };
 
-  // Función para cerrar cualquier modal abierto
-  const closeModal = () => {
-    setModalOpen(null);
+  const resetearFiltros = () => {
+    setFilters({
+      estado: '',
+      canalVenta: '',
+      vendedor: '',
+      fechaInicio: '',
+      fechaFin: ''
+    });
+    setFilteredClientes(clientes);
   };
 
-  // Simulación de la función de filtros
-  const applyFilters = () => {
-    let filtered = posiblesClientes;
+  const exportarExcel = (data) => {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "PosiblesClientes");
+    XLSX.writeFile(workbook, "informe_posibles_clientes.xlsx");
+  };
 
-    // Filtro por fecha
-    if (filtroFecha.desde && filtroFecha.hasta) {
-      filtered = filtered.filter(cliente =>
-        new Date(cliente.fecha) >= new Date(filtroFecha.desde) && new Date(cliente.fecha) <= new Date(filtroFecha.hasta)
-      );
-    }
-
-    // Filtro por estado
-    if (filtroEstado) {
-      filtered = filtered.filter(cliente => cliente.POC_estado_de_posible_cliente === filtroEstado);
-    }
-
-    // Filtro por fuente y región
-    if (filtroFuente) {
-      filtered = filtered.filter(cliente => cliente.POC_fuente_de_posible_cliente === filtroFuente);
-    }
-    if (filtroRegion) {
-      filtered = filtered.filter(cliente => cliente.POC_departamento === filtroRegion);
-    }
-
-    return filtered;
+  const exportarPDF = (data) => {
+    const doc = new jsPDF();
+    doc.text("Informe de Posibles Clientes", 10, 10);
+    autoTable(doc, {
+      head: [["Nombre", "NIT", "Correo", "Teléfono", "Estado"]],
+      body: data.map((cliente) => [
+        `${cliente.poC_nombre} ${cliente.poC_apellido}`,
+        cliente.poC_nit,
+        cliente.poC_correo_electronico,
+        cliente.poC_telefono,
+        cliente.poC_estado_de_posible_cliente,
+      ]),
+    });
+    doc.save("informe_posibles_clientes.pdf");
   };
 
   return (
-    <div>
-      {/* Contenedor con estilo flex para colocar el título y los botones en una sola línea */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h1>Reporte de Posibles Clientes</h1>
+    <Box sx={{ width: '100%', padding: 2, backgroundColor: 'white' }}>
+      <header
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          marginBottom: '20px',
+        }}
+      >
+        <h3>Informe de Posibles Clientes</h3>
+        <FormControl sx={{ width: '20%' }} size="small">
+          <InputLabel variant="standard" htmlFor="exportar-select">
+            Exportar
+          </InputLabel>
+          <NativeSelect
+            inputProps={{
+              name: 'exportar',
+              id: 'exportar-select',
+            }}
+            onChange={(e) => {
+              const option = e.target.value;
+              if (option === 'excel-todo') exportarExcel(clientes);
+              if (option === 'excel-filtrado') exportarExcel(filteredClientes);
+              if (option === 'pdf-filtrado') exportarPDF(filteredClientes);
+            }}
+          >
+            <option value=""></option>
+            <option value="excel-todo">Excel (Informe Completo)</option>
+            <option value="excel-filtrado">Excel (Filtrado)</option>
+            <option value="pdf-filtrado">PDF (Filtrado)</option>
+          </NativeSelect>
+        </FormControl>
+      </header>
 
-        {/* Botones para abrir los modales */}
-        <div>
-          <Button onClick={() => openModal('filtroFecha')} style={{ marginRight: '10px' }}>Filtrar por Fecha</Button>
-          <Button onClick={() => openModal('filtroEstado')} style={{ marginRight: '10px' }}>Filtrar por Estado</Button>
-          <Button onClick={() => openModal('filtroFuenteRegion')} style={{ marginRight: '10px' }}>Filtrar por Fuente y Región</Button>
-        </div>
-      </div>
+      <Box sx={{ display: 'flex', gap: 2, marginBottom: 2, justifyContent: 'center' }}>
+        <Select
+          value={filters.estado}
+          onChange={(e) => setFilters({ ...filters, estado: e.target.value })}
+          displayEmpty
+        >
+          <MenuItem value="">Todos los Estados</MenuItem>
+          <MenuItem value="Prospecto">Prospecto</MenuItem>
+          <MenuItem value="Cliente">Cliente</MenuItem>
+          <MenuItem value="Perdido">Perdido</MenuItem>
+        </Select>
 
-      {/* Tabla de posibles clientes */}
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Nombre</TableCell>
-            <TableCell>Empresa</TableCell>
-            <TableCell>NIT</TableCell>
-            <TableCell>Correo Electrónico</TableCell>
-            <TableCell>Teléfono</TableCell>
-            <TableCell>Estado</TableCell>
-            <TableCell>Canal de Venta</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {applyFilters().map((row) => (
-            <TableRow key={row.POC_id}>
-              <TableCell>{row.POC_nombre} {row.POC_apellido}</TableCell>
-              <TableCell>{row.POC_empresa}</TableCell>
-              <TableCell>{row.POC_nit}</TableCell>
-              <TableCell>{row.POC_correo_electronico}</TableCell>
-              <TableCell>{row.POC_telefono}</TableCell>
-              <TableCell>{row.POC_estado_de_posible_cliente}</TableCell>
-              <TableCell>{row.CVE_id}</TableCell>
-            </TableRow>
+        <Select
+          value={filters.canalVenta}
+          onChange={(e) => setFilters({ ...filters, canalVenta: e.target.value })}
+          displayEmpty
+        >
+          <MenuItem value="">Todos los Canales</MenuItem>
+          {canalesVenta.map((canal) => (
+            <MenuItem key={canal.id} value={canal.id}>
+              {canal.nombre}
+            </MenuItem>
           ))}
-        </TableBody>
-      </Table>
+        </Select>
 
-      {/* Modal de Filtro por Fecha */}
-      {modalOpen === 'filtroFecha' && (
-        <Modal open={true} onClose={closeModal}>
-          <div style={{ padding: '20px', backgroundColor: 'white' }}>
-            <h2>Filtrar por Fecha</h2>
-            <TextField
-              label="Desde"
-              type="date"
-              value={filtroFecha.desde}
-              onChange={(e) => setFiltroFecha({ ...filtroFecha, desde: e.target.value })}
-              InputLabelProps={{ shrink: true }}
-              style={{ marginRight: '10px' }}
-            />
-            <TextField
-              label="Hasta"
-              type="date"
-              value={filtroFecha.hasta}
-              onChange={(e) => setFiltroFecha({ ...filtroFecha, hasta: e.target.value })}
-              InputLabelProps={{ shrink: true }}
-            />
-            <Button onClick={closeModal} style={{ marginTop: '20px' }}>Aplicar Filtro</Button>
-          </div>
-        </Modal>
-      )}
+        <Select
+          value={filters.vendedor}
+          onChange={(e) => setFilters({ ...filters, vendedor: e.target.value })}
+          displayEmpty
+        >
+          <MenuItem value="">Todos los Vendedores</MenuItem>
+          {vendedores.map((vendedor) => (
+            <MenuItem key={vendedor.usU_id} value={vendedor.usU_id}>
+              {vendedor.usU_nombre}
+            </MenuItem>
+          ))}
+        </Select>
 
-      {/* Modal de Filtro por Estado */}
-      {modalOpen === 'filtroEstado' && (
-        <Modal open={true} onClose={closeModal}>
-          <div style={{ padding: '20px', backgroundColor: 'white' }}>
-            <h2>Filtrar por Estado</h2>
-            <Button onClick={() => { setFiltroEstado('Cliente'); closeModal(); }} style={{ marginRight: '10px' }}>Cliente</Button>
-            <Button onClick={() => { setFiltroEstado('Prospecto'); closeModal(); }}>Prospecto</Button>
-          </div>
-        </Modal>
-      )}
+        <TextField
+          type="date"
+          value={filters.fechaInicio}
+          onChange={(e) => setFilters({ ...filters, fechaInicio: e.target.value })}
+          InputLabelProps={{ shrink: true }}
+          label="Fecha Inicio"
+        />
 
-      {/* Modal de Filtro por Fuente y Región */}
-      {modalOpen === 'filtroFuenteRegion' && (
-        <Modal open={true} onClose={closeModal}>
-          <div style={{ padding: '20px', backgroundColor: 'white' }}>
-            <h2>Filtrar por Fuente y Región</h2>
-            <Select
-              label="Fuente de Posible Cliente"
-              value={filtroFuente}
-              onChange={(e) => setFiltroFuente(e.target.value)}
-              style={{ marginRight: '10px' }}
-            >
-              <MenuItem value="Web">Web</MenuItem>
-              <MenuItem value="Referido">Referido</MenuItem>
-              <MenuItem value="Publicidad">Publicidad</MenuItem>
-            </Select>
-            <Select
-              label="Región"
-              value={filtroRegion}
-              onChange={(e) => setFiltroRegion(e.target.value)}
-            >
-              <MenuItem value="Ciudad">Ciudad</MenuItem>
-              <MenuItem value="Departamento">Departamento</MenuItem>
-            </Select>
-            <Button onClick={closeModal} style={{ marginTop: '20px' }}>Aplicar Filtro</Button>
-          </div>
-        </Modal>
-      )}
+        <TextField
+          type="date"
+          value={filters.fechaFin}
+          onChange={(e) => setFilters({ ...filters, fechaFin: e.target.value })}
+          InputLabelProps={{ shrink: true }}
+          label="Fecha Fin"
+        />
 
-    </div>
+        <Button variant="contained" onClick={aplicarFiltros}>
+          APLICAR FILTROS
+        </Button>
+        <Button variant="outlined" onClick={resetearFiltros}>
+          RESET
+        </Button>
+      </Box>
+
+      <Paper sx={{ width: '100%', marginTop: 2 }}>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Nombre</TableCell>
+                <TableCell>NIT</TableCell>
+                <TableCell>Correo</TableCell>
+                <TableCell>Teléfono</TableCell>
+                <TableCell>Estado</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredClientes
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((cliente) => (
+                  <TableRow key={cliente.poC_id}>
+                    <TableCell>{`${cliente.poC_nombre} ${cliente.poC_apellido}`}</TableCell>
+                    <TableCell>{cliente.poC_nit}</TableCell>
+                    <TableCell>{cliente.poC_correo_electronico}</TableCell>
+                    <TableCell>{cliente.poC_telefono}</TableCell>
+                    <TableCell>{cliente.poC_estado_de_posible_cliente}</TableCell>
+                  </TableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <TablePagination
+          component="div"
+          count={filteredClientes.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={(event, newPage) => setPage(newPage)}
+          onRowsPerPageChange={(event) => setRowsPerPage(parseInt(event.target.value, 10))}
+        />
+      </Paper>
+    </Box>
   );
-};
-
-export default PClienteReporte;
+}
